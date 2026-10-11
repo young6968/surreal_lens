@@ -59,7 +59,12 @@ body{
   padding:0 20px 0 28px;
   pointer-events:none;
 }
-#topbar > *{ pointer-events:auto; }
+/* Descendant selector (not just direct children) — any nested
+   interactive element inside #topbar (e.g. a button placed inside the
+   inner flex wrapper rather than directly under #topbar) must not
+   silently inherit pointer-events:none through an unrelated nesting
+   change. */
+#topbar *{ pointer-events:auto; }
 
 .brand{
   display:flex;
@@ -261,7 +266,10 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   font-size:12px;
   color:var(--ink-faint);
   display:flex;
-  gap:18px;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px 18px;
+  max-width:560px;
 }
 .hero-hint span{ display:flex; align-items:center; gap:6px; }
 
@@ -381,7 +389,7 @@ body.state-result #new-transform-btn{ display:inline-flex; }
 /* ---------- result ---------- */
 #result-screen{
   background:var(--paper);
-  padding:108px 24px 80px;
+  padding:92px 24px 56px;
   max-width:1560px;
   margin:0 auto;
 }
@@ -395,8 +403,29 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   min-width:0;
 }
 .result-header{
+  position:relative;
   text-align:center;
   margin-bottom:24px;
+}
+.analysis-shortcut-btn{
+  position:absolute;
+  top:0;
+  right:0;
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  color:#7367ff;
+  background:none;
+  border:1px solid #7367ff;
+  border-radius:999px;
+  padding:6px 14px;
+  cursor:pointer;
+  font-family:inherit;
+}
+.analysis-shortcut-btn:hover{ background:rgba(115,103,255,0.08); }
+@media (max-width:860px){
+  .analysis-shortcut-btn{ position:static; display:block; margin:0 auto 12px; }
 }
 .result-header h1{
   font-size:clamp(22px,3.4vw,32px);
@@ -409,33 +438,35 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   margin:0;
 }
 
+/* Moved to the very bottom of the result page (see HTML) — low-contrast,
+   unobtrusive footer text, not a highlighted card. Data/format unchanged
+   (still renderResultMeta()'s own HTML), only the visual treatment and
+   position moved. */
 .result-meta{
   max-width:720px;
-  margin:0 auto 28px auto;
-  background:var(--paper-soft);
-  border:1px solid var(--line);
-  border-radius:var(--radius-sm);
-  padding:12px 16px;
-  font-size:12.5px;
-  color:var(--ink-soft);
+  margin:32px auto 0 auto;
+  text-align:center;
+  font-size:11px;
+  color:var(--ink-faint);
   line-height:1.6;
 }
-.result-meta b{ color:var(--ink); font-weight:600; }
+.result-meta b{ color:var(--ink-faint); font-weight:600; }
 
 /* ---------- exhibition stage: dual-image centerpiece ---------- */
 .exhibit-stage{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:40px;
+  gap:28px;
   max-width:1160px;
   margin:0 auto;
   align-items:start;
 }
 @media (max-width:860px){
-  .exhibit-stage{ grid-template-columns:1fr; gap:48px; }
+  .exhibit-stage{ grid-template-columns:1fr; gap:32px; }
 }
 
 .exhibit-piece{ position:relative; }
+.sr-only-asset{ display:none; }
 
 .exhibit-caption{
   margin-top:16px;
@@ -446,20 +477,6 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   text-transform:uppercase;
   color:var(--ink-faint);
 }
-.exhibit-toggle{
-  display:block;
-  margin:4px auto 0;
-  background:none;
-  border:none;
-  cursor:pointer;
-  font-family:inherit;
-  font-size:11.5px;
-  color:#7367ff;
-  text-underline-offset:3px;
-  text-decoration:underline;
-  padding:4px;
-}
-.exhibit-toggle:hover{ color:#5a4fe0; }
 
 /* Low-key download affordance on the small thumbnail itself: invisible
    at rest, fades in on hover so it never disturbs the gallery-clean
@@ -491,113 +508,184 @@ body.state-result #new-transform-btn{ display:inline-flex; }
 }
 .exhibit-thumb-download:hover{ background:rgba(20,20,30,0.55); }
 
-/* Full-screen lightbox modal: covers the entire viewport edge to edge,
-   shown via JS (mouseenter/leave, plus click/tap for touch devices).
-   Visibility is controlled purely by the "open" class — see section 10
-   of the script. Because the panel now fills the whole viewport, there
-   is no gap for the cursor to cross between thumbnail and panel. */
-.exhibit-panel{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100vw;
-  height:100vh;
-  z-index:9999;
-  background:rgba(255,255,255,0.92);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .3s ease;
+/* ---------- Artwork Reading / Creative Process / Research Observations:
+   natural page scroll, no modal/popover. ---------- */
+.reading-section{
+  max-width:900px;
+  margin:40px auto 0;
 }
-.exhibit-piece.open .exhibit-panel{
-  opacity:1;
-  pointer-events:auto;
-}
-.exhibit-panel-glass{
-  width:100%;
-  height:100%;
-  display:flex;
-}
-
-.exhibit-panel-media{
-  position:relative;
-  flex:0 0 50%;
-  width:50%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:40px;
-  box-sizing:border-box;
-  cursor:zoom-out;
-}
-.exhibit-panel-media img{
-  max-height:85vh;
-  max-width:100%;
-  width:auto;
-  height:auto;
-  object-fit:contain;
-  display:block;
-  border-radius:10px;
-  box-shadow:0 20px 60px rgba(20,20,30,0.18);
-  cursor:default;
-}
-.exhibit-download-btn{
-  position:absolute;
-  bottom:20px;
-  right:20px;
-  width:38px;height:38px;
-  border-radius:50%;
-  border:none;
-  background:rgba(255,255,255,0.92);
-  color:var(--ink-soft);
-  font-size:16px;
-  line-height:38px;
+.reading-section-title{
+  font-size:13px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--ink-faint);
   text-align:center;
+  margin-bottom:16px;
+}
+.ar-legend-wrap{ max-width:900px; margin:20px auto 56px; }
+
+.reading-section-collapsible{
+  max-width:900px;
+  margin:32px auto 0;
+}
+.reading-section-collapsible > summary{
   cursor:pointer;
-  box-shadow:0 4px 14px rgba(20,20,30,0.18);
-  transition:background .15s ease, color .15s ease, transform .15s ease;
+  font-size:13px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--ink-faint);
+  padding:14px 18px;
+  background:var(--paper-soft);
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  list-style:none;
 }
-.exhibit-download-btn:hover{ background:#fff; color:#7367ff; transform:translateY(-1px); }
+.reading-section-collapsible > summary::-webkit-details-marker{ display:none; }
+.reading-section-collapsible[open] > summary{ margin-bottom:20px; }
+.reading-section-collapsible > summary:hover{ color:var(--ink); }
 
-.exhibit-panel-text{
-  flex:0 0 50%;
-  width:50%;
-  height:100%;
-  overflow-y:auto;
-  padding:64px 56px 48px;
-  box-sizing:border-box;
+/* Creative Process: Chinese-first concentrated reading, shown above the
+   unchanged full English analysis. Normal body size and full-contrast
+   ink color — deliberately NOT styled like the small faint inline
+   .zh-highlight notes elsewhere, since this block is meant to be read
+   as continuous prose on its own, not as a secondary annotation. */
+.cp-zh-highlights{ margin-bottom:24px; }
+.cp-zh-highlights:empty{ display:none; margin-bottom:0; }
+.cp-zh-disclaimer{
+  font-size:11.5px;
+  color:var(--ink-faint);
+  font-style:italic;
+  line-height:1.5;
+  margin-bottom:14px;
 }
-.exhibit-panel-text.process-panel-text{
-  flex:1 1 100%;
-  width:100%;
-  max-width:760px;
-  margin:0 auto;
+.cp-zh-item{ margin-bottom:16px; }
+.cp-zh-item:last-child{ margin-bottom:0; }
+.cp-zh-label{
+  font-size:12px;
+  font-weight:700;
+  color:#7367ff;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  margin-bottom:4px;
+}
+.cp-zh-text{
+  font-family:'Noto Sans TC','Inter',sans-serif;
+  font-size:15px;
+  line-height:1.7;
+  color:var(--ink);
+}
+.cp-full-analysis-heading{
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--ink-faint);
+  margin:8px 0 16px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
 }
 
-.exhibit-panel-close{
-  position:fixed;
-  top:20px;
-  right:20px;
-  width:36px;height:36px;
-  border-radius:50%;
-  border:none;
-  background:rgba(20,20,30,0.06);
-  color:var(--ink-soft);
-  font-size:18px;
-  line-height:36px;
+/* Integrity Diagnostics / Mechanical Assembly: plain native
+   <details>/<summary> — deliberately replacing the earlier shared-JS
+   popover (hover/click/positioning logic), which repeatedly failed to
+   show content in real Chrome despite passing every simulated test.
+   Native <details> needs no JS at all to open/close/toggle, so this
+   class of bug (event delegation, z-index, fixed-position math, etc.)
+   cannot recur here. Low-key pill-style summary, closed by default. */
+.tech-info-row{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  max-width:900px;
+  margin:28px auto 0;
+}
+.tech-details{ font-size:12.5px; }
+.tech-details > summary{
   cursor:pointer;
-  z-index:10000;
-  transition:background .15s ease, color .15s ease;
+  display:inline-block;
+  font-family:inherit;
+  font-size:11.5px;
+  font-weight:600;
+  color:#7367ff;
+  background:none;
+  border:1px solid #7367ff;
+  border-radius:999px;
+  padding:5px 12px;
+  list-style:none;
 }
-.exhibit-panel-close:hover{ background:rgba(20,20,30,0.1); color:var(--ink); }
+.tech-details > summary::-webkit-details-marker{ display:none; }
+.tech-details > summary:hover{ background:rgba(115,103,255,0.08); }
+.tech-details[open] > summary{ margin-bottom:10px; }
+.tech-details-body{
+  font-size:12.5px;
+  line-height:1.6;
+  color:var(--ink);
+  padding:10px 14px;
+  background:var(--paper-soft);
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+}
+.tech-details-body .diff-row{ margin-bottom:8px; }
+.tech-details-body .diff-row:last-child{ margin-bottom:0; }
 
-@media (max-width:760px){
-  .exhibit-panel-glass{ flex-direction:column; }
-  .exhibit-panel-media{ flex:0 0 42vh; width:100%; height:42vh; padding:20px; }
-  .exhibit-panel-media img{ max-height:38vh; }
-  .exhibit-panel-text{ flex:1 1 auto; width:100%; height:auto; padding:24px 20px 40px; }
+/* Artwork Reading: 01-04 continuous narrative blocks */
+.ar-planned-tag{
+  display:inline-block;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:#b8860b;
+  background:rgba(184,134,11,0.08);
+  border:1px solid rgba(184,134,11,0.3);
+  border-radius:999px;
+  padding:4px 10px;
+  margin-bottom:8px;
+}
+.ar-chain{ margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid var(--line); }
+.ar-chain:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.ar-chain-step{ font-size:13.5px; line-height:1.55; margin-bottom:4px; }
+.ar-chain-step b{ font-weight:600; color:var(--ink-faint); font-size:11.5px; text-transform:uppercase; letter-spacing:0.04em; margin-right:4px; }
+.ar-qa-pair{ display:flex; gap:20px; flex-wrap:wrap; }
+.ar-qa-col{ flex:1 1 260px; min-width:0; }
+
+/* Research Observations: side-by-side juxtaposition panels */
+.ro-pair{ display:flex; gap:20px; flex-wrap:wrap; margin-top:8px; }
+.ro-col{ flex:1 1 260px; min-width:0; }
+.ro-col-title{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#7367ff; margin-bottom:6px; }
+.ro-self-report-note{ font-size:11px; color:var(--ink-faint); margin-top:6px; font-style:italic; }
+.ro-neutral-question{ font-size:13px; font-style:italic; color:var(--ink-soft); margin-top:10px; }
+.ro-thumb{ max-width:160px; border-radius:8px; display:block; margin-top:8px; }
+.ro-zh-disclaimer{
+  font-size:11.5px;
+  color:var(--ink-faint);
+  font-style:italic;
+  line-height:1.5;
+  margin-bottom:16px;
+}
+.ro-legacy-note{
+  font-size:11.5px;
+  color:var(--ink-faint);
+  font-style:italic;
+  line-height:1.5;
+  margin-bottom:16px;
+  font-family:'Noto Sans TC','Inter',sans-serif;
+}
+.ro-zh{ margin-top:12px; padding-top:10px; border-top:1px dashed var(--line); }
+.ro-zh-label{
+  font-family:'Noto Sans TC','Inter',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  color:#7367ff;
+  margin-bottom:4px;
+}
+.ro-zh-text{
+  font-family:'Noto Sans TC','Inter',sans-serif;
+  font-size:14.5px;
+  line-height:1.65;
+  color:var(--ink);
 }
 
 /* ---------- gallery sidebar: floating micro dock ---------- */
@@ -723,48 +811,6 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   font-size:13px;
 }
 
-/* ---------- Stage 2-4: Poetic Misinterpretation process — a floating
-   hover button pinned to the viewport corner, kept out of the two-column
-   gallery layout so the original/surreal comparison stays the clean
-   centerpiece. Hovering/clicking it opens the same fullscreen glass
-   .exhibit-panel used by the two main pieces (generic logic in section 10
-   of the script already handles any .exhibit-piece, wherever it lives in
-   the DOM). ---------- */
-.floating-piece{
-  position:fixed;
-  right:28px;
-  bottom:28px;
-  z-index:50;
-}
-.process-float-btn{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:11px 20px 11px 16px;
-  box-shadow:0 10px 30px rgba(20,20,30,0.14);
-  cursor:pointer;
-  transition:box-shadow .2s ease, transform .2s ease;
-}
-.process-float-btn:hover{
-  box-shadow:0 14px 36px rgba(115,103,255,0.28);
-  transform:translateY(-2px);
-}
-.process-float-icon{ font-size:17px; line-height:1; color:#7367ff; }
-.process-float-label{
-  font-size:12px;
-  font-weight:700;
-  color:var(--ink);
-  letter-spacing:0.01em;
-  white-space:nowrap;
-}
-@media (max-width:620px){
-  .floating-piece{ right:16px; bottom:16px; }
-  .process-float-btn{ padding:13px; border-radius:50%; }
-  .process-float-label{ display:none; }
-}
 .imagen-fallback{
   padding:28px 24px;
   text-align:center;
@@ -828,10 +874,29 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   word-break:break-word;
 }
 .lang-col[data-lang="tw"]{ font-family:'Noto Sans TC','Inter',sans-serif; }
+.lang-col:empty{ display:none; }
+
+/* Short Traditional Chinese highlight inlined next to its English source
+   field (six-stage records only) — visually distinct from the surrounding
+   English block-val text via indent/border, not a second full-language
+   column. */
+.zh-highlight{
+  font-family:'Noto Sans TC','Inter',sans-serif;
+  font-size:12.5px;
+  line-height:1.5;
+  color:var(--ink-faint);
+  margin-top:4px;
+  padding-left:10px;
+  border-left:2px solid #7367ff;
+}
 
 /* ---------- Card 4: relational reading (visible cues / cultural inferences / divergent readings) ---------- */
 .analysis-section{ margin-bottom:16px; }
 .analysis-section:last-child{ margin-bottom:0; }
+/* Research Observations specifically gets more breathing room between its
+   A-D blocks than the denser Creative Process blocks do. */
+#research-observations .analysis-section{ margin-bottom:28px; }
+#research-observations .analysis-section:last-child{ margin-bottom:0; }
 .analysis-section-title{
   font-size:10px;
   font-weight:700;
@@ -1140,9 +1205,9 @@ body.state-result #new-transform-btn{ display:inline-flex; }
 
 <!-- Hero Screen -->
 <section id="hero-screen" class="screen">
-  <div class="hero-kicker">Everyday / Deconstructed</div>
-  <h1 class="hero-title">Turn the ordinary into the <em>uncannily surreal</em></h1>
-  <p class="hero-sub">Upload a photograph. Surreal Lens analyzes its objects and conventions, then subverts them — displacing relationships into something eerily unfamiliar.</p>
+  <div class="hero-kicker">Everyday / Reinterpreted</div>
+  <h1 class="hero-title">Seeing the familiar <em>differently.</em></h1>
+  <p class="hero-sub">An experiment in seeing, interpreting, and reimagining visual relationships.</p>
 
   <form id="hero-form">
     <div class="input-bar" id="input-bar">
@@ -1166,8 +1231,8 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   <div class="hero-error hidden" id="hero-error"></div>
   <div class="hero-hint">
     <span>① Upload a photo</span>
-    <span>② AI deconstructs it</span>
-    <span>③ Gemini reimagines it</span>
+    <span>② AI explores alternative readings</span>
+    <span>③ AI transforms the image</span>
   </div>
   <button id="view-gallery-btn" class="hidden">View saved gallery (<span id="view-gallery-count">0</span>)</button>
 </section>
@@ -1190,11 +1255,10 @@ body.state-result #new-transform-btn{ display:inline-flex; }
 
     <div class="result-main">
       <div class="result-header">
-        <h1>The Deconstruction</h1>
-        <p>Hover an image for its reading — from recognition to displacement.</p>
+        <button class="analysis-shortcut-btn" id="analysis-shortcut-btn" type="button">Analysis ↓</button>
+        <h1>The Misreading</h1>
+        <p>From visible forms to alternative readings, actions, and spatial relationships.</p>
       </div>
-      <div class="result-meta hidden" id="result-meta"></div>
-
       <div class="exhibit-stage">
 
         <div class="exhibit-piece" id="piece-original">
@@ -1203,24 +1267,7 @@ body.state-result #new-transform-btn{ display:inline-flex; }
             <button class="exhibit-thumb-download" id="thumb-download-original-btn" type="button" title="Download" aria-label="Download original image">↓</button>
           </div>
           <div class="exhibit-caption">Annotated Original Image</div>
-          <button class="exhibit-toggle" type="button">View reading</button>
-
-          <div class="exhibit-panel">
-            <div class="exhibit-panel-glass">
-              <button class="exhibit-panel-close" type="button" aria-label="Close">×</button>
-              <div class="exhibit-panel-media">
-                <img id="initial-full-img" class="exhibit-content-card" alt="Original photograph, full view">
-                <button class="exhibit-download-btn" id="download-original-btn" type="button" title="Download original image" aria-label="Download original image">⬇</button>
-              </div>
-              <div class="exhibit-panel-text exhibit-content-card">
-                <div class="legend" id="legend-container"></div>
-                <div class="bilingual-stack">
-                  <div class="lang-col" data-lang="en"><div id="initial-en"></div></div>
-                  <div class="lang-col" data-lang="tw"><div id="initial-tw"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <img id="initial-full-img" class="sr-only-asset" alt="Original photograph, full view">
         </div>
 
         <div class="exhibit-piece" id="piece-surreal">
@@ -1229,45 +1276,31 @@ body.state-result #new-transform-btn{ display:inline-flex; }
             <button class="exhibit-thumb-download" id="thumb-download-surreal-btn" type="button" title="Download" aria-label="Download artwork">↓</button>
           </div>
           <div class="exhibit-caption">Surrealist Photographic Artwork</div>
-          <button class="exhibit-toggle" type="button">View reading</button>
-
-          <div class="exhibit-panel">
-            <div class="exhibit-panel-glass">
-              <button class="exhibit-panel-close" type="button" aria-label="Close">×</button>
-              <div class="exhibit-panel-media">
-                <img id="surreal-full-img" class="exhibit-content-card" alt="Surrealist artwork, full view">
-                <button class="exhibit-download-btn" id="download-surreal-btn" type="button" title="Download artwork" aria-label="Download artwork">⬇</button>
-              </div>
-              <div class="exhibit-panel-text exhibit-content-card">
-                <div class="bilingual-stack">
-                  <div class="lang-col" data-lang="en"><div id="surreal-en"></div></div>
-                  <div class="lang-col" data-lang="tw"><div id="surreal-tw"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <img id="surreal-full-img" class="sr-only-asset" alt="Surrealist artwork, full view">
         </div>
 
       </div>
 
-      <div class="exhibit-piece floating-piece" id="piece-process">
-        <div class="exhibit-frame process-float-btn">
-          <span class="process-float-icon">◈</span>
-          <span class="process-float-label">AI Misreading &amp; Reconstruction</span>
-        </div>
-
-        <div class="exhibit-panel">
-          <div class="exhibit-panel-glass">
-            <button class="exhibit-panel-close" type="button" aria-label="Close">×</button>
-            <div class="exhibit-panel-text exhibit-content-card process-panel-text">
-              <div class="bilingual-stack">
-                <div class="lang-col" data-lang="en"><div id="process-en"></div></div>
-                <div class="lang-col" data-lang="tw"><div id="process-tw"></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="ar-legend-wrap">
+        <div class="legend" id="legend-container"></div>
       </div>
+
+      <details class="reading-section-collapsible" id="research-observations-section" open>
+        <summary>Research Observations</summary>
+        <div id="research-observations"></div>
+      </details>
+
+      <details class="reading-section-collapsible" id="creative-process-section">
+        <summary>Creative Process — AI Misreading &amp; Reconstruction (full detail, English)</summary>
+        <div class="bilingual-stack">
+          <div class="lang-col" data-lang="en"><div id="process-en"></div></div>
+          <div class="lang-col" data-lang="tw"><div id="process-tw"></div></div>
+        </div>
+      </details>
+
+      <div class="tech-info-row" id="tech-info-row"></div>
+
+      <div class="result-meta hidden" id="result-meta"></div>
     </div>
 
     <aside id="gallery-sidebar" class="hidden">
@@ -1763,23 +1796,25 @@ function buildSystemInstruction(){
 "TECHNICAL OUTPUT SCHEMA (format only — carries no creative instruction; follow the full creative directive above for all content decisions):\n" +
 "Return ONLY a single valid JSON object, no markdown fences, no commentary, matching exactly this schema:\n" +
 "{\n" +
-'  "objects": [ { "id": "string", "label_en": "string", "label_tw": "string", "box_2d": [ymin, xmin, ymax, xmax] } ],\n' +
+'  "objects": [ { "id": "string", "label_en": "string", "box_2d": [ymin, xmin, ymax, xmax] } ],\n' +
 '  "original_analysis_en": "string",\n' +
-'  "original_analysis_tw": "string",\n' +
-'  "stage1": { "initialRecognition": [ { "id": "string", "region_ref": "string", "label_en": "string", "label_tw": "string", "certainty": "confident|unstable|unnameable" } ], "visibleFragments": [ { "id": "string", "region_ref": "string", "description_en": "string", "description_tw": "string" } ], "visualEvidence": [ { "id": "string", "region_ref": "string", "feature_type": "geometry|material_texture|opening_hole_boundary|occlusion_overlap|repetition_rhythm|spatial_orientation|scale_ambiguity|object_background_relation", "description_en": "string", "description_tw": "string" } ], "uncertainties_en": ["string"], "uncertainties_tw": ["string"], "alternativeRecognitions": [ { "id": "string", "region_ref": "string", "label_en": "string", "label_tw": "string", "reason_en": "string", "reason_tw": "string" } ] },\n' +
-'  "stage2": { "associativeDivergences": [ { "id": "string", "provenanceTag": "actual_initial_recognition|same_identity_new_context|cross_domain_affinity|creative_interpretation", "sourceFragmentIds": ["string"], "association_en": "string", "association_tw": "string", "sharedVisualFeatures_en": "string", "sharedVisualFeatures_tw": "string", "tensionDifferences_en": "string", "tensionDifferences_tw": "string", "potentialRelationalChange_en": "string", "potentialRelationalChange_tw": "string" } ] },\n' +
-'  "stage3": { "status": "selected|insufficient_evidence", "selectedAssociationIds": ["string"], "selectionRationale_en": "string", "selectionRationale_tw": "string", "pictorialProblem_en": "string", "pictorialProblem_tw": "string", "creativeDirection_en": "string", "creativeDirection_tw": "string", "artisticIntention_en": "string", "artisticIntention_tw": "string", "realizationPlan_en": "string", "realizationPlan_tw": "string", "potentialRelationalConsequences_en": "string", "potentialRelationalConsequences_tw": "string" },\n' +
-'  "stage4": { "pictorialAnswer_en": "string", "pictorialAnswer_tw": "string", "retainedVisualCues_en": ["string"], "retainedVisualCues_tw": ["string"], "transformedVisualCues": [ { "sourceFragmentId": "string", "operation_en": "string", "operation_tw": "string" } ], "introducedVisualElements": [ { "description_en": "string", "description_tw": "string", "relationalJustification_en": "string", "relationalJustification_tw": "string" } ], "relationalConsequences_en": ["string"], "relationalConsequences_tw": ["string"], "unresolvedInterpretations_en": ["string"], "unresolvedInterpretations_tw": ["string"] },\n' +
-'  "stage5": { "mediumAndStyle_en": "string", "mediumAndStyle_tw": "string", "modelDraftInstruction": "string", "finalGenerationPrompt": "string" }\n' +
+'  "stage1": { "initialRecognition": [ { "id": "string", "region_ref": "string", "label_en": "string", "certainty": "confident|unstable|unnameable" } ], "visibleFragments": [ { "id": "string", "region_ref": "string", "description_en": "string" } ], "visualEvidence": [ { "id": "string", "region_ref": "string", "feature_type": "geometry|material_texture|opening_hole_boundary|occlusion_overlap|repetition_rhythm|spatial_orientation|scale_ambiguity|object_background_relation", "description_en": "string" } ], "uncertainties_en": ["string"], "alternativeRecognitions": [ { "id": "string", "region_ref": "string", "label_en": "string", "reason_en": "string" } ] },\n' +
+'  "stage2": { "associativeDivergences": [ { "id": "string", "provenanceTag": "actual_initial_recognition|same_identity_new_context|cross_domain_affinity|creative_interpretation", "sourceFragmentIds": ["string"], "association_en": "string", "sharedVisualFeatures_en": "string", "tensionDifferences_en": "string", "potentialRelationalChange_en": "string" } ] },\n' +
+'  "stage3": { "status": "selected|insufficient_evidence", "selectedAssociationIds": ["string"], "selectionRationale_en": "string", "pictorialProblem_en": "string", "pictorialProblem_tw": "string", "selectedAssociationGloss_tw": "string", "creativeDirection_en": "string", "artisticIntention_en": "string", "realizationPlan_en": "string", "potentialRelationalConsequences_en": "string" },\n' +
+'  "stage4": { "pictorialAnswer_en": "string", "pictorialAnswer_tw": "string", "retainedVisualCues_en": ["string"], "transformedVisualCues": [ { "sourceFragmentId": "string", "operation_en": "string" } ], "introducedVisualElements": [ { "description_en": "string", "relationalJustification_en": "string" } ], "relationalConsequences_en": ["string"], "unresolvedInterpretations_en": ["string"] },\n' +
+'  "stage5": { "mediumAndStyle_en": "string", "modelDraftInstruction": "string", "finalGenerationPrompt": "string" },\n' +
+'  "researchObservations_tw": { "visualEvidenceSummary_tw": "string", "alternativeRecognitionSummary_tw": "string", "candidateAssociationsSummary_tw": "string", "selectionRationale_tw": "string", "operationsSummary_tw": "string", "unresolvedSummary_tw": "string" }\n' +
 "}\n" +
 "Field notes (format only):\n" +
 '- "objects" (STAGE 1): 3-8 salient visual regions/fragments in THIS photo only; "id" is a short stable slug (e.g. "o1") reused as "region_ref" below; box_2d is [ymin, xmin, ymax, xmax] normalized 0-1000.\n' +
-'- "original_analysis_en" / "original_analysis_tw": two lines each, "Recognized Elements: ...\\nConventional Expectations: ..." (Chinese: "辨認元素: ...\\n慣常預期: ...").\n' +
+'- "original_analysis_en": two lines, "Recognized Elements: ...\\nConventional Expectations: ...".\n' +
 '- "stage1.initialRecognition/visibleFragments/visualEvidence/alternativeRecognitions": each entry needs a stable "id" and a "region_ref" pointing to a real "objects" id. "certainty": "confident" only if genuinely sure; otherwise "unstable" or "unnameable". "visualEvidence.feature_type" values such as "spatial_orientation" or "occlusion_overlap" may describe a single object\'s own geometry, or the relative position/orientation/overlap between two or more objects — both are valid uses of the same category.\n' +
-'- "stage2.associativeDivergences": 0-5 entries. Zero is valid and honest. "sourceFragmentIds" must reference real stage1 ids. "association_en"/"association_tw" may describe EITHER a same-identity new context/use/event/relationship, OR a different cross-domain thing — both are first-class, neither is required over the other. "provenanceTag" must be honest — never relabel a creative guess as an actual recognition, and never relabel a same-identity recontextualization as a cross-domain affinity or vice versa. "potentialRelationalChange_en/tw" may legitimately be an empty string.\n' +
-'- "stage3": "status" describes only whether the Stage 2 associations you proposed have adequate visual grounding — "insufficient_evidence" means none of them do; it is never a judgment about whether artistic creation is possible. "selectedAssociationIds" must be an empty array when status is "insufficient_evidence" (you cannot honestly select an association that lacks grounding), but may be empty OR non-empty when status is "selected" — choosing to work entirely from Stage 1 observation, with no Stage 2 association as explicit material, is legitimate under either status. Never fabricate an association or a source id merely to populate this array. "pictorialProblem" is NOT tied to status and may be non-empty under "insufficient_evidence": research-evidence insufficiency about Stage 2\'s associations never by itself prevents an artistic discovery grounded in Stage 1. An honest statement that no strong discovery was found is equally valid, and should never be padded with inflated language to appear more insightful than it actually is. Field-to-concept mapping (format only): "selectionRationale" = why this material (including "none — working from Stage 1 alone") was chosen; "creativeDirection" = a brief characterization of the kind of approach taken; "artisticIntention" = the mood, meaning, or feeling intended (brief is fine); "realizationPlan" = your own visual plan for carrying the pictorial problem into Stage 4/5. These four fields are format slots for the single creative development described above, not four separate instructions.\n' +
-'- "stage4": "pictorialAnswer" is NOT tied to status — it may and should be populated whenever you have an actual artistic concept, whether status is "selected" or "insufficient_evidence". A lack of grounded Stage 2 material never by itself requires this field to be empty. "retainedVisualCues"/"transformedVisualCues"/"introducedVisualElements" remain OPTIONAL supporting detail: non-empty only if pictorialAnswer actually calls for naming specific fragment-level operations. Empty arrays are correct, not incomplete, whenever pictorialAnswer does not need them. "transformedVisualCues[].sourceFragmentId" must reference a real stage1 id when present.\n' +
-'- "stage5.mediumAndStyle": your own free choice for THIS image — not a default photographic/architectural-render framing. "modelDraftInstruction": supplementary phrasing (English) the app blends in last — never the sole source of the final instruction. "finalGenerationPrompt": required for every image — your own complete English instruction for the image-generation model, led by stage4.pictorialAnswer, not a transcript of stage2/stage3\'s research reasoning. It is used exactly as written whenever it is a valid, non-empty string, regardless of status or selectedAssociationIds — insufficient_evidence never overrides a real finalGenerationPrompt. If left empty, invalid, or missing, the app falls back to assembling a prompt from stage4.pictorialAnswer, then from stage3.realizationPlan, in that order; if neither is available either, the app reports an error and does not generate a generic composition — so always try to leave at least one of finalGenerationPrompt, pictorialAnswer, or realizationPlan populated with an actual visual concept.'
+'- "stage2.associativeDivergences": 0-5 entries. Zero is valid and honest. "sourceFragmentIds" must reference real stage1 ids. "association_en" may describe EITHER a same-identity new context/use/event/relationship, OR a different cross-domain thing — both are first-class, neither is required over the other. "provenanceTag" must be honest — never relabel a creative guess as an actual recognition, and never relabel a same-identity recontextualization as a cross-domain affinity or vice versa. "potentialRelationalChange_en" may legitimately be an empty string. This stage is English only — its Chinese counterpart is the single "stage3.selectedAssociationGloss_tw" field, not a per-entry translation here.\n' +
+'- "stage3": "status" describes only whether the Stage 2 associations you proposed have adequate visual grounding — "insufficient_evidence" means none of them do; it is never a judgment about whether artistic creation is possible. "selectedAssociationIds" must be an empty array when status is "insufficient_evidence" (you cannot honestly select an association that lacks grounding), but may be empty OR non-empty when status is "selected" — choosing to work entirely from Stage 1 observation, with no Stage 2 association as explicit material, is legitimate under either status. Never fabricate an association or a source id merely to populate this array. "pictorialProblem" is NOT tied to status and may be non-empty under "insufficient_evidence": research-evidence insufficiency about Stage 2\'s associations never by itself prevents an artistic discovery grounded in Stage 1. An honest statement that no strong discovery was found is equally valid, and should never be padded with inflated language to appear more insightful than it actually is. Field-to-concept mapping (format only): "selectionRationale" = why this material (including "none — working from Stage 1 alone") was chosen; "creativeDirection" = a brief characterization of the kind of approach taken; "artisticIntention" = the mood, meaning, or feeling intended (brief is fine); "realizationPlan" = your own visual plan for carrying the pictorial problem into Stage 4/5. These four fields are format slots for the single creative development described above, not four separate instructions. "pictorialProblem_tw" is a SHORT, faithful Traditional Chinese summary of "pictorialProblem_en" only — the relationship you chose to reconsider — and must not introduce any artistic concept absent from "pictorialProblem_en"; leave it empty only if "pictorialProblem_en" is itself empty. "selectedAssociationGloss_tw" is a SHORT Traditional Chinese sentence stating what in the source image was recognized as what, for the material named in "selectedAssociationIds" — if "selectedAssociationIds" is empty, leave this empty too; if it names more than one id, this single sentence must genuinely cover ALL of them collectively (never translate just one of several selected associations while implying it covers every one).\n' +
+'- "stage4": "pictorialAnswer" is NOT tied to status — it may and should be populated whenever you have an actual artistic concept, whether status is "selected" or "insufficient_evidence". A lack of grounded Stage 2 material never by itself requires this field to be empty. "retainedVisualCues"/"transformedVisualCues"/"introducedVisualElements" remain OPTIONAL supporting detail: non-empty only if pictorialAnswer actually calls for naming specific fragment-level operations. Empty arrays are correct, not incomplete, whenever pictorialAnswer does not need them. "transformedVisualCues[].sourceFragmentId" must reference a real stage1 id when present. "pictorialAnswer_tw" is a SHORT, faithful Traditional Chinese summary of "pictorialAnswer_en" only — how the concrete image answers the pictorial problem — and must not introduce any artistic concept absent from "pictorialAnswer_en"; leave it empty only if "pictorialAnswer_en" is itself empty.\n' +
+'- "stage5.mediumAndStyle": your own free choice for THIS image — not a default photographic/architectural-render framing. "modelDraftInstruction": supplementary phrasing (English) the app blends in last — never the sole source of the final instruction. "finalGenerationPrompt": required for every image — your own complete English instruction for the image-generation model, led by stage4.pictorialAnswer, not a transcript of stage2/stage3\'s research reasoning. It is used exactly as written whenever it is a valid, non-empty string, regardless of status or selectedAssociationIds — insufficient_evidence never overrides a real finalGenerationPrompt. If left empty, invalid, or missing, the app falls back to assembling a prompt from stage4.pictorialAnswer, then from stage3.realizationPlan, in that order; if neither is available either, the app reports an error and does not generate a generic composition — so always try to leave at least one of finalGenerationPrompt, pictorialAnswer, or realizationPlan populated with an actual visual concept.\n' +
+'- LANGUAGE: every other field above is English only. Do not invent a "_tw" counterpart for any field not explicitly listed with one. Do not shorten, soften, or omit any English field\'s content to compensate for writing these three Chinese summaries — the Chinese fields are brief restatements, never done at the expense of the English analysis\'s depth or the number of alternative recognitions, associations, or pictorial detail you would otherwise produce.\n' +
+'- "researchObservations_tw" is a DISPLAY-ONLY Traditional Chinese translation layer for a separate research-reading UI. Write it LAST, after everything above is already complete — it must never cause you to shorten, delay, or risk any field above it. Every sub-field is a faithful, concise CONDENSATION of English content you already wrote elsewhere in this same response — translate and compress, never re-observe the image, never reconsider a choice, never add an association, judgment, or conclusion that is not already present in the corresponding English field. Preserve the same epistemic status as the English: if the English states something as a tentative association or a self-reported rationale rather than a fact, the Chinese must read the same way, not as settled fact. Never phrase a planned (stage4) operation as something already visible in the finished image — these are pre-generation notes, not a report on the generated image. Field mapping: "visualEvidenceSummary_tw" condenses stage1.visibleFragments + stage1.visualEvidence; "alternativeRecognitionSummary_tw" condenses stage1.alternativeRecognitions; "candidateAssociationsSummary_tw" condenses ALL of stage2.associativeDivergences (not only the selected one); "selectionRationale_tw" condenses stage3.selectionRationale_en; "operationsSummary_tw" condenses stage4.retainedVisualCues/transformedVisualCues/introducedVisualElements together; "unresolvedSummary_tw" condenses stage4.unresolvedInterpretations_en. If the corresponding English group is empty, leave that sub-field as an empty string — never invent content to fill it.'
   );
 }
 
@@ -1853,6 +1888,42 @@ function makeStageError(stageLabel, modelName, status, detail){
    here anymore. Response parsing below is unaffected: systemInstruction
    only changes the REQUEST shape, not where the model's JSON answer shows
    up in the response. */
+/* Isolation safety net for "researchObservations_tw" (a DISPLAY-ONLY,
+   LAST-written schema field, see buildSystemInstruction()): if output
+   truncation (MAX_TOKENS) cuts the response off partway through this
+   trailing Chinese field, the English stage1-5 + finalGenerationPrompt
+   content before it is still 100% complete and must not be discarded
+   just because the whole string fails JSON.parse(). This function does
+   NOT guess or invent any field content — it only locates the exact
+   top-level comma that precedes the literal `"researchObservations_tw"`
+   key (by scanning bracket depth and string state from the start of the
+   text, the same way a JSON tokenizer would) and cuts there, closing the
+   object with a real `}`. If that key never appears at all, or the
+   depth-scan never finds a top-level comma before it, this returns null
+   and the caller falls through to the normal truncation/syntax error
+   path unchanged — so a genuine stage1-5-level truncation is never
+   silently "fixed" by this. */
+function stripTrailingResearchObservationsTw(text){
+  var keyIdx = text.indexOf('"researchObservations_tw"');
+  if (keyIdx === -1) return null;
+  var depth = 0, inStr = false, esc = false, lastTopComma = -1;
+  for (var i = 0; i < keyIdx; i++){
+    var ch = text.charAt(i);
+    if (esc){ esc = false; continue; }
+    if (inStr){
+      if (ch === "\\"){ esc = true; }
+      else if (ch === '"'){ inStr = false; }
+      continue;
+    }
+    if (ch === '"'){ inStr = true; continue; }
+    if (ch === "{" || ch === "["){ depth++; continue; }
+    if (ch === "}" || ch === "]"){ depth--; continue; }
+    if (ch === "," && depth === 1){ lastTopComma = i; }
+  }
+  if (lastTopComma === -1) return null;
+  return text.slice(0, lastTopComma) + "}";
+}
+
 function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance){
   var url = "https://generativelanguage.googleapis.com/v1/models/" + modelName + ":generateContent?key=" + encodeURIComponent(apiKey);
   var userParts = [];
@@ -1873,7 +1944,8 @@ function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance
     ],
     generationConfig: {
       temperature: 0.95,
-      responseMimeType: "application/json"
+      responseMimeType: "application/json",
+      maxOutputTokens: 8192
     }
   };
 
@@ -1908,22 +1980,55 @@ function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance
     try{
       parsed = JSON.parse(clean);
     }catch(err){
-      /* Diagnostic, not a guess: surface WHY the parse failed (the raw
-         SyntaxError), whether Gemini itself flagged the response as
-         truncated (finishReason "MAX_TOKENS") or refused (e.g.
-         "SAFETY"), the response length, and the tail of the raw text —
-         a truncated JSON response ends mid-field/mid-string, which is
-         visible there. Logged to console AND included in the thrown
-         message so it reaches the on-screen error banner directly.
-         Never includes the API key or request URL. */
-      var reasonNote = finishReason ? (" Gemini finishReason: " + finishReason + ".") : "";
+      /* Before reporting failure: try to salvage a response where ONLY
+         the trailing, display-only "researchObservations_tw" field was
+         cut off by MAX_TOKENS. This never touches stage1-5 content — it
+         either finds a complete stage1-5 prefix and uses it as-is with
+         researchObservations_tw set to null, or (if the structure before
+         the key is itself incomplete) returns null and changes nothing
+         about the error path below. */
+      var salvagedText = stripTrailingResearchObservationsTw(clean);
+      if (salvagedText){
+        try{
+          var salvaged = JSON.parse(salvagedText);
+          if (salvaged && salvaged.stage5 !== undefined){
+            console.warn("[Gemini JSON parse] researchObservations_tw was incomplete (likely MAX_TOKENS) and has been dropped; stage1-5 and finalGenerationPrompt are unaffected.", { modelName: modelName });
+            salvaged.researchObservations_tw = null;
+            parsed = salvaged;
+          }
+        }catch(e2){ /* salvage failed — fall through to the normal error path below */ }
+      }
+      if (parsed === undefined){
+      /* Diagnostic, not a guess: classify WHY the parse failed before
+         reporting it, using Gemini's own finishReason — the raw
+         SyntaxError alone cannot distinguish "the output was cut off
+         before it finished" (MAX_TOKENS) from "generation was stopped for
+         an unrelated reason" (SAFETY/RECITATION/OTHER) from "generation
+         completed normally but the text itself is not valid JSON" (a
+         genuine syntax problem). The category is put FIRST in the
+         message, in brackets, so the on-screen error banner shows it at a
+         glance rather than burying it inside one long sentence. Logged to
+         console AND included in the thrown message. Never includes the
+         API key or request URL. */
+      var category, categoryNote;
+      if (finishReason === "MAX_TOKENS"){
+        category = "TRUNCATED OUTPUT";
+        categoryNote = "Gemini's response was cut off before it finished (finishReason: MAX_TOKENS) — the JSON is incomplete, not malformed by choice.";
+      } else if (finishReason === "SAFETY" || finishReason === "RECITATION" || finishReason === "OTHER"){
+        category = "RESPONSE STOPPED (" + finishReason + ")";
+        categoryNote = "Gemini stopped generating for a reason unrelated to JSON formatting (finishReason: " + finishReason + ") — this is not a syntax bug.";
+      } else {
+        category = "JSON SYNTAX ERROR";
+        categoryNote = "Gemini's response finished normally (finishReason: " + (finishReason || "unknown") + ") but the text it returned is not valid JSON.";
+      }
       var tail = clean.length > 500 ? ("…" + clean.slice(-500)) : clean;
-      var diagMsg = "Could not parse Gemini's JSON response. Parse error: " + err.message + "." +
-        reasonNote +
+      var diagMsg = "[" + category + "] Could not parse Gemini's JSON response. " + categoryNote +
+        " Parse error: " + err.message + "." +
         " Response length: " + clean.length + " chars." +
         " End of raw response: " + tail;
       console.error("[Gemini JSON parse diagnostic] model='" + modelName + "'", diagMsg);
       throw makeStageError("Gemini analysis", modelName, undefined, diagMsg);
+      }
     }
     parsed.objects = normalizeObjects(parsed.objects);
     return parsed;
@@ -2403,7 +2508,14 @@ function startTransformation(imgState, userGuidance, apiKey){
           stage2: analysis.stage2 || { associativeDivergences: [] },
           stage3: analysis.stage3 || { status: "insufficient_evidence", selectedAssociationIds: [], selectionRationale_en: "", selectionRationale_tw: "", pictorialProblem_en: "", pictorialProblem_tw: "", creativeDirection_en: "", creativeDirection_tw: "", artisticIntention_en: "", artisticIntention_tw: "", realizationPlan_en: "", realizationPlan_tw: "", potentialRelationalConsequences_en: "", potentialRelationalConsequences_tw: "" },
           stage4: analysis.stage4 || { pictorialAnswer_en: "", pictorialAnswer_tw: "", retainedVisualCues_en: [], retainedVisualCues_tw: [], transformedVisualCues: [], introducedVisualElements: [], relationalConsequences_en: [], relationalConsequences_tw: [], unresolvedInterpretations_en: [], unresolvedInterpretations_tw: [] },
-          stage5: analysis.stage5 || { mediumAndStyle_en: "", mediumAndStyle_tw: "", modelDraftInstruction: "", finalGenerationPrompt: "" }
+          stage5: analysis.stage5 || { mediumAndStyle_en: "", mediumAndStyle_tw: "", modelDraftInstruction: "", finalGenerationPrompt: "" },
+          /* Display-only Research Observations translation layer (see
+             buildSystemInstruction()). Stored as-is, including null when
+             absent/dropped — never fabricated here. Isolation: nothing
+             above this line (stage1-5) or in buildCompositionPrompt()/
+             verifyPlanIntegrity() reads this key; it exists purely for
+             renderResearchObservations() to render. */
+          researchObservations_tw: analysis.researchObservations_tw || null
         },
         reinspection: null,
         finalImagePrompt: result.finalPrompt,
@@ -3042,6 +3154,15 @@ var SIX_STAGE_LABELS = {
 };
 
 function renderSixStagePlan(container, record, plan, lang){
+  /* Six-stage records are now English-primary with three short Traditional
+     Chinese highlights inlined at fixed points (selected association,
+     artistic question, pictorial translation) — rendered ONCE, in the "en"
+     pass. The "tw" pass intentionally renders nothing here; the tw column
+     collapses visually via CSS (.lang-col:empty) so the panel no longer
+     shows two full parallel-language copies. This does not touch the
+     legacy renderers (renderLegacyVisionPlan/renderLegacyMisreadingPlan),
+     which still render both language columns exactly as before. */
+  if (lang === "tw") return;
   var L = SIX_STAGE_LABELS[lang] || SIX_STAGE_LABELS.en;
   var objects = record.objects || [];
   var s1 = plan.stage1 || {};
@@ -3156,7 +3277,9 @@ function renderSixStagePlan(container, record, plan, lang){
   var artisticIntention = lang === "tw" ? s3.artisticIntention_tw : s3.artisticIntention_en;
   var creativeDirection = lang === "tw" ? s3.creativeDirection_tw : s3.creativeDirection_en;
   var block3Html = "";
-  if (pictorialProblem) block3Html += '<div class="mtag-object">' + escapeHtml(L.pictorialProblemLabel) + '</div><div class="block-val">' + escapeHtml(pictorialProblem) + '</div>';
+  if (pictorialProblem){
+    block3Html += '<div class="mtag-object">' + escapeHtml(L.pictorialProblemLabel) + '</div><div class="block-val">' + escapeHtml(pictorialProblem) + '</div>';
+  }
   if (artisticIntention) block3Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.artisticIntentionLabel) + '</div><div class="block-val">' + escapeHtml(artisticIntention) + '</div>';
   if (creativeDirection) block3Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.creativeDirectionLabel) + '</div><div class="block-val">' + escapeHtml(creativeDirection) + '</div>';
   section(L.artisticQuestionLabel, block3Html || ('<div class="rmp-empty-note">' + escapeHtml(L.artisticQuestionNotRecorded) + '</div>'));
@@ -3179,7 +3302,9 @@ function renderSixStagePlan(container, record, plan, lang){
   var realizationPlan = lang === "tw" ? s3.realizationPlan_tw : s3.realizationPlan_en;
   var pictorialAnswer = lang === "tw" ? s4.pictorialAnswer_tw : s4.pictorialAnswer_en;
   var block4Html = "";
-  if (pictorialAnswer) block4Html += '<div class="mtag-object">' + escapeHtml(L.pictorialAnswerLabel) + '</div><div class="block-val">' + escapeHtml(pictorialAnswer) + '</div>';
+  if (pictorialAnswer){
+    block4Html += '<div class="mtag-object">' + escapeHtml(L.pictorialAnswerLabel) + '</div><div class="block-val">' + escapeHtml(pictorialAnswer) + '</div>';
+  }
   if (realizationPlan) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.realizationPlanLabel) + '</div><div class="block-val">' + escapeHtml(realizationPlan) + '</div>';
   if (retained.length) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.retained) + '</div><div class="vcue-tags">' + retained.map(function(r){ return '<span class="vcue-tag">' + escapeHtml(r) + '</span>'; }).join("") + '</div>';
   if (ops) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.operations) + '</div>' + ops;
@@ -3218,41 +3343,12 @@ function renderSixStagePlan(container, record, plan, lang){
     block5Html += '<details class="comparison-details" style="margin-top:8px;"><summary>' + escapeHtml(L.aiAutonomousPrompt) + '</summary>' +
       '<div class="final-prompt-block" style="opacity:.85;margin-top:6px;">' + escapeHtml(aiOwnPrompt) + '</div></details>';
   }
-  if (record.assembledPromptForComparison && record.assembledPromptForComparison !== sentPrompt){
-    block5Html += '<details class="comparison-details" style="margin-top:8px;"><summary>' + escapeHtml(L.assembledComparisonToggle) + '</summary>' +
-      '<div class="final-prompt-block" style="opacity:.75;margin-top:6px;">' + escapeHtml(record.assembledPromptForComparison) + '</div></details>';
-  }
+  /* The former "Mechanical Assembly · Comparison Only" UI (which used
+     to read record.assembledPromptForComparison) has been removed from
+     the result page entirely (see renderTechInfoRow()). Block 5 here
+     still stores/carries that same field on the record — only its
+     separate UI display was removed, not the underlying data. */
   section(L.finalInstructionLabel, block5Html);
-
-  var integrity = record.integrity;
-  if (integrity){
-    var diagHtml = "";
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.evidenceIntegrityOk ? L.evidenceIntegrityOk : (L.evidenceIntegrityBad + " " + integrity.missingEvidenceIds.join(", "))) + '</div></div>';
-    if (integrity.selectionIntegrityOk === false){
-      var selProblems = [];
-      if (integrity.invalidSelectedIds && integrity.invalidSelectedIds.length) selProblems.push(L.selectionIntegrityInvalidIds + " " + integrity.invalidSelectedIds.join(", "));
-      if (integrity.duplicateSelectedIds && integrity.duplicateSelectedIds.length) selProblems.push(L.selectionIntegrityDuplicateIds + " " + integrity.duplicateSelectedIds.join(", "));
-      if (integrity.statusCountConsistent === false) selProblems.push(L.selectionIntegrityStatusMismatch);
-      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityBad + " " + selProblems.join("; ")) + '</div></div>';
-    } else if (integrity.selectionIntegrityOk === true){
-      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityOk) + '</div></div>';
-    }
-    if (integrity.pictorialProblemPresent !== undefined){
-      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialProblemPresent ? L.pictorialProblemPresentOk : L.pictorialProblemPresentBad) + '</div></div>';
-    }
-    if (integrity.pictorialAnswerPresent !== undefined){
-      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialAnswerPresent ? L.pictorialAnswerPresentOk : L.pictorialAnswerPresentBad) + '</div></div>';
-    }
-    if (integrity.artisticCompletenessOk !== undefined){
-      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.artisticCompletenessOk ? L.artisticCompletenessOk : L.artisticCompletenessBad) + '</div></div>';
-    }
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.recognitionIntegrity) + '</div></div>';
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.openEndedness) + '</div></div>';
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.sourceIndependence) + '</div></div>';
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.noHumanSelection) + '</div></div>';
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.creativeAutonomyGuaranteed) + '</div></div>';
-    section(L.integrity, diagHtml);
-  }
 
   /* STAGE 6 — Independent Re-Reading. Retired: nothing produces a new one
      anymore (no automatic call, no manual button). Only shown at all when
@@ -3276,6 +3372,84 @@ function renderSixStagePlan(container, record, plan, lang){
   }
 }
 
+/* Integrity Diagnostics — builds the SAME dynamic diagnostic HTML as
+   before (every check still computed fresh from record.integrity,
+   produced by verifyPlanIntegrity() in startTransformation(); nothing
+   here is hardcoded to a fixed "pass" state), returned as a plain
+   string for renderTechInfoRow() to place inside a native
+   <details>/<summary> block. Returns null when there is nothing to
+   show (e.g. legacy records that predate this diagnostic); the caller
+   shows an honest "Not available for this record" in that case rather
+   than inventing a result. Calculation logic itself is untouched by
+   this round's UI change. */
+function buildIntegrityDiagnosticsHtml(record){
+  var integrity = record && record.integrity;
+  if (!integrity) return null;
+  var L = SIX_STAGE_LABELS.en;
+  var diagHtml = "";
+  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.evidenceIntegrityOk ? L.evidenceIntegrityOk : (L.evidenceIntegrityBad + " " + integrity.missingEvidenceIds.join(", "))) + '</div></div>';
+  if (integrity.selectionIntegrityOk === false){
+    var selProblems = [];
+    if (integrity.invalidSelectedIds && integrity.invalidSelectedIds.length) selProblems.push(L.selectionIntegrityInvalidIds + " " + integrity.invalidSelectedIds.join(", "));
+    if (integrity.duplicateSelectedIds && integrity.duplicateSelectedIds.length) selProblems.push(L.selectionIntegrityDuplicateIds + " " + integrity.duplicateSelectedIds.join(", "));
+    if (integrity.statusCountConsistent === false) selProblems.push(L.selectionIntegrityStatusMismatch);
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityBad + " " + selProblems.join("; ")) + '</div></div>';
+  } else if (integrity.selectionIntegrityOk === true){
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityOk) + '</div></div>';
+  }
+  if (integrity.pictorialProblemPresent !== undefined){
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialProblemPresent ? L.pictorialProblemPresentOk : L.pictorialProblemPresentBad) + '</div></div>';
+  }
+  if (integrity.pictorialAnswerPresent !== undefined){
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialAnswerPresent ? L.pictorialAnswerPresentOk : L.pictorialAnswerPresentBad) + '</div></div>';
+  }
+  if (integrity.artisticCompletenessOk !== undefined){
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.artisticCompletenessOk ? L.artisticCompletenessOk : L.artisticCompletenessBad) + '</div></div>';
+  }
+  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.recognitionIntegrity) + '</div></div>';
+  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.openEndedness) + '</div></div>';
+  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.sourceIndependence) + '</div></div>';
+  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.noHumanSelection) + '</div></div>';
+  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.creativeAutonomyGuaranteed) + '</div></div>';
+  return diagHtml;
+}
+
+/* A single, independent, native <details>/<summary> block sitting
+   below Creative Process — Integrity Diagnostics. Deliberately NOT the
+   earlier shared-JS popover: that mechanism (hover/click delegation +
+   manual position:fixed math) repeatedly failed to show content in
+   real Chrome despite passing every simulated test, so a prior round
+   replaced it with plain native <details> — the browser handles
+   open/close/toggle entirely on its own, with no JS wiring at all,
+   eliminating that whole class of bug. The block is ALWAYS rendered
+   (never hidden/omitted) so it never looks like a dead/unresponsive
+   control; when a record has no usable content, the body honestly
+   says "Not available for this record" rather than inventing one.
+   It calls no generation function — only reads already-saved record
+   fields. buildIntegrityDiagnosticsHtml()'s calculation (and the
+   verifyPlanIntegrity() computation behind it) is completely
+   untouched by this change — only how its result is DISPLAYED moved
+   from a popover to a plain collapsed section.
+   (The former "Mechanical Assembly · Comparison Only" block was
+   removed from this function per explicit request — it duplicated
+   Creative Process's Final Generation Prompt and was never the
+   prompt actually sent to Gemini. record.assembledPromptForComparison
+   is still computed and stored exactly as before; only its UI display
+   here was removed.) */
+function renderTechInfoRow(container, record){
+  if (!container) return;
+  container.innerHTML = "";
+
+  var diagHtml = buildIntegrityDiagnosticsHtml(record);
+  var diagBody = diagHtml !== null ? diagHtml : '<div class="rmp-empty-note">Not available for this record.</div>';
+
+  container.innerHTML =
+    '<details class="tech-details">' +
+      '<summary>Integrity Diagnostics</summary>' +
+      '<div class="tech-details-body">' + diagBody + '</div>' +
+    '</details>';
+}
+
 function renderMisreadingPlan(container, record, lang){
   container.innerHTML = "";
   var plan = record && (record.visionPlan || record.misreadingPlan);
@@ -3295,6 +3469,420 @@ function renderMisreadingPlan(container, record, lang){
   } else {
     renderLegacyMisreadingPlan(container, record, plan, lang);
   }
+}
+
+/* ============================================================
+   7A2. CREATIVE PROCESS — CHINESE-FIRST HIGHLIGHTS
+   Shown at the top of the (collapsed-by-default) Creative Process
+   section, above the unchanged "English — Full Analysis" (the existing
+   renderMisreadingPlan()/renderSixStagePlan() output, untouched). Reads
+   the same three fields already used elsewhere (selectedAssociationGloss_tw,
+   pictorialProblem_tw, pictorialAnswer_tw) and concentrates them into one
+   normal-size, full-contrast, continuously readable block — this is
+   display-only; it never alters stage1-5 content, the schema, or the
+   fields themselves. Six-stage records only: legacy records already get
+   a full Chinese column via the untouched renderLegacyVisionPlan()/
+   renderLegacyMisreadingPlan() "tw" pass, so this block stays hidden for
+   them (nothing new to concentrate). Hidden entirely (no empty box) when
+   all three fields are missing. Never labeled as a complete translation. */
+function renderCreativeProcessZhHighlights(container, record, plan){
+  container.innerHTML = "";
+  if (!plan || plan.stage1 === undefined) return;
+
+  var s2 = plan.stage2 || {};
+  var s3 = plan.stage3 || {};
+  var s4 = plan.stage4 || {};
+  var divergences = s2.associativeDivergences || [];
+  var selectedIds = uniqueStrings(normalizeSelectedAssociationIds(s3));
+
+  /* Same honest fallback as used wherever selectedAssociationGloss_tw is
+     read elsewhere: prefer the dedicated field; for older records that
+     lack it, fall back to the single selected candidate's own legacy
+     association_tw (only when exactly one was selected — never merge
+     several legacy per-candidate translations into one sentence that
+     would falsely claim to cover all of them; show them as separate
+     lines instead). */
+  var glossTw = s3.selectedAssociationGloss_tw;
+  if (!glossTw && selectedIds.length === 1){
+    var onlySelCard = divergences.filter(function(a){ return a.id === selectedIds[0]; })[0];
+    glossTw = onlySelCard && onlySelCard.association_tw;
+  }
+  var multiLegacyGlossLines = [];
+  if (!glossTw && selectedIds.length > 1){
+    selectedIds.forEach(function(id){
+      var c = divergences.filter(function(a){ return a.id === id; })[0];
+      if (c && c.association_tw) multiLegacyGlossLines.push(c.association_tw);
+    });
+  }
+
+  var items = [];
+  if (glossTw) items.push({ label: "替代聯想", text: glossTw });
+  else if (multiLegacyGlossLines.length) items.push({ label: "替代聯想", text: multiLegacyGlossLines.join("； ") });
+  if (s3.pictorialProblem_tw) items.push({ label: "藝術命題", text: s3.pictorialProblem_tw });
+  if (s4.pictorialAnswer_tw) items.push({ label: "圖像解答", text: s4.pictorialAnswer_tw });
+
+  if (!items.length) return; // all three missing — hide the whole block, no empty box
+
+  /* Only name a field in the cross-reference sentence when it is actually
+     present THIS round — never imply Artwork Reading shows something
+     that isn't here. selectedAssociationGloss_tw has no counterpart in
+     Artwork Reading today, so it's never mentioned here. */
+  var crossRefFields = [];
+  if (s3.pictorialProblem_tw) crossRefFields.push("「藝術命題」");
+  if (s4.pictorialAnswer_tw) crossRefFields.push("「圖像解答」");
+  var crossRefSentence = crossRefFields.length
+    ? ("其中" + crossRefFields.join("與") + "在上方 Artwork Reading 的對應英文段落旁也會顯示一次簡短版本；")
+    : "";
+  var disclaimerText = "以下為既有中文欄位的集中呈現，並非完整翻譯——完整分析請見下方「English — Full Analysis」。" + crossRefSentence + "此處集中呈現，方便連續閱讀。";
+
+  var html = '<div class="cp-zh-disclaimer">' + escapeHtml(disclaimerText) + '</div>' +
+    items.map(function(it){
+      return '<div class="cp-zh-item"><div class="cp-zh-label">' + escapeHtml(it.label) + '</div><div class="cp-zh-text">' + escapeHtml(it.text) + '</div></div>';
+    }).join("");
+  container.insertAdjacentHTML("beforeend", html);
+}
+
+/* ============================================================
+   7B. ARTWORK READING — short, continuous, generated-AFTER-THE-FACT
+   navigation. Reads the SAME plan object renderSixStagePlan() reads;
+   picks out only the fields needed for a four-step reading; never
+   fabricates a reason the model did not record. English-primary, with
+   the model's own Chinese highlights inlined wherever the underlying
+   field has one (same convention as renderSixStagePlan()). Six-stage
+   records only — legacy records get an honest pointer to Creative
+   Process below rather than a best-effort reconstruction, since there
+   is no reliable way to pull a four-step reading out of the older
+   legacy shapes.
+   ============================================================ */
+function renderArtworkReading(container, record, plan){
+  container.innerHTML = "";
+  if (!plan){
+    container.innerHTML = '<div class="rmp-empty-note">' + escapeHtml(SIX_STAGE_LABELS.en.baseline) + '</div>';
+    return;
+  }
+  if (plan.stage1 === undefined){
+    container.innerHTML = '<div class="rmp-empty-note">This record was created before the current four-step Artwork Reading existed. See "Creative Process" below for its full legacy reading.</div>';
+    return;
+  }
+
+  var objects = record.objects || [];
+  var s1 = plan.stage1 || {};
+  var s2 = plan.stage2 || {};
+  var s3 = plan.stage3 || {};
+  var s4 = plan.stage4 || {};
+  var divergences = s2.associativeDivergences || [];
+  var selectedIds = uniqueStrings(normalizeSelectedAssociationIds(s3));
+
+  function fragLookup(id){
+    var o = findObjectById(objects, id);
+    if (o) return o.label_en || o.label || id;
+    var pools = [].concat(s1.initialRecognition || [], s1.visibleFragments || [], s1.visualEvidence || [], s1.alternativeRecognitions || []);
+    var hit = pools.filter(function(e){ return e.id === id || e.region_ref === id; })[0];
+    if (hit) return hit.label_en || hit.description_en || hit.reason_en || id;
+    return id || "?";
+  }
+  function section(title, html){
+    container.insertAdjacentHTML("beforeend", '<div class="analysis-section"><div class="analysis-section-title">' + escapeHtml(title) + '</div>' + html + '</div>');
+  }
+
+  /* 01 — WHAT CHANGED? Everything here is the model's own PRE-generation
+     plan (retained/transformed/introduced). There is no post-generation
+     verification step in this app (Stage 6 was removed) — so this is
+     always labeled "Planned transformation", never "confirmed". */
+  var retained = s4.retainedVisualCues_en || [];
+  var ops = (s4.transformedVisualCues || []).map(function(t){
+    return '<div class="ar-chain-step"><b>Transformed</b>' + escapeHtml(fragLookup(t.sourceFragmentId)) + ' → ' + escapeHtml(t.operation_en || "") + '</div>';
+  }).join("");
+  var introduced = (s4.introducedVisualElements || []).map(function(e){
+    return '<div class="ar-chain-step"><b>Introduced</b>' + escapeHtml(e.description_en || "") + (e.relationalJustification_en ? (" — " + escapeHtml(e.relationalJustification_en)) : "") + '</div>';
+  }).join("");
+  var retainedHtml = retained.length ? ('<div class="ar-chain-step"><b>Retained</b>' + escapeHtml(retained.join(", ")) + '</div>') : "";
+  var block01 = retainedHtml + ops + introduced;
+  block01 = block01
+    ? ('<div class="ar-planned-tag">Planned transformation — written before the image was generated, not verified against the actual output</div>' + block01)
+    : '<div class="rmp-empty-note">No retained/transformed/introduced elements were recorded for this generation.</div>';
+  section("01 · WHAT CHANGED?", block01);
+
+  /* 02 — WHAT DID AI SEE DIFFERENTLY? Chain: visible clue (stage1) ->
+     alternative recognition (the SELECTED stage2 association) ->
+     relational extension (that association's shared/tension/
+     potentialRelationalChange fields). Falls back to the plain
+     stage1.alternativeRecognitions list (never "selected", just
+     recorded) when nothing was selected this round. */
+  var block02;
+  if (selectedIds.length){
+    var selectedCards = selectedIds.map(function(id){ return divergences.filter(function(a){ return a.id === id; })[0]; }).filter(Boolean);
+    block02 = selectedCards.map(function(a){
+      var evidenceText = (a.sourceFragmentIds || []).map(fragLookup).filter(Boolean).join(", ");
+      var extension = [a.sharedVisualFeatures_en, a.tensionDifferences_en, a.potentialRelationalChange_en].filter(Boolean).join(" / ");
+      return '<div class="ar-chain">' +
+        (evidenceText ? ('<div class="ar-chain-step"><b>Visible clue</b>' + escapeHtml(evidenceText) + '</div>') : "") +
+        '<div class="ar-chain-step"><b>Alternative recognition</b>' + escapeHtml(a.association_en || "") + '</div>' +
+        (extension ? ('<div class="ar-chain-step"><b>Relational extension</b>' + escapeHtml(extension) + '</div>') : "") +
+      '</div>';
+    }).join("");
+  } else if ((s1.alternativeRecognitions || []).length){
+    block02 = '<div class="rmp-empty-note">No association had sufficient grounding to select this round — these alternative readings were recorded but not developed further.</div>' +
+      '<div class="vcue-tags">' + (s1.alternativeRecognitions || []).map(function(a){
+        return '<span class="vcue-tag">' + escapeHtml(a.label_en || "") + (a.reason_en ? (" — " + escapeHtml(a.reason_en)) : "") + '</span>';
+      }).join("") + '</div>';
+  } else {
+    block02 = '<div class="rmp-empty-note">No alternative recognition was recorded for this image.</div>';
+  }
+  section("02 · WHAT DID AI SEE DIFFERENTLY?", block02);
+
+  /* 03 — WHY THIS DIRECTION? All stage2 candidates, selected/not-selected
+     marked, plus the model's own selectionRationale. Never invents why a
+     non-selected candidate was passed over — same honest-absence
+     convention as Creative Process Block 2. */
+  var block03 = divergences.map(function(a){
+    var isSel = selectedIds.indexOf(a.id) !== -1;
+    return '<div class="tension-card' + (isSel ? ' tension-card-selected' : '') + '">' +
+      '<div class="mtag-object"><b>' + escapeHtml(isSel ? "selected" : "not selected") + '</b></div>' +
+      '<div class="tension-reading">' + escapeHtml(a.association_en || "") + '</div></div>';
+  }).join("");
+  if (!block03) block03 = '<div class="rmp-empty-note">No associative divergences were proposed this round.</div>';
+  if (s3.selectionRationale_en){
+    block03 += '<div class="mtag-object" style="margin-top:8px;">Why this was selected</div><div class="block-val">' + escapeHtml(s3.selectionRationale_en) + '</div>';
+  } else if (selectedIds.length){
+    block03 += '<div class="rmp-empty-note" style="margin-top:8px;">Selection rationale not recorded for this round.</div>';
+  }
+  section("03 · WHY THIS DIRECTION?", block03);
+
+  /* 04 — ARTISTIC QUESTION -> VISUAL ANSWER. Side-by-side pairing of the
+     two headline fields, English primary with the model's own Chinese
+     highlight (if present) inlined under each — same fields Creative
+     Process Block 3/4 show, paired directly here for a quick read. */
+  var block04;
+  if (s3.pictorialProblem_en || s4.pictorialAnswer_en){
+    block04 = '<div class="ar-qa-pair">' +
+      '<div class="ar-qa-col"><div class="mtag-object">Artistic question</div><div class="block-val">' + escapeHtml(s3.pictorialProblem_en || "") + '</div>' +
+        (s3.pictorialProblem_tw ? ('<div class="zh-highlight">' + escapeHtml(s3.pictorialProblem_tw) + '</div>') : "") + '</div>' +
+      '<div class="ar-qa-col"><div class="mtag-object">Visual answer (planned)</div><div class="block-val">' + escapeHtml(s4.pictorialAnswer_en || "") + '</div>' +
+        (s4.pictorialAnswer_tw ? ('<div class="zh-highlight">' + escapeHtml(s4.pictorialAnswer_tw) + '</div>') : "") + '</div>' +
+    '</div>';
+  } else {
+    block04 = '<div class="rmp-empty-note">Not recorded for this round.</div>';
+  }
+  section("04 · ARTISTIC QUESTION → VISUAL ANSWER", block04);
+}
+
+/* ============================================================
+   7C. RESEARCH OBSERVATIONS — juxtaposition panels for the research
+   question (how a visible form becomes something else across viewing
+   systems). This layer does NOT participate in generation and makes NO
+   verification claim about the generated image; it only arranges
+   already-saved fields side by side for the reader to judge.
+   provenanceTag/selectionRationale are shown explicitly labeled as the
+   model's own self-report, never as externally verified fact. No
+   keyword classification is performed anywhere in this function — see
+   section C below. Six-stage records only.
+   ============================================================ */
+function renderResearchObservations(container, record, plan, surrealImageDataUrl){
+  container.innerHTML = "";
+  if (!plan){
+    container.innerHTML = '<div class="rmp-empty-note">' + escapeHtml(SIX_STAGE_LABELS.en.baseline) + '</div>';
+    return;
+  }
+  if (plan.stage1 === undefined){
+    container.innerHTML = '<div class="rmp-empty-note">Research Observations are only built for records created with the current six-stage analysis. This record uses an older format.</div>';
+    return;
+  }
+
+  var s1 = plan.stage1 || {};
+  var s2 = plan.stage2 || {};
+  var s3 = plan.stage3 || {};
+  var s4 = plan.stage4 || {};
+  var divergences = s2.associativeDivergences || [];
+  var selectedIds = uniqueStrings(normalizeSelectedAssociationIds(s3));
+  var PROV_LABELS = SIX_STAGE_LABELS.en.provenance;
+
+  /* researchObservations_tw is a DISPLAY-ONLY translation layer (see
+     buildSystemInstruction()) — read here purely for rendering. It is
+     never passed to buildCompositionPrompt()/verifyPlanIntegrity()/the
+     image-generation call (those take `plan`/`record` too, but their
+     own code never destructures this key — see requestImagenOnce()
+     tests for an automated, not just commented, guarantee of this).
+     Old records and any record where Gemini's response for this field
+     was dropped (e.g. by the truncation-salvage path in
+     requestGeminiOnce()) simply have this as null/undefined. */
+  var zh = plan.researchObservations_tw || null;
+  /* BUG FIX: the previous version was `(zh && (...fields)) || s3.pictorialProblem_tw`
+     — due to operator precedence, that let hasAnyZh become true from the
+     OLDER, unrelated s3.pictorialProblem_tw field alone, even when zh
+     itself is null (true for any record created before
+     researchObservations_tw existed, or where it was dropped). That sent
+     execution into renderResearchObservationsZh() with zh === null,
+     which then threw "Cannot read properties of null (reading
+     'visualEvidenceSummary_tw')" — an uncaught exception inside
+     renderResults(), called before the surreal <img>.src assignment
+     further down that same function, so the generated-image display
+     never ran for any affected record. Fixed by requiring zh itself to
+     be present (and have at least one real field) before switching into
+     Chinese-primary mode at all — a record with only the older
+     pictorialProblem_tw field but no researchObservations_tw now
+     correctly falls through to the full-English branch instead,
+     matching "舊紀錄沒有繁體中文觀察資料時，應顯示原有英文內容". */
+  var hasAnyZh = !!(zh && (zh.visualEvidenceSummary_tw || zh.alternativeRecognitionSummary_tw || zh.candidateAssociationsSummary_tw || zh.selectionRationale_tw || zh.operationsSummary_tw || zh.unresolvedSummary_tw));
+
+  function section(title, html){
+    container.insertAdjacentHTML("beforeend", '<div class="analysis-section"><div class="analysis-section-title">' + escapeHtml(title) + '</div>' + html + '</div>');
+  }
+
+  if (hasAnyZh){
+    container.insertAdjacentHTML("beforeend", '<div class="ro-zh-disclaimer">以下為同一筆英文分析的忠實精簡翻譯，並非另一套獨立研究敘事；完整英文版本請見下方「Creative Process」。</div>');
+    renderResearchObservationsZh(section, s1, s2, s3, s4, divergences, selectedIds, zh, surrealImageDataUrl);
+  } else {
+    container.insertAdjacentHTML("beforeend", '<div class="ro-legacy-note">此紀錄建立於中文研究觀察功能推出之前，以下保留原始英文分析。</div>');
+    renderResearchObservationsEn(section, s1, s2, s3, s4, divergences, selectedIds, PROV_LABELS, surrealImageDataUrl);
+  }
+}
+
+/* English A-D — the ORIGINAL, unchanged rendering (same fields, same
+   wording, same honest-absence fallbacks as before). Used whenever a
+   record has no usable researchObservations_tw — both legacy records
+   that predate the Chinese translation layer, and, in principle, any
+   future record where that field was absent for another legitimate
+   reason. Never auto-translated on the fly; never re-calls Gemini. */
+function renderResearchObservationsEn(section, s1, s2, s3, s4, divergences, selectedIds, PROV_LABELS, surrealImageDataUrl){
+  /* A. Visual Evidence <-> Alternative Recognition */
+  var evidenceTags = [].concat(
+    (s1.visibleFragments || []).map(function(f){ return f.description_en; }),
+    (s1.visualEvidence || []).map(function(v){ return v.description_en; })
+  ).filter(Boolean).map(function(t){ return '<span class="vcue-tag">' + escapeHtml(t) + '</span>'; }).join("");
+  var altTags = (s1.alternativeRecognitions || []).map(function(a){
+    return '<span class="vcue-tag">' + escapeHtml(a.label_en || "") + (a.reason_en ? (" — " + escapeHtml(a.reason_en)) : "") + '</span>';
+  }).join("");
+  section("A · Visual Evidence ↔ Alternative Recognition",
+    '<div class="ro-pair">' +
+      '<div class="ro-col"><div class="ro-col-title">Visible evidence (stage 1)</div>' + (evidenceTags ? ('<div class="vcue-tags">' + evidenceTags + '</div>') : '<div class="rmp-empty-note">No visible-evidence entries recorded.</div>') + '</div>' +
+      '<div class="ro-col"><div class="ro-col-title">Alternative recognition (stage 1)</div>' + (altTags ? ('<div class="vcue-tags">' + altTags + '</div>') : '<div class="rmp-empty-note">No alternative recognition recorded.</div>') + '</div>' +
+    '</div>'
+  );
+
+  /* B. Divergent Possibilities <-> Selection */
+  var candidateCards = divergences.map(function(a){
+    var isSel = selectedIds.indexOf(a.id) !== -1;
+    var provLabel = (PROV_LABELS && PROV_LABELS[a.provenanceTag]) || a.provenanceTag || "";
+    return '<div class="tension-card' + (isSel ? ' tension-card-selected' : '') + '">' +
+      '<div class="mtag-object">' + escapeHtml(provLabel) + ' (self-reported) · <b>' + escapeHtml(isSel ? "selected" : "not selected") + '</b></div>' +
+      '<div class="tension-reading">' + escapeHtml(a.association_en || "") + '</div></div>';
+  }).join("");
+  var rationale = s3.selectionRationale_en;
+  section("B · Divergent Possibilities ↔ Selection",
+    '<div class="ro-pair">' +
+      '<div class="ro-col"><div class="ro-col-title">All candidates</div>' + (candidateCards || '<div class="rmp-empty-note">No associative divergences were proposed.</div>') + '</div>' +
+      '<div class="ro-col"><div class="ro-col-title">Selection rationale (self-reported)</div>' + (rationale ? ('<div class="block-val">' + escapeHtml(rationale) + '</div>') : '<div class="rmp-empty-note">Not recorded for this round.</div>') +
+        '<div class="ro-self-report-note">provenanceTag and this rationale are the model’s own account, not an externally verified record.</div></div>' +
+    '</div>'
+  );
+
+  /* C. Artistic Question <-> Relational Transformation — raw pairing
+     only. No keyword classification into identity/material/function/
+     action/space/time: that judgment is left entirely to the reader. */
+  var operationsHtml = [].concat(
+    (s4.transformedVisualCues || []).map(function(t){ return t.operation_en; }),
+    (s4.introducedVisualElements || []).map(function(e){ return e.description_en; })
+  ).filter(Boolean).map(function(t){ return '<div class="block-val" style="margin-bottom:6px;">' + escapeHtml(t) + '</div>'; }).join("");
+  section("C · Artistic Question ↔ Relational Transformation",
+    '<div class="ro-pair">' +
+      '<div class="ro-col"><div class="ro-col-title">Artistic question (stage 3)</div>' + (s3.pictorialProblem_en ? ('<div class="block-val">' + escapeHtml(s3.pictorialProblem_en) + '</div>') : '<div class="rmp-empty-note">Not recorded.</div>') + '</div>' +
+      '<div class="ro-col"><div class="ro-col-title">Operations (stage 4, model’s own text)</div>' + (operationsHtml || '<div class="rmp-empty-note">No transformed/introduced elements recorded.</div>') + '</div>' +
+    '</div>' +
+    '<div class="ro-neutral-question">Judge for yourself: does this change identity, material/form, function, action, spatial organization, or scale/time relationships — or some combination? The data above does not pre-classify this.</div>'
+  );
+
+  /* D. Planned Transformation <-> Generated Image — no automated
+     verification is claimed; the reader compares. */
+  var plannedHtml = [].concat(
+    (s4.retainedVisualCues_en || []).map(function(c){ return "Retained: " + c; }),
+    (s4.transformedVisualCues || []).map(function(t){ return "Transformed: " + (t.operation_en || ""); }),
+    (s4.introducedVisualElements || []).map(function(e){ return "Introduced: " + (e.description_en || ""); })
+  ).filter(Boolean).map(function(t){ return '<div class="block-val" style="margin-bottom:6px;">' + escapeHtml(t) + '</div>'; }).join("");
+  var imgHtml = surrealImageDataUrl ? ('<img class="ro-thumb" src="' + surrealImageDataUrl + '" alt="Generated artwork, for comparison">') : '<div class="rmp-empty-note">No generated image available for this record.</div>';
+  section("D · Planned Transformation ↔ Generated Image",
+    '<div class="ro-pair">' +
+      '<div class="ro-col"><div class="ro-col-title">Planned (pre-generation)</div>' + (plannedHtml || '<div class="rmp-empty-note">No planned operations recorded.</div>') + '</div>' +
+      '<div class="ro-col"><div class="ro-col-title">Generated image</div>' + imgHtml + '</div>' +
+    '</div>' +
+    '<div class="ro-neutral-question">Which of the planned relationships can you actually find in the image above? Which remain unclear or unresolved? This app does not automatically verify the match — the judgment is yours.</div>'
+  );
+}
+
+/* Traditional-Chinese-PRIMARY A-D. Used whenever researchObservations_tw
+   has usable content. The Chinese summaries ARE the main readable
+   content here (normal body size/contrast, not a small annotation) —
+   full English prose is intentionally NOT duplicated alongside it
+   (that stays available, unabridged, in Creative Process). What IS
+   kept here is purely STRUCTURAL, non-prose information the Chinese
+   collective summaries don't carry 1:1: selected/not-selected counts,
+   the self-report disclaimer, and the generated-image thumbnail — none
+   of that is "original English research narrative" being replaced, so
+   keeping it does not reintroduce duplication. Every sub-field is
+   guarded individually: if one specific summary is missing even though
+   others exist, that one spot honestly says "未記錄", never invented. */
+function renderResearchObservationsZh(section, s1, s2, s3, s4, divergences, selectedIds, zh, surrealImageDataUrl){
+  /* Defense in depth: the caller already guards against zh being
+     null/undefined before invoking this function, but normalize here
+     too so this function can never throw on `zh.xxx` regardless of how
+     it is called in the future — every zh.xxx access below then simply
+     reads undefined (handled by zhCol()'s existing "未記錄" fallback)
+     instead of throwing. */
+  zh = zh || {};
+  function zhCol(title, text){
+    return '<div class="ro-col"><div class="ro-col-title">' + escapeHtml(title) + '</div>' +
+      (text ? ('<div class="ro-zh-text">' + escapeHtml(text) + '</div>') : '<div class="rmp-empty-note">未記錄。</div>') + '</div>';
+  }
+
+  /* A. 可見證據 <-> 替代辨識 */
+  section("A · 可見證據 ↔ 替代辨識（Visual Evidence ↔ Alternative Recognition）",
+    '<div class="ro-pair">' +
+      zhCol("可見證據（Stage 1）", zh.visualEvidenceSummary_tw) +
+      zhCol("替代辨識（Stage 1）", zh.alternativeRecognitionSummary_tw) +
+    '</div>'
+  );
+
+  /* B. 聯想分歧 <-> 選擇 — structural selected/not-selected count kept
+     (objectively computed, not a translation of prose) since the
+     collective Chinese summary doesn't carry per-candidate selection
+     state. */
+  var selectedCount = selectedIds.length;
+  var totalCount = divergences.length;
+  var countNote = totalCount > 0 ? ('共 ' + totalCount + ' 項候選，已選 ' + selectedCount + ' 項。') : '';
+  var colA = '<div class="ro-col"><div class="ro-col-title">候選聯想摘要</div>' +
+    (countNote ? ('<div class="ro-self-report-note" style="margin:0 0 6px;">' + escapeHtml(countNote) + '</div>') : '') +
+    (zh.candidateAssociationsSummary_tw ? ('<div class="ro-zh-text">' + escapeHtml(zh.candidateAssociationsSummary_tw) + '</div>') : '<div class="rmp-empty-note">未記錄。</div>') +
+  '</div>';
+  section("B · 聯想分歧 ↔ 選擇（Divergent Possibilities ↔ Selection）",
+    '<div class="ro-pair">' +
+      colA +
+      zhCol("選擇理由（模型自述）", zh.selectionRationale_tw) +
+    '</div>' +
+    '<div class="ro-self-report-note">provenanceTag 與此理由皆為模型自述，非外部驗證紀錄。</div>'
+  );
+
+  /* C. 藝術命題 <-> 關係轉譯 — no keyword classification into identity/
+     material/function/action/space/time: left to the reader, same as
+     the English version. */
+  section("C · 藝術命題 ↔ 關係轉譯（Artistic Question ↔ Relational Transformation）",
+    '<div class="ro-pair">' +
+      zhCol("藝術命題", s3.pictorialProblem_tw) +
+      zhCol("操作內容摘要", [zh.operationsSummary_tw, zh.unresolvedSummary_tw].filter(Boolean).join(" ")) +
+    '</div>' +
+    '<div class="ro-neutral-question">請自行判斷：這改變的是身分、材質／形體、用途、行動、空間組織，還是尺度／時間關係——或是多者的組合？以上內容不預先分類。</div>'
+  );
+
+  /* D. 計畫轉化 <-> 生成圖像 — reuses operationsSummary_tw (same as C's
+     right column already reuses the English retained/transformed/
+     introduced fields), generated-image thumbnail unchanged. */
+  var imgHtml = surrealImageDataUrl ? ('<img class="ro-thumb" src="' + surrealImageDataUrl + '" alt="Generated artwork, for comparison">') : '<div class="rmp-empty-note">未記錄此筆生成圖像。</div>';
+  section("D · 計畫轉化 ↔ 生成圖像（Planned Transformation ↔ Generated Image）",
+    '<div class="ro-pair">' +
+      zhCol("計畫轉化摘要（生成前）", zh.operationsSummary_tw) +
+      '<div class="ro-col"><div class="ro-col-title">Generated image</div>' + imgHtml + '</div>' +
+    '</div>' +
+    '<div class="ro-neutral-question">上方計畫中的哪些關係，實際能在圖像中找到？哪些仍不明確？本系統不會自動驗證兩者是否一致，請自行判斷。</div>'
+  );
 }
 
 function pickDistinctColor(usedList){
@@ -3372,32 +3960,24 @@ function renderResults(originalImgEl, analysis, surrealImageDataUrl, imagenError
     keyword: extractKeyword(analysis.objects)
   };
 
-  formatBilingualBlock(document.getElementById("initial-en"), analysis.original_analysis_en);
-  formatBilingualBlock(document.getElementById("initial-tw"), analysis.original_analysis_tw);
+  /* "Recognized Elements" / "Conventional Expectations" (original_analysis_en/
+     _tw) are intentionally no longer displayed anywhere on the result page —
+     this was redundant with the richer Stage 1 data already surfaced in
+     Research Observations. The underlying data is untouched: it is still
+     parsed, still saved to IndexedDB on new records, and old records keep
+     it too; only the UI call that used to render it into #initial-en/
+     #initial-tw was removed (those elements no longer exist in the HTML). */
 
-  /* Legacy Mode A records have a real surreal_analysis_{en,tw}; the
-     unified flow and legacy B/C don't (that content lives in the vision
-     plan instead) — fall back to a view built from alternative
-     recognitions / the selected divergent reading so the "Surrealist
-     Photographic Artwork" reading panel is never left blank. */
   var visionOrLegacyPlan = analysis.visionPlan || analysis.misreadingPlan;
-  var surrealEnData = analysis.surreal_analysis_en || rmpAsSurrealAnalysisView(visionOrLegacyPlan, "en");
-  var surrealTwData = analysis.surreal_analysis_tw || rmpAsSurrealAnalysisView(visionOrLegacyPlan, "tw");
-  var usingPlanFallback = !analysis.surreal_analysis_en;
-  renderSurrealAnalysis(document.getElementById("surreal-en"), surrealEnData, usingPlanFallback
-    ? { visible:"Alternative Recognitions", cultural:"Cultural Inferences", divergent:"Divergent Reading" }
-    : { visible:"Visible Cues", cultural:"Cultural Inferences", divergent:"Divergent Readings" });
-  renderSurrealAnalysis(document.getElementById("surreal-tw"), surrealTwData, usingPlanFallback
-    ? { visible:"替代辨識", cultural:"文化推論", divergent:"歧異閱讀" }
-    : { visible:"可見線索", cultural:"文化推論", divergent:"歧義閱讀" });
+  renderResearchObservations(document.getElementById("research-observations"), analysis, visionOrLegacyPlan, surrealImageDataUrl);
 
   renderMisreadingPlan(document.getElementById("process-en"), analysis, "en");
   renderMisreadingPlan(document.getElementById("process-tw"), analysis, "tw");
+  renderTechInfoRow(document.getElementById("tech-info-row"), analysis);
 
   var frame = document.getElementById("surreal-img-frame");
   var surrealImg = document.getElementById("surreal-img");
   var surrealFullImg = document.getElementById("surreal-full-img");
-  var surrealPanelMedia = surrealFullImg ? surrealFullImg.closest(".exhibit-panel-media") : null;
 
   if (surrealImageDataUrl){
     frame.classList.remove("loading-media");
@@ -3409,10 +3989,8 @@ function renderResults(originalImgEl, analysis, surrealImageDataUrl, imagenError
     frame.appendChild(surrealImg);
     frame.appendChild(createThumbDownloadBtn("thumb-download-surreal-btn", "Download artwork"));
     if (surrealFullImg) surrealFullImg.src = surrealImageDataUrl;
-    if (surrealPanelMedia) surrealPanelMedia.style.display = "";
   } else {
     if (surrealFullImg) surrealFullImg.src = "";
-    if (surrealPanelMedia) surrealPanelMedia.style.display = "none";
     var reason = (imagenError && imagenError.message) ? imagenError.message : "Image generation could not produce an image with the current API key.";
     frame.classList.add("loading-media");
     frame.innerHTML =
@@ -3720,87 +4298,35 @@ viewGalleryBtn.addEventListener("click", function(){
 refreshGalleryFromDB();
 
 /* ============================================================
-   10. EXHIBITION PANEL INTERACTIONS
-   The overlay panel is now a large fixed element, not confined to the
-   small thumbnail's box, so plain CSS :hover (which drops the instant
-   the cursor leaves the thumbnail on its way to the panel) isn't
-   reliable. Visibility is driven by JS instead: mouseenter opens
-   immediately; mouseleave schedules a short-delay close that is
-   cancelled if the cursor re-enters the thumbnail OR the panel itself,
-   giving the cursor room to travel between them. Click/tap covers
-   touch devices, which never fire hover events at all.
-   ============================================================ */
+   10. RESULT PAGE INTERACTIONS
+   The result page is a single natural scroll (images -> Research
+   Observations -> Creative Process -> Integrity Diagnostics),
+   using a plain native <details>/<summary> section — no modal/
+   popover/side-panel anywhere, and no custom JS
+   needed to open/close any of them (the browser handles that). Other
+   interactive bits: (a) the small always-visible download button on each
+   thumbnail, bound via delegation on the piece itself because the
+   surreal-image button is recreated by renderResults() every time a
+   new image loads; (b) the "Analysis" shortcut, which only scrolls to
+   and expands the existing in-page <details> section. */
 document.querySelectorAll(".exhibit-piece").forEach(function(piece){
-  var frame = piece.querySelector(".exhibit-frame");
-  var toggleBtn = piece.querySelector(".exhibit-toggle");
-  var panel = piece.querySelector(".exhibit-panel");
-  var closeBtn = piece.querySelector(".exhibit-panel-close");
-  var closeTimer = null;
-  var CLOSE_DELAY = 150;
-
-  function open(){
-    if (closeTimer){ clearTimeout(closeTimer); closeTimer = null; }
-    piece.classList.add("open");
-  }
-  function scheduleClose(){
-    if (closeTimer) clearTimeout(closeTimer);
-    closeTimer = setTimeout(function(){ piece.classList.remove("open"); closeTimer = null; }, CLOSE_DELAY);
-  }
-  function closeNow(){
-    if (closeTimer){ clearTimeout(closeTimer); closeTimer = null; }
-    piece.classList.remove("open");
-  }
-
-  if (frame){
-    frame.addEventListener("mouseenter", open);
-    frame.addEventListener("mouseleave", scheduleClose);
-    frame.addEventListener("click", function(e){
-      var dlBtn = e.target.closest(".exhibit-thumb-download");
-      if (dlBtn){
-        e.stopPropagation();
-        if (piece.id === "piece-original") downloadOriginalImage();
-        else downloadSurrealImage();
-        return;
-      }
-      open();
-    });
-  }
-  /* Content cards (the full image, the text-reading column) are marked
-     with .exhibit-content-card. A click/right-click stays open whenever
-     e.target.closest('.exhibit-content-card') finds one of those cards;
-     it closes precisely when the click lands on the backdrop itself
-     (e.target === panel) or anywhere else outside a card — covering the
-     whole translucent background, not just a thin edge strip. Buttons
-     (close/download/toggle) are excluded from the card check but never
-     reach here anyway, since each already calls stopPropagation(). */
-  function isInsideContentCard(target){
-    return !!(target.closest && target.closest(".exhibit-content-card"));
-  }
-  function isBackdropClick(e){
-    return e.target === panel || !isInsideContentCard(e.target);
-  }
-  if (panel){
-    panel.addEventListener("mouseenter", open);
-    panel.addEventListener("mouseleave", scheduleClose);
-    panel.addEventListener("click", function(e){
-      if (isBackdropClick(e)) closeNow();
-    });
-    panel.addEventListener("contextmenu", function(e){
-      if (isBackdropClick(e)){
-        e.preventDefault();
-        closeNow();
-      }
-    });
-  }
-  if (toggleBtn) toggleBtn.addEventListener("click", function(e){ e.stopPropagation(); open(); });
-  if (closeBtn) closeBtn.addEventListener("click", function(e){ e.stopPropagation(); closeNow(); });
+  piece.addEventListener("click", function(e){
+    var dlBtn = e.target.closest(".exhibit-thumb-download");
+    if (!dlBtn) return;
+    e.stopPropagation();
+    if (piece.id === "piece-original") downloadOriginalImage();
+    else downloadSurrealImage();
+  });
 });
 
-/* Smart-filename downloads for the two full-resolution panel images. */
-var downloadOriginalBtn = document.getElementById("download-original-btn");
-var downloadSurrealBtn = document.getElementById("download-surreal-btn");
-if (downloadOriginalBtn) downloadOriginalBtn.addEventListener("click", function(e){ e.stopPropagation(); downloadOriginalImage(); });
-if (downloadSurrealBtn) downloadSurrealBtn.addEventListener("click", function(e){ e.stopPropagation(); downloadSurrealImage(); });
+var analysisShortcutBtn = document.getElementById("analysis-shortcut-btn");
+var creativeProcessSection = document.getElementById("creative-process-section");
+if (analysisShortcutBtn && creativeProcessSection){
+  analysisShortcutBtn.addEventListener("click", function(){
+    creativeProcessSection.open = true;
+    creativeProcessSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
 
 })();
 </script>
