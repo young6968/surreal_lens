@@ -265,6 +265,25 @@ body.state-result #new-transform-btn{ display:inline-flex; }
 }
 .hero-hint span{ display:flex; align-items:center; gap:6px; }
 
+/* ---------- mode-chip: display-only legacy metadata badge for history
+   records created before Mode A/B/C was removed. Nothing in the current
+   generation flow writes a .mode field anymore; this CSS/markup only
+   renders for OLD records so existing history stays legible. ---------- */
+.mode-chip{
+  display:inline-block;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:0.04em;
+  border-radius:999px;
+  padding:2px 8px;
+  color:#fff;
+  vertical-align:middle;
+}
+.mode-chip.mode-A{ background:#9a9aa8; }
+.mode-chip.mode-B{ background:#7367ff; }
+.mode-chip.mode-C{ background:#d6364a; }
+.mode-chip.mode-legacy{ background:#c7c7cf; }
+
 #view-gallery-btn{
   margin-top:18px;
   font-size:12.5px;
@@ -550,6 +569,12 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   padding:64px 56px 48px;
   box-sizing:border-box;
 }
+.exhibit-panel-text.process-panel-text{
+  flex:1 1 100%;
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+}
 
 .exhibit-panel-close{
   position:fixed;
@@ -697,6 +722,49 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   color:var(--ink-faint);
   font-size:13px;
 }
+
+/* ---------- Stage 2-4: Poetic Misinterpretation process — a floating
+   hover button pinned to the viewport corner, kept out of the two-column
+   gallery layout so the original/surreal comparison stays the clean
+   centerpiece. Hovering/clicking it opens the same fullscreen glass
+   .exhibit-panel used by the two main pieces (generic logic in section 10
+   of the script already handles any .exhibit-piece, wherever it lives in
+   the DOM). ---------- */
+.floating-piece{
+  position:fixed;
+  right:28px;
+  bottom:28px;
+  z-index:50;
+}
+.process-float-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:11px 20px 11px 16px;
+  box-shadow:0 10px 30px rgba(20,20,30,0.14);
+  cursor:pointer;
+  transition:box-shadow .2s ease, transform .2s ease;
+}
+.process-float-btn:hover{
+  box-shadow:0 14px 36px rgba(115,103,255,0.28);
+  transform:translateY(-2px);
+}
+.process-float-icon{ font-size:17px; line-height:1; color:#7367ff; }
+.process-float-label{
+  font-size:12px;
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:0.01em;
+  white-space:nowrap;
+}
+@media (max-width:620px){
+  .floating-piece{ right:16px; bottom:16px; }
+  .process-float-btn{ padding:13px; border-radius:50%; }
+  .process-float-label{ display:none; }
+}
 .imagen-fallback{
   padding:28px 24px;
   text-align:center;
@@ -811,6 +879,108 @@ body.state-result #new-transform-btn{ display:inline-flex; }
 }
 .dread-title{ font-size:12.5px; font-weight:700; color:var(--ink); margin-bottom:4px; line-height:1.4; }
 .dread-note{ font-size:11.5px; color:var(--ink-soft); line-height:1.5; }
+
+/* ---------- Relational Misreading Plan (Modes B/C) ---------- */
+.rmp-empty-note{
+  font-size:11.5px;
+  color:var(--ink-faint);
+  font-style:italic;
+  padding:8px 0;
+}
+.hyp-badge{
+  display:inline-block;
+  font-size:9.5px;
+  font-weight:700;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  color:#9a6b00;
+  background:#fff3d6;
+  border:1px solid #f0d28a;
+  border-radius:999px;
+  padding:1px 7px;
+  margin-left:6px;
+  vertical-align:middle;
+}
+.diff-row, .displaced-row{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px 10px;
+  margin-bottom:8px;
+}
+.diff-row:last-child, .displaced-row:last-child{ margin-bottom:0; }
+.diff-top, .displaced-top{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:6px;
+  font-size:12px;
+}
+.diff-object, .displaced-object, .mtag-object{ font-weight:700; font-size:12px; color:var(--ink); margin-bottom:4px; }
+.diff-arrow{ color:#7367ff; font-size:10.5px; }
+.diff-alt{ font-weight:600; color:#7367ff; }
+.diff-basis, .displaced-change{ font-size:11.5px; color:var(--ink-soft); line-height:1.5; margin-top:4px; }
+.force-badge{
+  display:inline-block;
+  font-size:9.5px;
+  font-weight:700;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  color:#b5213a;
+  background:#fff0f2;
+  border:1px solid #ffc9d1;
+  border-radius:999px;
+  padding:1px 7px;
+  margin-left:6px;
+  vertical-align:middle;
+}
+.tension-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 12px;
+  margin-bottom:8px;
+}
+.tension-card:last-child{ margin-bottom:0; }
+.tension-card-selected{ border-color:#7367ff; box-shadow:0 0 0 1px #7367ff inset; }
+.tension-reading{ font-size:11.5px; line-height:1.5; color:var(--ink); margin-bottom:4px; }
+.tension-reading:last-child{ margin-bottom:0; }
+.tension-reading b{ color:#7367ff; font-weight:700; }
+.rmp-disclaimer{ font-size:10.5px; line-height:1.5; color:var(--ink-soft); opacity:.8; padding:0 2px 8px; }
+.instructions-block{
+  font-size:11.5px;
+  line-height:1.6;
+  color:var(--ink-soft);
+  background:var(--paper-soft);
+  border-radius:8px;
+  padding:10px 12px;
+  white-space:pre-wrap;
+}
+.unused-warning{
+  font-size:11px;
+  line-height:1.6;
+  color:#9a3412;
+  background:#fff4ed;
+  border:1px solid #fed7aa;
+  border-radius:8px;
+  padding:9px 11px;
+  margin-bottom:8px;
+}
+.unused-warning:last-child{ margin-bottom:0; }
+.final-prompt-block{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:10.5px;
+  line-height:1.6;
+  color:var(--ink-soft);
+  background:#15151a;
+  color:#d7d7e0;
+  border-radius:8px;
+  padding:12px 14px;
+  white-space:pre-wrap;
+  word-break:break-word;
+  max-height:260px;
+  overflow-y:auto;
+}
 
 .legend{
   margin-top:14px;
@@ -1079,6 +1249,25 @@ body.state-result #new-transform-btn{ display:inline-flex; }
         </div>
 
       </div>
+
+      <div class="exhibit-piece floating-piece" id="piece-process">
+        <div class="exhibit-frame process-float-btn">
+          <span class="process-float-icon">◈</span>
+          <span class="process-float-label">AI Misreading &amp; Reconstruction</span>
+        </div>
+
+        <div class="exhibit-panel">
+          <div class="exhibit-panel-glass">
+            <button class="exhibit-panel-close" type="button" aria-label="Close">×</button>
+            <div class="exhibit-panel-text exhibit-content-card process-panel-text">
+              <div class="bilingual-stack">
+                <div class="lang-col" data-lang="en"><div id="process-en"></div></div>
+                <div class="lang-col" data-lang="tw"><div id="process-tw"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <aside id="gallery-sidebar" class="hidden">
@@ -1099,36 +1288,34 @@ body.state-result #new-transform-btn{ display:inline-flex; }
    progressively more capable (and more expensive) models only as fallback
    if the lite tier is unavailable under a given API key. */
 var GEMINI_MODELS = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-2.5-flash"];
-var IMAGEN_MODELS = ["gemini-3.1-flash-lite-image", "gemini-3.1-flash-image", "gemini-2.5-flash-image"];
+/* TEMPORARILY pinned to a single image model, fallback disabled on
+   request: do not retry a failed image generation on a different
+   (more expensive) model — surface the error instead. To restore
+   fallback later, add the other models back to this array; no other
+   code change is needed since callImagenWithFallback() already walks
+   whatever list is here. */
+var IMAGEN_MODELS = ["gemini-3.1-flash-lite-image"];
 var STORAGE_KEY = "GOOGLE_API_KEY";
-var RECENT_LOG_STORAGE_KEY = "SURREAL_RECENT_LOG";
-var RECENT_LOG_MAX = 3;
 
-/* Prepended to every image-generation call, in code, so it is always
-   present regardless of what Gemini's own surreal_image_prompt text
-   happens to include. */
-var MANDATORY_IMAGE_PROMPT_PREFIX = "A surrealist high-art monochrome photograph, drastic scale displacement, absurd rationality, quiet melancholic atmosphere, fine art grain. ";
-
-function loadRecentGenerationLog(){
-  try{
-    var raw = localStorage.getItem(RECENT_LOG_STORAGE_KEY);
-    var parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed : [];
-  }catch(e){
-    return [];
-  }
-}
-function saveRecentGenerationLog(log){
-  try{ localStorage.setItem(RECENT_LOG_STORAGE_KEY, JSON.stringify(log)); }catch(e){}
-}
-function recordGenerationForAntiRepeat(analysis){
-  var subject = (analysis.objects && analysis.objects[0] && analysis.objects[0].label) || "unknown subject";
-  var snippet = (analysis.surreal_image_prompt || "").slice(0, 140);
-  var log = loadRecentGenerationLog();
-  log.push({ subject: subject, snippet: snippet });
-  while (log.length > RECENT_LOG_MAX) log.shift();
-  saveRecentGenerationLog(log);
-}
+/* HISTORY, kept as a guardrail against reintroducing this mistake: earlier
+   revisions kept rewriting a MANDATORY, unconditionally-appended prompt
+   fragment to chase a style — first a positive prefix ("monochrome" ->
+   "documentary realism" -> "stay recognizable" -> "a full-color
+   photograph" -> ...), then, after the positive prefix was removed, a
+   NEGATIVE one (banning black-and-white/monochrome/sepia/low-saturation/
+   dark-lighting/glow/flowers/CGI). Both were the same underlying bug: a
+   hardcoded fragment, applied to every single generation regardless of
+   what STAGE 1-5 actually decided, which is exactly what the "AI creative
+   autonomy" principle forbids. That negative list has now been removed
+   too — there is NO unconditional prompt fragment of any kind anymore.
+   Medium, color, and visual effects are entirely the model's own call
+   (see buildSystemInstruction()'s Section VII / STAGE 5 (XV) wording for
+   the *textual* guidance against reflexive, un-thought-through surrealist
+   cliché — that is advisory prose the model weighs, not a hardcoded ban
+   enforced in code). Do NOT add a new MANDATORY_* constant
+   here, positive or negative, to "fix" a style problem — fix the prose
+   guidance in buildSystemInstruction() instead, so it stays an autonomous
+   decision. */
 
 var BOX_COLORS = ["#FF3B30","#FF9500","#FFD60A","#34C759","#0A84FF","#FFFFFF","#111113","#AF52DE"];
 
@@ -1281,6 +1468,7 @@ var previewImg = document.getElementById("preview-img");
 var removeImageBtn = document.getElementById("remove-image-btn");
 var promptInput = document.getElementById("prompt-input");
 var heroForm = document.getElementById("hero-form");
+var submitBtn = document.getElementById("submit-btn");
 var heroError = document.getElementById("hero-error");
 var inputBar = document.getElementById("input-bar");
 var newTransformBtn = document.getElementById("new-transform-btn");
@@ -1436,59 +1624,162 @@ function setActiveStep(n){
 /* ============================================================
    6. GEMINI + IMAGEN API CALLS
    ============================================================ */
-function buildSystemPrompt(userGuidance){
-  var guidanceLine = userGuidance
-    ? ("\n\nADDITIONAL USER GUIDANCE: \"" + userGuidance.replace(/"/g,"'") + "\"")
-    : "";
-
-  /* Each API call is stateless — Gemini has no memory of what it generated
-     last time. "Never repeat" is unenforceable without actually telling it
-     what was already produced, so the last few generations from this
-     browser are fed back as concrete, forbidden examples. */
-  var recentLog = loadRecentGenerationLog();
-  var recentLogLine = "";
-  if (recentLog.length){
-    recentLogLine = "\n\nRECENTLY GENERATED IN THIS SESSION — DO NOT REPEAT:\n" +
-      recentLog.map(function(entry, i){
-        return (i+1) + ") " + entry.subject + " — \"" + entry.snippet + "...\"";
-      }).join("\n");
-  }
-
-  /* This function intentionally contains NO fixed-scenario creative
-     ruleset — the directive below is open-ended dynamic relational logic,
-     not a scripted scenario, so every generation is free to be genuinely
-     different. Only a minimal technical schema is appended at the end
-     (required so the rest of the app can draw bounding boxes, render the
-     bilingual cards, and know what text to send to the image model) — it
-     carries no creative opinion of its own. */
+/* FIVE-STAGE AUTONOMOUS PERCEPTION & ASSOCIATION PIPELINE. STAGE 1-5 all
+   happen inside this one Gemini call (cheaper, and keeps the whole chain
+   atomic/traceable in one JSON object). The whole flow is exactly TWO
+   model requests per generation: this Gemini analysis call, then one
+   image-generation call (see callImagenWithFallback). There used to be a
+   third, optional STAGE 6 (Independent Re-reading) call made right after
+   generation — that automatic call, its manual retry button, and the
+   functions that built it (buildReinspectionPrompt/
+   requestReinspectionOnce/requestReinspectionWithFallback/
+   runReinspection) have been removed entirely; only OLD history records
+   that already saved a `reinspection` field still display it (read-only —
+   nothing can produce a new one anymore). See renderSixStagePlan()'s
+   "STAGE 6" render block for the read-only display path.
+   Per the "AI Perception and Autonomous Creative Association" directive:
+   the AI is never required to misrecognize anything — a correct, confident
+   recognition is just as valid a starting point as an ambiguous one. An
+   object does not need to change identity to gain new artistic potential;
+   it may keep its actual identity and simply be associated with a new
+   context, use, event, or relationship (see STAGE 2). Separately: the
+   source image is evidence, not a subject category the output must
+   honor — a photo of architecture does not have to generate architecture.
+   There is NO mandatory medium/style prefix (previously "A full-color
+   photograph." was hardcoded onto every call — that forced a specific
+   medium regardless of what STAGE 5 decided). The only hardcoded
+   constraint left is a NEGATIVE one (ban monochrome/sepia — a narrow
+   literal-bug fix, not a style mandate). */
+/* Renamed from buildSystemPrompt(userGuidance) -> buildSystemInstruction().
+   This now returns ONLY the fixed research rules (STAGE 1-5 + ARTISTIC
+   GUIDANCE + TECHNICAL OUTPUT SCHEMA) — no userGuidance, no per-call
+   dynamic text of any kind. It is sent via the request's top-level
+   `systemInstruction` field (see requestGeminiOnce), structurally
+   separated from the per-turn `contents` — the current image and the
+   researcher's own current-turn guidance text now live there instead.
+   This is a pure API-structure change: the fixed-rule TEXT itself is
+   unchanged from the previous buildSystemPrompt() body below, just with
+   the userGuidance concatenation point removed. */
+function buildSystemInstruction(){
   return (
-"You are an elite fine-art surrealist visual director (inspired by René Magritte and vintage photographic artwork).\n\n" +
+"SURREAL LENS — AN AUTONOMOUS ARTIST OF UNEXPECTED RELATIONSHIPS\n\n" +
+"You are an autonomous visual artist whose creative practice begins with an encounter with an image.\n\n" +
+"Your task is not to transform a photographed object, decorate an existing scene, imitate surrealist imagery, or demonstrate that you can invent unusual associations.\n\n" +
+"Your task is to discover artistic possibilities that did not previously exist in the visible relationships of the source image, and to develop one of those possibilities into a compelling, independently resolved artwork.\n\n" +
+"THE CENTRAL ARTISTIC QUESTION:\n" +
+"Can an artificial intelligence begin with what it sees, imagine relationships that did not previously exist between those things, and transform those relationships into an image possessing its own visual beauty, emotional resonance, and interpretive depth?\n\n" +
+"The source image is the beginning of artistic thought, not a template for the finished artwork.\n\n" +
+"You must remain free to depart from it.\n\n" +
+"You must also remain accountable to it: the creative development must have a discoverable origin in something you actually observed, even when none of the original objects survives in the final composition.\n\n" +
+"The finished image is not an illustration of your research notes.\n\n" +
+"It is an artwork.\n\n" +
 
-"Your task is to take the detected image elements and perform a DYNAMIC RELATIONAL DECONSTRUCTION.\n\n" +
+"I. THE NATURE OF YOUR SEEING:\n" +
+"Look at the source image before deciding what it is about. An image may contain a panoramic landscape, a small object, a human body, a fragment of architecture, an extreme close-up, an ordinary domestic scene, a texture, a shadow, an almost unrecognizable detail, or no clearly identifiable subject at all. No category has priority. Do not assume that a photographed statue should produce an artwork about statues, that a building should produce architecture, or that a human figure should remain a figure. Attend to whatever is genuinely present and visually consequential.\n\n" +
+"You may recognize objects correctly. You may be uncertain. You may encounter visual forms that support several interpretations. You may perceive a boundary as belonging to the wrong object, mistake a material for another material, or find an unexpected resemblance in a partial shape. Treat these perceptual events as possible artistic material. A misrecognition is neither automatically a failure nor automatically an artistic discovery. It becomes valuable only when something interesting can develop from it.\n\n" +
+"Observe not only things, but relationships: what touches, conceals, divides, encloses, supports, repeats, interrupts, approaches, excludes, resembles, or appears to depend upon something else. Also notice absences, interruptions, changes of scale, visual rhythms, spatial tensions, and ambiguous transitions between figure and ground.\n\n" +
+"Do not manufacture uncertainty where recognition is clear. Do not force a conventional label onto something genuinely ambiguous. Be precise about what you saw, and imaginative about what it could become.\n\n" +
 
-"ABSTRACT DECONSTRUCTION RULES (no fixed scenarios allowed):\n" +
-"1. RELATIONAL MULTIPLICATION (break single solitude): never render an isolated figure standing in a void. Re-imagine detected figures into a DYNAMIC RELATIONSHIP (e.g. a couple, partners, an ensemble, or a person with an active surreal entity).\n" +
-"2. OBJECT-TO-EMOTION METAMORPHOSIS: do NOT just copy detected objects as static props. Transform detected objects into \"emotional conduits\" that connect the subjects (e.g. a clock becomes a shared table/medium, a cloth becomes a shared structure, a birdcage becomes a floating shared secret).\n" +
-"3. ATMOSPHERIC & EMOTIONAL SPECTRUM: evoke distinct emotional depth — intimate warmth, absurd camaraderie, shared wonder, poetic intrigue, or quiet reverence. Cinematic and fine-art photography style with flexible color freedom (rich full color, deep sepia/aged tones, striking monochrome, or spot-color accents).\n\n" +
+"II. ASSOCIATION AS ARTISTIC MATERIAL:\n" +
+"Allow the observed image to open multiple directions of thought. An association may arise through form, texture, material, scale, use, behavior, gesture, language, memory, emotion, history, social convention, cultural symbolism, spatial organization, or an unexpected similarity between otherwise unrelated things.\n\n" +
+"Associations need not be based on visual resemblance alone. Two things may become artistically connected because they perform similar roles, conceal similar contradictions, depend on similar structures, or occupy comparable positions in different systems. A doorway and a promise, for example, need not resemble one another physically to suggest an artistic relationship. Such connections are possibilities to investigate, not ready-made subjects to illustrate.\n\n" +
+"Do not confuse the quantity of associations with creative intelligence. A long list of unusual objects is not an artistic idea. Your task is to notice when two or more associations begin to reveal an unexpected relationship, or when a single observation develops into a sufficiently powerful artistic possibility on its own. Follow the connections that produce new implications rather than merely new nouns.\n\n" +
+"Do not require every association to become visible in the final artwork. Research material may influence a composition without appearing as a literal object.\n\n" +
 
-"STRICT PROHIBITION: NO fixed script/template reuse, NO single lonely figure in desert/beach, NO literal copy of detected object counts. Output an open-ended, unique conceptual transformation!" +
-recentLogLine + guidanceLine + "\n\n" +
+"III. FROM ASSOCIATION TO ARTISTIC DISCOVERY:\n" +
+"Before choosing a composition, distinguish an artistic discovery from a simple substitution. Moving an object into an unfamiliar setting, changing its clothing, replacing its material, enlarging it, or giving it an unexpected activity can be useful techniques. But none of these operations is, by itself, an artistic achievement. A classical statue placed on a beach is not automatically meaningful because the location is unusual. A statue holding a smartphone is not automatically interesting because the historical periods conflict. An ordinary object made enormous is not automatically imaginative because its scale has changed.\n\n" +
+"Ask what the proposed relationship actually reveals. Does it transform how the viewer understands the object, its surroundings, its social role, its absence, or the conditions under which it is perceived? Does it create a visual situation that could not be adequately expressed by simply naming the objects involved? Does it suggest an emotion, paradox, affinity, tension, or experience that can become visible through the image itself?\n\n" +
+"These questions are instruments of judgment, not mandatory narrative requirements. An artwork does not need to contain an explicit philosophical message. It may emerge from an exceptionally precise formal relationship, an unexpected visual continuity, a quiet emotional association, an impossible but convincing spatial condition, or an image whose meaning remains open.\n\n" +
+"When the first idea is merely a familiar object relocated into an unfamiliar environment, continue exploring within the same creative reasoning process. Do not prematurely accept an easily generated scene because it satisfies the basic requirement of being unusual. Consider alternative artistic possibilities internally, compare their visual potential, and develop the strongest one. This exploration takes place within the existing analysis call. It must not trigger additional API requests or image generations.\n\n" +
+"Do not automatically choose the strangest, most complicated, most symbolic, or most subtle idea. Choose the one with the strongest potential to become an artwork.\n\n" +
 
-"TECHNICAL OUTPUT SCHEMA (format only — carries no creative instruction; follow the directive above for all content decisions):\n" +
+"IV. THE PICTORIAL QUESTION:\n" +
+"Develop a pictorial question from your discovery. This is not necessarily a question to be written in the artwork. It is the visual problem your artwork will attempt to resolve. The pictorial question should concern what can be made perceptible through an image, rather than simply what story can be told about an image.\n\n" +
+"It may involve a relationship between appearance and identity, inside and outside, presence and absence, object and environment, body and space, familiarity and estrangement, visibility and concealment, or other relationships you discover independently. These are examples, not prescribed themes. Do not mechanically apply them.\n\n" +
+"A pictorial question should make a difference to the eventual composition. If the question can be removed without changing the picture, it is probably decorative language rather than an operative artistic idea. Do not invent an elaborate theoretical justification for a weak visual concept. Seek a question whose consequences can actually be seen.\n\n" +
+
+"V. PICTORIAL INVENTION:\n" +
+"Now invent the image. This is the most important creative decision. Do not simply translate the selected associations into a collection of objects. Find a pictorial relationship that makes the discovery visible.\n\n" +
+"The artwork may retain recognizable source objects, transform them, combine their properties, reorganize their relationships, or abandon their literal identities. You may create an entirely new visual situation. You may also discover that the original object should remain almost unchanged, provided that its relationship to the rest of the composition genuinely transforms the viewer's experience of it.\n\n" +
+"Decide what must be visible, what must be absent, what should remain uncertain, and what should be immediately understood.\n\n" +
+"Consider how the composition itself carries meaning. The arrangement of forms, the distribution of visual weight, the relationship between foreground and background, the continuity or interruption of edges, the scale of elements, the behavior of materials, the quality of light, the use of color, and the organization of space may all become artistic instruments. Use only those that matter to this particular work.\n\n" +
+"Do not treat visual beauty as an ornamental filter applied after the concept is complete. Beauty may arise through proportion, precision, restraint, rhythm, material sensitivity, visual surprise, emotional clarity, expressive intensity, or a convincing relationship between otherwise incompatible things. A compelling image need not be conventionally beautiful. But it should demonstrate intentional visual judgment.\n\n" +
+"The viewer should encounter an artwork, not a diagram of the creative process.\n\n" +
+
+"VI. EMOTIONAL AND INTERPRETIVE LIFE:\n" +
+"Allow the artwork to develop emotional and interpretive qualities through its visible relationships. Emotion does not have to be represented by facial expressions, dramatic weather, lonely figures, darkness, or cinematic lighting. It can emerge from distance, repetition, imbalance, tenderness between objects, an interrupted gesture, a missing presence, an unexpected continuity, or a relationship that feels familiar without being easily explained.\n\n" +
+"Likewise, ambiguity is not the same as visual confusion. An image may support more than one interpretation because its elements participate in several coherent relationships at once. A viewer may recognize the scene immediately and only later notice that one relationship is impossible, displaced, or quietly contradictory. But delayed recognition is not mandatory. Some works may be immediately striking, direct, humorous, exuberant, disturbing, or formally abstract.\n\n" +
+"Do not manufacture mystery through blur, darkness, random concealment, or unexplained visual clutter. Let ambiguity arise from the structure of the image when it serves the artwork. The goal is not to make every image mysterious. The goal is to avoid exhausting the artwork's meaning through a single obvious visual joke.\n\n" +
+
+"VII. LEARNING FROM SURREALIST INVENTION WITHOUT COPYING ITS APPEARANCE:\n" +
+"You may learn from the artistic reasoning of René Magritte and other artists who discovered unexpected affinities between familiar things. What matters is the transformation of relationships into a pictorial proposition.\n\n" +
+"Do not imitate a recognizable artist's signature imagery or painterly style by default. Do not automatically introduce clocks, clouds, floating objects, levitating figures, theatrical curtains, empty deserts, fog, oversized objects, fragmented faces, or other familiar symbols associated with surrealist imagery. These elements are not universally forbidden. They are simply not substitutes for artistic discovery. If one genuinely belongs to the pictorial solution, it may appear. If it appears only because it is an easy way to make an image look surreal, reconsider the composition.\n\n" +
+"Surrealism here is not a visual costume. It is the possibility that ordinary appearances can disclose relationships that conventional perception has not yet recognized.\n\n" +
+
+"VIII. COHERENCE WITHOUT LITERALISM:\n" +
+"The artwork must have its own visual logic. An impossible situation can still be convincing. A scene can contain incompatible objects, materials, times, or scales while remaining compositionally unified. Unity does not require photographic realism. It may arise from shared spatial rules, formal rhythm, material treatment, visual hierarchy, or a deliberate tension between different pictorial systems.\n\n" +
+"Do not confuse technical realism with artistic credibility. A flawlessly rendered statue pasted into a landscape can still look like a cheap composite. Conversely, an obviously invented image can feel complete and persuasive when its relationships are visually resolved.\n\n" +
+"Choose a medium and pictorial language appropriate to this specific artwork. Photography, painting, drawing, printmaking, abstraction, graphic composition, and mixed media are all possible. No medium is the default.\n\n" +
+"Do not rely on generic descriptors such as 'cinematic,' 'masterpiece,' 'ultra-detailed,' or 'award-winning' to compensate for an underdeveloped composition. Make actual visual decisions.\n\n" +
+
+"IX. AUTONOMOUS ARTISTIC JUDGMENT:\n" +
+"You are responsible for choosing the final concept. No human approval is required between observation, association, invention, and image generation. Do not ask the user to select from proposals. Do not assume that previous attempts, previous images, or previous user reactions exist unless they are explicitly included in the current input. Treat every source image as a new artistic encounter.\n\n" +
+"Within this single analysis, explore sufficiently to avoid accepting the first convenient visual gimmick. Before finalizing, evaluate the proposed image through these questions: Is there a specific artistic relationship at the center of the work? Is that relationship actually expressed through visible composition? Would the image remain interesting without the explanatory research text? Are the included elements necessary to the work, rather than merely evidence that an association occurred? Does the chosen medium support the idea? Is the visual organization deliberate rather than an accumulation of spectacular effects? Have you mistaken novelty, technical polish, or an obvious contradiction for artistic depth?\n\n" +
+"Use these questions as internal artistic judgment, not as a numerical score or rigid checklist. If the concept feels merely decorative, return to the discovery and rethink the pictorial solution before producing the final generation prompt. Do this within the same analysis call. Do not request additional image generations.\n\n" +
+
+"X. RESEARCH RECORD VERSUS FINAL ARTWORK:\n" +
+"Your research record and your final artwork serve different purposes. The research record documents what you perceived, which associations emerged, why you selected particular creative material, what pictorial question developed, and how you intended to resolve it. The final artwork must not be forced to illustrate that entire record.\n\n" +
+"The selected associations may disappear as recognizable objects. The original source objects may disappear as well. A visual trace, a spatial relationship, a material behavior, or an emotional structure may be sufficient to connect the final artwork to the initial observation.\n\n" +
+"Maintain intellectual honesty in the research record. Do not claim that you visually recognized something that was actually a speculative association. Do not invent source evidence retrospectively to justify the final image. Do not rewrite the original creative intention after seeing the generated result.\n\n" +
+
+"XI. STAGE 1 — INDEPENDENT OBSERVATION:\n" +
+"Record what you actually perceive in the source image. Identify visible regions and fragments, initial recognitions, material and geometric evidence, spatial relationships, uncertainties, and plausible alternative readings. Use the smallest meaningful unit of visible evidence without automatically reconstructing what lies outside the frame. Do not assume that the image has a conventional main subject. Do not invent visual evidence. This stage establishes the perceptual starting point, not the final artistic subject.\n\n" +
+
+"XII. STAGE 2 — OPEN ASSOCIATIVE EXPLORATION:\n" +
+"Generate a small, meaningful set of associations grounded in Stage 1 observations. Associations may involve retained identity, changed context, cross-domain visual affinity, or creative interpretation. Record their provenance honestly using the existing schema. Explore relational, cultural, functional, emotional, formal, and spatial possibilities as appropriate to the image. Do not privilege object relocation over other forms of association. Do not treat the association list as a list of things that must appear in the final image. An association is valuable for what it enables, not merely for what it names.\n\n" +
+
+"XIII. STAGE 3 — AUTONOMOUS ARTISTIC CONCEPTION:\n" +
+"Select the observations and associations that offer the strongest artistic potential. The selected material may include one association or several. Develop the relationship, tension, or discovery that makes this material worth pursuing. Formulate a concrete pictorial problem. Then determine a creative direction, artistic intention, and realization plan that emerge from that problem. These fields must form one coherent creative development rather than unrelated descriptions.\n\n" +
+"Avoid treating an object placed in a surprising setting as a completed concept unless the resulting visual relationship genuinely justifies that choice. When a concept is weak, rethink it before finalizing the stage. Do not disguise a weak concept through inflated theoretical language.\n\n" +
+"The selected and insufficient_evidence statuses must retain their existing technical meanings. Use insufficient_evidence only when the source provides no sufficiently grounded associative material under the existing schema, not merely because an initial artistic idea was unsatisfying.\n\n" +
+"Draw upon the inventive reasoning of surrealist artists as methodological inspiration, not as styles to imitate. René Magritte investigated unstable relationships between images, objects, words, perception, and reality; Max Ernst explored unexpected encounters, associative transformations, and the generative potential of chance and material processes; Man Ray challenged habitual perception through photographic experimentation, transformations of familiar objects, and inventive uses of artistic media. These examples are possibilities, not a checklist or a set of required visual motifs. Discover an artistic question arising from the particular source image and its alternative readings. Seek a relationship worth reconsidering, rather than merely inventing an impossible event.\n\n" +
+
+"XIV. STAGE 4 — PICTORIAL ANSWER:\n" +
+"Translate the pictorial problem into a fully imaginable image. The pictorialAnswer is the governing artistic decision. Describe what the viewer will actually see and how the visible relationships make the artistic discovery perceptible. Specify the composition with enough precision to distinguish this image from a generic scene. Decide the relationship of major forms, the organization of space, and any material, color, light, or visual properties essential to the work. Do not substitute mood adjectives or abstract concepts for visible decisions. Do not turn every association into a depicted object.\n\n" +
+"Use retainedVisualCues, transformedVisualCues, and introducedVisualElements only when they genuinely help describe the chosen pictorial solution. They are supporting research fields, not requirements to retain, transform, and introduce objects in every work.\n\n" +
+"The pictorial answer may be figurative, abstract, narrative, spatial, minimal, complex, direct, or ambiguous. Choose according to the work.\n\n" +
+"Translate the artistic question into a pictorial discovery. Consider how the relationships among forms, identities, functions, spaces, materials, or acts of looking might be reorganized so that the image offers a new way to perceive its subject. The work need not depict a physically impossible event, nor must it be realistic, minimal, enigmatic, or overtly surreal. Let the specific artistic question determine the visual solution. Avoid merely relocating an object into an unusual setting unless that relocation itself creates a compelling and perceptible transformation of meaning.\n\n" +
+
+"XV. STAGE 5 — FINAL ARTISTIC REALIZATION:\n" +
+"Write one complete, independent English image-generation prompt. This is the actual instruction that will be sent to the image-generation model. It must be based primarily on the Stage 4 pictorial answer, refined through your own artistic judgment. The prompt must describe the final artwork itself, not explain the research process that produced it.\n\n" +
+"Describe a unified pictorial situation with specific, visible relationships. Include enough information about composition, subject, spatial organization, material, medium, light, and color to make the intended artwork realizable, but only where those details matter. Avoid generic embellishment. Avoid listing all associations. Avoid instructions such as 'combine these concepts creatively' without specifying an actual visual solution. Avoid producing a scene that resembles a collection of independently generated objects pasted together. Where incompatible elements coexist, describe how they belong to the same pictorial system, or how their incompatibility is deliberately organized.\n\n" +
+"Do not automatically preserve the original source object. Do not automatically erase it. Do not require the final artwork to resemble the input photograph. Do not add explanatory labels, diagrams, research annotations, or symbolic captions unless the artistic conception explicitly calls for them. Choose the visual language independently for this image.\n\n" +
+"The final prompt should be sufficiently clear for an image model to construct the artwork, while leaving room for painterly or photographic interpretation appropriate to the chosen medium. Produce exactly one finalGenerationPrompt. Do not request multiple image candidates.\n\n" +
+
+"XVI. FINAL PRINCIPLE:\n" +
+"You are not trying to prove that artificial intelligence can recognize objects. You are not trying to prove that it can invent bizarre associations. You are not trying to demonstrate a sequence of transformations. You are attempting to make an artwork.\n\n" +
+"Let independent perception generate the initial material. Let association reveal unexpected possibilities. Let artistic judgment discover what is worth making visible. Let pictorial invention give that discovery a form that could not have existed before. And let the finished image possess a life beyond the explanation of how it was made.\n\n" +
+
+"TECHNICAL OUTPUT SCHEMA (format only — carries no creative instruction; follow the full creative directive above for all content decisions):\n" +
 "Return ONLY a single valid JSON object, no markdown fences, no commentary, matching exactly this schema:\n" +
 "{\n" +
-'  "objects": [ { "label": "string", "box_2d": [ymin, xmin, ymax, xmax] } ],\n' +
+'  "objects": [ { "id": "string", "label_en": "string", "label_tw": "string", "box_2d": [ymin, xmin, ymax, xmax] } ],\n' +
 '  "original_analysis_en": "string",\n' +
 '  "original_analysis_tw": "string",\n' +
-'  "surreal_image_prompt": "string",\n' +
-'  "surreal_analysis_en": { "visible_cues": ["string"], "cultural_inferences": [ { "element":"string","association":"string","incompatibility":"string" } ], "divergent_readings": [ { "title":"string","note":"string" } ] },\n' +
-'  "surreal_analysis_tw": { "visible_cues": ["string"], "cultural_inferences": [ { "element":"string","association":"string","incompatibility":"string" } ], "divergent_readings": [ { "title":"string","note":"string" } ] }\n' +
+'  "stage1": { "initialRecognition": [ { "id": "string", "region_ref": "string", "label_en": "string", "label_tw": "string", "certainty": "confident|unstable|unnameable" } ], "visibleFragments": [ { "id": "string", "region_ref": "string", "description_en": "string", "description_tw": "string" } ], "visualEvidence": [ { "id": "string", "region_ref": "string", "feature_type": "geometry|material_texture|opening_hole_boundary|occlusion_overlap|repetition_rhythm|spatial_orientation|scale_ambiguity|object_background_relation", "description_en": "string", "description_tw": "string" } ], "uncertainties_en": ["string"], "uncertainties_tw": ["string"], "alternativeRecognitions": [ { "id": "string", "region_ref": "string", "label_en": "string", "label_tw": "string", "reason_en": "string", "reason_tw": "string" } ] },\n' +
+'  "stage2": { "associativeDivergences": [ { "id": "string", "provenanceTag": "actual_initial_recognition|same_identity_new_context|cross_domain_affinity|creative_interpretation", "sourceFragmentIds": ["string"], "association_en": "string", "association_tw": "string", "sharedVisualFeatures_en": "string", "sharedVisualFeatures_tw": "string", "tensionDifferences_en": "string", "tensionDifferences_tw": "string", "potentialRelationalChange_en": "string", "potentialRelationalChange_tw": "string" } ] },\n' +
+'  "stage3": { "status": "selected|insufficient_evidence", "selectedAssociationIds": ["string"], "selectionRationale_en": "string", "selectionRationale_tw": "string", "pictorialProblem_en": "string", "pictorialProblem_tw": "string", "creativeDirection_en": "string", "creativeDirection_tw": "string", "artisticIntention_en": "string", "artisticIntention_tw": "string", "realizationPlan_en": "string", "realizationPlan_tw": "string", "potentialRelationalConsequences_en": "string", "potentialRelationalConsequences_tw": "string" },\n' +
+'  "stage4": { "pictorialAnswer_en": "string", "pictorialAnswer_tw": "string", "retainedVisualCues_en": ["string"], "retainedVisualCues_tw": ["string"], "transformedVisualCues": [ { "sourceFragmentId": "string", "operation_en": "string", "operation_tw": "string" } ], "introducedVisualElements": [ { "description_en": "string", "description_tw": "string", "relationalJustification_en": "string", "relationalJustification_tw": "string" } ], "relationalConsequences_en": ["string"], "relationalConsequences_tw": ["string"], "unresolvedInterpretations_en": ["string"], "unresolvedInterpretations_tw": ["string"] },\n' +
+'  "stage5": { "mediumAndStyle_en": "string", "mediumAndStyle_tw": "string", "modelDraftInstruction": "string", "finalGenerationPrompt": "string" }\n' +
 "}\n" +
 "Field notes (format only):\n" +
-'- "objects": 3-8 salient objects detected in the ORIGINAL uploaded photo; box_2d is [ymin, xmin, ymax, xmax] normalized 0-1000 (0,0 = top-left).\n' +
-'- "original_analysis_en" / "original_analysis_tw": two lines each, "Recognized Elements: ...\\nConventional Expectations: ..." describing the ORIGINAL photo (Chinese: "辨認元素: ...\\n慣常預期: ...").\n' +
-'- "surreal_image_prompt": the full English image-generation prompt for the new scene, written per the directive above.\n' +
-'- "surreal_analysis_en" / "surreal_analysis_tw": describe the NEW surreal image you designed. "visible_cues" = 3-6 short strings each prefixed "# " noting a confirmable visible detail. "cultural_inferences" = element/association/incompatibility triples. "divergent_readings" = 2-3 {title, note} pairs naming a relationship unique to this image. Chinese version uses 可見線索 / 文化推論 / 歧義閱讀 as the conceptual headings but the same three JSON keys.'
+'- "objects" (STAGE 1): 3-8 salient visual regions/fragments in THIS photo only; "id" is a short stable slug (e.g. "o1") reused as "region_ref" below; box_2d is [ymin, xmin, ymax, xmax] normalized 0-1000.\n' +
+'- "original_analysis_en" / "original_analysis_tw": two lines each, "Recognized Elements: ...\\nConventional Expectations: ..." (Chinese: "辨認元素: ...\\n慣常預期: ...").\n' +
+'- "stage1.initialRecognition/visibleFragments/visualEvidence/alternativeRecognitions": each entry needs a stable "id" and a "region_ref" pointing to a real "objects" id. "certainty": "confident" only if genuinely sure; otherwise "unstable" or "unnameable". "visualEvidence.feature_type" values such as "spatial_orientation" or "occlusion_overlap" may describe a single object\'s own geometry, or the relative position/orientation/overlap between two or more objects — both are valid uses of the same category.\n' +
+'- "stage2.associativeDivergences": 0-5 entries. Zero is valid and honest. "sourceFragmentIds" must reference real stage1 ids. "association_en"/"association_tw" may describe EITHER a same-identity new context/use/event/relationship, OR a different cross-domain thing — both are first-class, neither is required over the other. "provenanceTag" must be honest — never relabel a creative guess as an actual recognition, and never relabel a same-identity recontextualization as a cross-domain affinity or vice versa. "potentialRelationalChange_en/tw" may legitimately be an empty string.\n' +
+'- "stage3": "status" describes only whether the Stage 2 associations you proposed have adequate visual grounding — "insufficient_evidence" means none of them do; it is never a judgment about whether artistic creation is possible. "selectedAssociationIds" must be an empty array when status is "insufficient_evidence" (you cannot honestly select an association that lacks grounding), but may be empty OR non-empty when status is "selected" — choosing to work entirely from Stage 1 observation, with no Stage 2 association as explicit material, is legitimate under either status. Never fabricate an association or a source id merely to populate this array. "pictorialProblem" is NOT tied to status and may be non-empty under "insufficient_evidence": research-evidence insufficiency about Stage 2\'s associations never by itself prevents an artistic discovery grounded in Stage 1. An honest statement that no strong discovery was found is equally valid, and should never be padded with inflated language to appear more insightful than it actually is. Field-to-concept mapping (format only): "selectionRationale" = why this material (including "none — working from Stage 1 alone") was chosen; "creativeDirection" = a brief characterization of the kind of approach taken; "artisticIntention" = the mood, meaning, or feeling intended (brief is fine); "realizationPlan" = your own visual plan for carrying the pictorial problem into Stage 4/5. These four fields are format slots for the single creative development described above, not four separate instructions.\n' +
+'- "stage4": "pictorialAnswer" is NOT tied to status — it may and should be populated whenever you have an actual artistic concept, whether status is "selected" or "insufficient_evidence". A lack of grounded Stage 2 material never by itself requires this field to be empty. "retainedVisualCues"/"transformedVisualCues"/"introducedVisualElements" remain OPTIONAL supporting detail: non-empty only if pictorialAnswer actually calls for naming specific fragment-level operations. Empty arrays are correct, not incomplete, whenever pictorialAnswer does not need them. "transformedVisualCues[].sourceFragmentId" must reference a real stage1 id when present.\n' +
+'- "stage5.mediumAndStyle": your own free choice for THIS image — not a default photographic/architectural-render framing. "modelDraftInstruction": supplementary phrasing (English) the app blends in last — never the sole source of the final instruction. "finalGenerationPrompt": required for every image — your own complete English instruction for the image-generation model, led by stage4.pictorialAnswer, not a transcript of stage2/stage3\'s research reasoning. It is used exactly as written whenever it is a valid, non-empty string, regardless of status or selectedAssociationIds — insufficient_evidence never overrides a real finalGenerationPrompt. If left empty, invalid, or missing, the app falls back to assembling a prompt from stage4.pictorialAnswer, then from stage3.realizationPlan, in that order; if neither is available either, the app reports an error and does not generate a generic composition — so always try to leave at least one of finalGenerationPrompt, pictorialAnswer, or realizationPlan populated with an actual visual concept.'
   );
 }
 
@@ -1500,16 +1791,84 @@ function stripJsonFences(text){
   return t;
 }
 
+/* objects[] carries `.label_en`/`.label_tw` plus a stable `.id` (so
+   recognitionRecords/divergentReadings/relationalConsequence can
+   cross-reference it). Normalizing a plain `.label` onto every object here
+   keeps drawAnnotatedCanvas()/extractKeyword() simple, and also keeps old
+   history records (pre-rewrite, which only had `.label`) readable without
+   touching their rendering code. */
+function normalizeObjects(objects){
+  return (objects || []).map(function(o){
+    if (o && !o.label && o.label_en) o.label = o.label_en;
+    return o;
+  });
+}
+
+/* Reads both the current plural schema (stage3.selectedAssociationIds:
+   string[]) and old single-select history records
+   (stage3.selectedAssociationId: string|null), so buildCompositionPrompt/
+   verifyPlanIntegrity/UI rendering never need to know which shape a given
+   record is. Returns the RAW list (duplicates, if any, intact) — callers
+   that need a deduplicated list for display/prompt assembly should run it
+   through uniqueStrings(); verifyPlanIntegrity() needs the raw list so it
+   can actually detect and report duplicates. */
+function normalizeSelectedAssociationIds(s3){
+  if (Array.isArray(s3.selectedAssociationIds)) return s3.selectedAssociationIds.filter(Boolean);
+  if (s3.selectedAssociationId) return [s3.selectedAssociationId];
+  return [];
+}
+
+function uniqueStrings(arr){
+  var out = [];
+  var seen = {};
+  (arr || []).forEach(function(v){
+    if (v && !seen[v]){ seen[v] = true; out.push(v); }
+  });
+  return out;
+}
+
+/* Builds a consistent, user-facing error message for any model-request
+   failure — HTTP error, empty/refused response, JSON parse failure, OR a
+   raw network/timeout error that never reached the server — so the UI
+   always shows which STAGE failed (stageLabel), the actual MODEL NAME,
+   the HTTP status code when one exists, and a readable reason. Never
+   includes the API key or the request URL. `err.stageTagged` marks an
+   error as already wrapped, so a final safety-net .catch() further down
+   the chain doesn't double-wrap (and doesn't accidentally re-wrap a
+   network error with a generic, less useful message). */
+function makeStageError(stageLabel, modelName, status, detail){
+  var msg = stageLabel + " request failed on model '" + modelName + "'";
+  if (status !== undefined && status !== null) msg += " (HTTP " + status + ")";
+  msg += ": " + detail;
+  var err = new Error(msg);
+  err.status = status;
+  err.stageTagged = true;
+  return err;
+}
+
+/* The fixed research rules now travel in `systemInstruction`, structurally
+   separated from the per-turn `contents`. `contents[0].parts` holds ONLY
+   this call's own variable material: the researcher's current-turn
+   guidance text (if any) and the uploaded image — nothing fixed lives
+   here anymore. Response parsing below is unaffected: systemInstruction
+   only changes the REQUEST shape, not where the model's JSON answer shows
+   up in the response. */
 function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance){
   var url = "https://generativelanguage.googleapis.com/v1/models/" + modelName + ":generateContent?key=" + encodeURIComponent(apiKey);
+  var userParts = [];
+  if (userGuidance){
+    userParts.push({ text: "ADDITIONAL USER GUIDANCE FOR THIS IMAGE: \"" + userGuidance.replace(/"/g,"'") + "\"" });
+  }
+  userParts.push({ inline_data: { mime_type: mimeType, data: base64Data } });
+
   var body = {
+    systemInstruction: {
+      parts: [ { text: buildSystemInstruction() } ]
+    },
     contents: [
       {
         role: "user",
-        parts: [
-          { text: buildSystemPrompt(userGuidance) },
-          { inline_data: { mime_type: mimeType, data: base64Data } }
-        ]
+        parts: userParts
       }
     ],
     generationConfig: {
@@ -1525,53 +1884,80 @@ function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance
   }).then(function(res){
     if (!res.ok){
       return res.text().then(function(t){
-        var err = new Error("Gemini API error (" + res.status + ") on model '" + modelName + "': " + t.slice(0,300));
-        err.status = res.status;
-        throw err;
+        throw makeStageError("Gemini analysis", modelName, res.status, t.slice(0,300));
       });
     }
     return res.json();
   }).then(function(json){
     var candidate = json.candidates && json.candidates[0];
-    var parts = candidate && candidate.content && candidate.content.parts;
-    var text = parts && parts[0] && parts[0].text;
+    var finishReason = candidate && candidate.finishReason;
+    var parts = (candidate && candidate.content && candidate.content.parts) || [];
+    /* Join ALL text parts, not just parts[0] — this six-stage schema's
+       expected output is long (bilingual Stage 1-5 fields plus the
+       required finalGenerationPrompt), so a long response can come back
+       split across multiple parts. Reading only parts[0] would silently
+       truncate it before JSON.parse ever runs, surfacing as a confusing
+       generic parse error instead of the real cause. */
+    var text = parts.map(function(p){ return (p && p.text) || ""; }).join("");
     if (!text){
-      throw new Error("Gemini returned no analyzable content. It may have refused the request.");
+      var emptyNote = finishReason ? (" (finishReason: " + finishReason + ")") : "";
+      throw makeStageError("Gemini analysis", modelName, undefined, "Gemini returned no analyzable content. It may have refused the request." + emptyNote);
     }
     var clean = stripJsonFences(text);
     var parsed;
     try{
       parsed = JSON.parse(clean);
     }catch(err){
-      throw new Error("Could not parse Gemini's JSON response.");
+      /* Diagnostic, not a guess: surface WHY the parse failed (the raw
+         SyntaxError), whether Gemini itself flagged the response as
+         truncated (finishReason "MAX_TOKENS") or refused (e.g.
+         "SAFETY"), the response length, and the tail of the raw text —
+         a truncated JSON response ends mid-field/mid-string, which is
+         visible there. Logged to console AND included in the thrown
+         message so it reaches the on-screen error banner directly.
+         Never includes the API key or request URL. */
+      var reasonNote = finishReason ? (" Gemini finishReason: " + finishReason + ".") : "";
+      var tail = clean.length > 500 ? ("…" + clean.slice(-500)) : clean;
+      var diagMsg = "Could not parse Gemini's JSON response. Parse error: " + err.message + "." +
+        reasonNote +
+        " Response length: " + clean.length + " chars." +
+        " End of raw response: " + tail;
+      console.error("[Gemini JSON parse diagnostic] model='" + modelName + "'", diagMsg);
+      throw makeStageError("Gemini analysis", modelName, undefined, diagMsg);
     }
+    parsed.objects = normalizeObjects(parsed.objects);
     return parsed;
+  }).catch(function(err){
+    /* Safety net: a raw network/timeout error (fetch itself rejecting,
+       before any response was ever received) reaches here untagged —
+       wrap it so the UI still reports stage + model, not a bare browser
+       "Failed to fetch". Anything already built by makeStageError() above
+       passes through unchanged. */
+    if (err && err.stageTagged) throw err;
+    throw makeStageError("Gemini analysis", modelName, undefined, (err && err.message) ? err.message : String(err));
   });
 }
 
-/* Tries each model in GEMINI_MODELS in order; on a 404 (model not found /
-   not accessible under this API key) it falls through to the next
-   compatible model instead of failing the whole transformation. */
+/* Exactly ONE request, no model fallback, no retry of any kind — a 404,
+   429, 500, 503, timeout, or network error all propagate straight to the
+   caller as-is. Kept as a thin same-name/same-signature wrapper only so
+   other code calling callGemini() doesn't need to change. */
 function callGemini(apiKey, base64Data, mimeType, userGuidance){
-  var models = GEMINI_MODELS.slice();
-  var lastErr = null;
-
-  function tryNext(i){
-    if (i >= models.length){
-      throw lastErr || new Error("No Gemini model in the fallback list could be reached.");
-    }
-    return requestGeminiOnce(models[i], apiKey, base64Data, mimeType, userGuidance)
-      .catch(function(err){
-        lastErr = err;
-        if (err && err.status === 404 && i < models.length - 1){
-          console.warn("Gemini model '" + models[i] + "' unavailable (404), falling back to '" + models[i+1] + "'.");
-          return tryNext(i+1);
-        }
-        throw err;
-      });
-  }
-  return tryNext(0);
+  return requestGeminiOnce(GEMINI_MODELS[0], apiKey, base64Data, mimeType, userGuidance);
 }
+
+/* ============================================================
+   6B. [REMOVED] STAGE 6 — INDEPENDENT RE-READING
+   ============================================================ */
+/* This section used to contain buildReinspectionPrompt() /
+   requestReinspectionOnce() / requestReinspectionWithFallback() — a
+   separate, optional, image-only Gemini call made automatically right
+   after generation, plus a manual retry button. All of it has been
+   removed: the app now makes exactly two model requests per generation
+   (this file's Gemini analysis call, then one image-generation call) and
+   never sends the generated image back to Gemini. OLD history records
+   that already saved a `reinspection` field still display it, read-only
+   — see renderSixStagePlan(). */
 
 /* NOTE: the standalone Imagen 3 ":predict" endpoint is not reachable on
    many Google AI Studio keys (ListModels reports zero "predict"-capable
@@ -1600,9 +1986,7 @@ function requestImagenOnce(modelName, apiKey, prompt){
   }).then(function(res){
     if (!res.ok){
       return res.text().then(function(t){
-        var err = new Error("Image generation API error (" + res.status + ") on model '" + modelName + "': " + t.slice(0,300));
-        err.status = res.status;
-        throw err;
+        throw makeStageError("Image generation", modelName, res.status, t.slice(0,300));
       });
     }
     return res.json();
@@ -1615,46 +1999,316 @@ function requestImagenOnce(modelName, apiKey, prompt){
       if (p.inlineData || p.inline_data){ imgPart = p.inlineData || p.inline_data; break; }
     }
     if (!imgPart || !(imgPart.data)){
-      throw new Error("Model '" + modelName + "' did not return an image (it may have replied with text only, or refused the prompt).");
+      throw makeStageError("Image generation", modelName, undefined, "the model did not return an image (it may have replied with text only, or refused the prompt).");
     }
     var mime = imgPart.mimeType || imgPart.mime_type || "image/png";
     return "data:" + mime + ";base64," + imgPart.data;
+  }).catch(function(err){
+    /* Safety net: a raw network/timeout error reaches here untagged —
+       wrap it so the UI still reports stage + model, not a bare browser
+       "Failed to fetch". Anything already built by makeStageError() above
+       passes through unchanged. */
+    if (err && err.stageTagged) throw err;
+    throw makeStageError("Image generation", modelName, undefined, (err && err.message) ? err.message : String(err));
   });
 }
 
-/* Tries each model in IMAGEN_MODELS in order. Unlike Gemini text analysis,
-   a total image-generation failure must NOT abort the whole result (the
-   analysis already succeeded) — instead it resolves with
-   { dataUrl: null, error } so the UI can render a clear fallback notice
-   in Card 3 while still showing Cards 1/2/4. */
-function callImagenWithFallback(apiKey, prompt){
-  var models = IMAGEN_MODELS.slice();
-  var lastErr = null;
-  /* Guaranteed in code, independent of whatever Gemini's own prompt text
-     happens to include — this is never left to chance. */
-  var finalPrompt = MANDATORY_IMAGE_PROMPT_PREFIX + (prompt || "");
+/* Exactly ONE request to the single pinned image model (IMAGEN_MODELS[0]),
+   no fallback to any other model, no retry of any kind. Unlike
+   callGemini(), a failure here does NOT reject — it resolves with
+   { dataUrl: null, error } so the UI can still show the research record
+   (Stage 1-5 + finalGenerationPrompt) while clearly reporting the image
+   failure in Card 3, without making any further request. Kept as a thin
+   same-name/same-signature wrapper only so other code calling
+   callImagenWithFallback() doesn't need to change. */
+function callImagenWithFallback(apiKey, finalPrompt){
+  var model = IMAGEN_MODELS[0];
+  return requestImagenOnce(model, apiKey, finalPrompt)
+    .then(function(dataUrl){
+      return { dataUrl: dataUrl, error: null, modelUsed: model };
+    })
+    .catch(function(err){
+      return { dataUrl: null, error: err, modelUsed: null };
+    });
+}
 
-  function tryNext(i){
-    if (i >= models.length){
-      return Promise.resolve({ dataUrl: null, error: lastErr });
-    }
-    return requestImagenOnce(models[i], apiKey, finalPrompt)
-      .then(function(dataUrl){
-        return { dataUrl: dataUrl, error: null };
-      })
-      .catch(function(err){
-        lastErr = err;
-        console.warn("Imagen model '" + models[i] + "' failed:", err && err.message);
-        return tryNext(i+1);
-      });
+function findObjectById(objects, id){
+  var match = (objects || []).filter(function(o){ return o && o.id === id; });
+  return match.length ? match[0] : null;
+}
+
+/* Resolves any id used in sourceFragmentIds/region_ref back to a
+   human-readable description — checking objects[] first, then the four
+   stage1 pools (initialRecognition/visibleFragments/visualEvidence/
+   alternativeRecognitions), matched by "id" or "region_ref". Falls back to
+   the raw id if nothing matches (reported, not hidden, by
+   verifyPlanIntegrity). `lang` is "en" or "tw". */
+function resolveFragmentText(plan, id, lang){
+  var obj = findObjectById(plan.objects || [], id);
+  if (obj) return (lang === "tw" ? (obj.label_tw || obj.label_en) : (obj.label_en || obj.label_tw)) || obj.label || id;
+  var s1 = plan.stage1 || {};
+  var pools = [].concat(s1.initialRecognition || [], s1.visibleFragments || [], s1.visualEvidence || [], s1.alternativeRecognitions || []);
+  var hit = pools.filter(function(e){ return e.id === id || e.region_ref === id; })[0];
+  if (hit){
+    if (lang === "tw") return hit.label_tw || hit.description_tw || hit.reason_tw || id;
+    return hit.label_en || hit.description_en || hit.reason_en || id;
   }
-  return tryNext(0);
+  return id;
+}
+
+/* Creative Autonomy Correction: the app's own mechanical assembly
+   (assembledPrompt below) is still assembled DETERMINISTICALLY from
+   stage3-5 (never free prose checked after the fact). Completion,
+   fragmentation, narrative, or symbolic treatment are read directly from
+   stage3.creativeDirection/artisticIntention/realizationPlan — whichever
+   the model actually, autonomously chose — and none of them is injected
+   or suppressed by the assembly logic. stage4's operations are folded in
+   only if present (a genuinely optional stage). plan.stage5.modelDraftInstruction
+   is folded in last, as supplementary color, never the sole source of
+   truth — but only within the assembled path (see below).
+
+   AUTONOMOUS PROMPT LAYER: the model may also write
+   stage5.finalGenerationPrompt itself — a complete, ready-to-send
+   instruction, used verbatim as finalPrompt in place of the mechanical
+   assembly. assembledPrompt is still ALWAYS computed regardless of which
+   one is actually used — every record keeps both, for side-by-side
+   comparison, at zero extra API cost (assembledPrompt is pure string
+   concatenation, never sent anywhere a second time).
+
+   RESEARCH-EVIDENCE-INSUFFICIENCY CORRECTION (supersedes the earlier
+   "insufficient_evidence always overrides" rule): stage3.status reflects
+   ONLY whether Stage 2's associations were adequately grounded — it is no
+   longer treated as a creative kill-switch. The AI's own
+   finalGenerationPrompt, if valid and non-empty, is used AS-IS regardless
+   of status or selectedAssociationIds — insufficient_evidence never
+   silently overrides it. When finalGenerationPrompt is missing/invalid/
+   empty, the mechanical fallback now prioritizes stage4.pictorialAnswer,
+   then stage3.realizationPlan — NOT a generic "render the visible
+   fragments" composite (that branch has been removed entirely: it was
+   itself a hardcoded creative default, the exact thing this file's
+   CONSTANTS-section guardrail comment warns against). If NEITHER an
+   autonomous prompt NOR pictorialAnswer NOR realizationPlan is available,
+   this function returns finalPrompt: null and an error message instead of
+   fabricating a generic collage — the caller (startTransformation) must
+   check for this and skip calling the image-generation API entirely
+   rather than sending a null/garbage prompt. usedModelDraft reflects only
+   the path that was actually sent: it is forced false whenever
+   promptSource is "ai_autonomous", since modelDraftInstruction was not
+   part of what was actually sent in that case. */
+function buildCompositionPrompt(plan){
+  var s1 = plan.stage1 || {};
+  var s3 = plan.stage3 || {};
+  var s4 = plan.stage4 || {};
+  var s5 = plan.stage5 || {};
+  var missingEvidenceIds = [];
+
+  function fragLabel(id){
+    var obj = findObjectById(plan.objects || [], id);
+    var pools = [].concat(s1.initialRecognition || [], s1.visibleFragments || [], s1.visualEvidence || [], s1.alternativeRecognitions || []);
+    var hit = pools.filter(function(e){ return e.id === id || e.region_ref === id; })[0];
+    if (!obj && !hit) missingEvidenceIds.push(id);
+    return resolveFragmentText(plan, id, "en");
+  }
+
+  var pictorialAnswer = s4.pictorialAnswer_en && s4.pictorialAnswer_en.trim();
+  var realizationPlan = s3.realizationPlan_en && s3.realizationPlan_en.trim();
+  var usedModelDraftInAssembled = false;
+  var assembledPrompt = null;
+  var assembledSource = null;
+
+  /* Supporting visual detail shared by either assembled lead sentence
+     below — fragment-level operations, introduced elements, and
+     medium/style are concrete visual content, not research narrative, so
+     they stay in the assembled prompt regardless of which field leads. */
+  function appendSupportingDetail(sentences){
+    var retained = s4.retainedVisualCues_en || [];
+    if (retained.length) sentences.push("Retain these visual cues from the source: " + retained.join("; ") + ".");
+    (s4.transformedVisualCues || []).forEach(function(t){
+      if (t.operation_en) sentences.push("Operation on " + fragLabel(t.sourceFragmentId) + ": " + t.operation_en + ".");
+    });
+    (s4.introducedVisualElements || []).forEach(function(e){
+      if (e.description_en) sentences.push("Introduce: " + e.description_en + (e.relationalJustification_en ? (" — " + e.relationalJustification_en) : "") + ".");
+    });
+    var consequences = s4.relationalConsequences_en || [];
+    if (consequences.length) sentences.push("Consequences to depict: " + consequences.join("; ") + ".");
+    var unresolved = s4.unresolvedInterpretations_en || [];
+    if (unresolved.length) sentences.push("Leave unresolved rather than explained: " + unresolved.join("; ") + ".");
+    if (s5.mediumAndStyle_en) sentences.push("Medium/style for this image: " + s5.mediumAndStyle_en + ".");
+    if (s5.modelDraftInstruction){
+      sentences.push(s5.modelDraftInstruction);
+      usedModelDraftInAssembled = true;
+    }
+  }
+
+  if (pictorialAnswer){
+    var sentencesA = [];
+    sentencesA.push("Pictorial answer for this image (the governing visual content): " + pictorialAnswer + ".");
+    if (realizationPlan) sentencesA.push("Realization plan: " + realizationPlan + ".");
+    appendSupportingDetail(sentencesA);
+    assembledPrompt = sentencesA.join(" ");
+    assembledSource = "pictorialAnswer";
+  } else if (realizationPlan){
+    var sentencesB = [];
+    sentencesB.push("Realization plan for this image (the governing visual content): " + realizationPlan + ".");
+    appendSupportingDetail(sentencesB);
+    assembledPrompt = sentencesB.join(" ");
+    assembledSource = "realizationPlan";
+  }
+
+  var raw = s5.finalGenerationPrompt;
+  var autonomous = (typeof raw === "string") ? raw.trim() : "";
+  var finalPrompt, promptSource, fallbackReason, errorMessage;
+
+  if (autonomous.length > 0){
+    finalPrompt = autonomous;
+    promptSource = "ai_autonomous";
+    fallbackReason = null;
+    errorMessage = null;
+  } else if (assembledPrompt){
+    finalPrompt = assembledPrompt;
+    promptSource = "app_assembled_fallback";
+    fallbackReason = (raw === undefined) ? "missing_field" : (typeof raw !== "string") ? "invalid_type" : "empty_after_trim";
+    errorMessage = null;
+  } else {
+    finalPrompt = null;
+    promptSource = "no_usable_content";
+    fallbackReason = (raw === undefined) ? "missing_field" : (typeof raw !== "string") ? "invalid_type" : "empty_after_trim";
+    errorMessage = "No usable visual concept was produced for this image: finalGenerationPrompt is missing or empty, stage4.pictorialAnswer is empty, and stage3.realizationPlan is empty. Image generation was not attempted.";
+  }
+
+  var usedModelDraft = (promptSource === "app_assembled_fallback") ? usedModelDraftInAssembled : false;
+
+  return {
+    finalPrompt: finalPrompt,
+    assembledPrompt: assembledPrompt,
+    assembledSource: assembledSource,
+    promptSource: promptSource,
+    fallbackReason: fallbackReason,
+    usedModelDraft: usedModelDraft,
+    missingEvidenceIds: missingEvidenceIds,
+    error: errorMessage
+  };
+}
+
+/* Only Evidence Integrity is something a single `plan` object can be
+   checked against at runtime; the rest are properties of the CODE/prompt
+   itself (verified once by inspection, not per-generation). Creative
+   Autonomy replaces the old "Semantic Closure Guard" — that flag asserted
+   buildCompositionPrompt() always BANS completion, which was itself the
+   over-correction this revision fixes. The honest structural claim now is
+   narrower: the function forces neither completion nor anti-completion —
+   whatever stage3.creativeDirection/realizationPlan says is what goes in,
+   unmodified. */
+function verifyPlanIntegrity(plan){
+  var s1 = plan.stage1 || {};
+  var s2 = plan.stage2 || {};
+  var s3 = plan.stage3 || {};
+  var s4 = plan.stage4 || {};
+  var divergences = s2.associativeDivergences || [];
+  var selectedIds = normalizeSelectedAssociationIds(s3);
+
+  /* Duplicate detection needs the RAW (non-deduplicated) list — collapsing
+     duplicates first, via filter(Boolean) or otherwise, would silently
+     hide a repeated id instead of reporting it. */
+  var seen = {};
+  var duplicateSelectedIds = [];
+  selectedIds.forEach(function(id){
+    if (seen[id]) duplicateSelectedIds.push(id);
+    seen[id] = true;
+  });
+
+  /* An id that doesn't resolve to any real stage2 association must be
+     reported, not quietly dropped — filter(Boolean) on the lookup result
+     would otherwise let evidenceIntegrityOk pass even though the model
+     referenced an association that doesn't exist. */
+  var invalidSelectedIds = selectedIds.filter(function(id){
+    return !divergences.some(function(a){ return a.id === id; });
+  });
+
+  /* Only ONE direction is still enforced: "insufficient_evidence" means
+     nothing in Stage 2 was grounded, so nothing may honestly be selected
+     as material. The reverse — "selected" requiring at least one selected
+     id — is deliberately NOT required anymore: the AI may work entirely
+     from Stage 1 under either status. Research-evidence insufficiency
+     about Stage 2's associations must never by itself be treated as
+     blocking artistic output (see buildSystemInstruction() field notes). */
+  var statusCountConsistent = !(s3.status === "insufficient_evidence" && selectedIds.length > 0);
+
+  var assocs = selectedIds.map(function(id){
+    return divergences.filter(function(a){ return a.id === id; })[0];
+  }).filter(Boolean);
+  var missingEvidenceIds = [];
+
+  if (assocs.length){
+    var pools = [].concat(s1.initialRecognition || [], s1.visibleFragments || [], s1.visualEvidence || [], s1.alternativeRecognitions || []);
+    assocs.forEach(function(assoc){
+      (assoc.sourceFragmentIds || []).forEach(function(id){
+        var obj = findObjectById(plan.objects || [], id);
+        var hit = pools.filter(function(e){ return e.id === id || e.region_ref === id; })[0];
+        if (!obj && !hit) missingEvidenceIds.push(id);
+      });
+    });
+  }
+
+  var selectionIntegrityOk = invalidSelectedIds.length === 0 && duplicateSelectedIds.length === 0 && statusCountConsistent;
+
+  /* ARTISTIC-CREATION COMPLETENESS is a separate axis from VISUAL-EVIDENCE
+     INTEGRITY above (evidenceIntegrityOk/selectionIntegrityOk): presence
+     here is checked honestly and identically regardless of status. A lack
+     of grounded Stage 2 associations (insufficient_evidence) must never be
+     conflated with "no artistic output was produced" — these two checks
+     answer different questions, and a plan can legitimately be
+     insufficient_evidence + artistically complete at the same time. */
+  var pictorialProblemPresent = !!(s3.pictorialProblem_en && s3.pictorialProblem_en.trim());
+  var pictorialAnswerPresent = !!(s4.pictorialAnswer_en && s4.pictorialAnswer_en.trim());
+  var artisticCompletenessOk = pictorialProblemPresent && pictorialAnswerPresent;
+
+  return {
+    evidenceIntegrityOk: missingEvidenceIds.length === 0,
+    missingEvidenceIds: missingEvidenceIds,
+    selectionIntegrityOk: selectionIntegrityOk,
+    invalidSelectedIds: invalidSelectedIds,
+    duplicateSelectedIds: duplicateSelectedIds,
+    statusCountConsistent: statusCountConsistent,
+    pictorialProblemPresent: pictorialProblemPresent,
+    pictorialAnswerPresent: pictorialAnswerPresent,
+    artisticCompletenessOk: artisticCompletenessOk,
+    recognitionIntegrityGuaranteed: true,
+    openEndednessGuaranteed: true,
+    sourceIndependenceGuaranteed: true,
+    creativeAutonomyGuaranteed: true
+  };
 }
 
 /* ============================================================
    7. ORCHESTRATION
    ============================================================ */
+/* `imgState` is accepted generically — it is always a fresh upload
+   (selectedImage), whether the file itself is a real photograph or a prior
+   output of this very system that the user re-uploaded through the normal
+   file input. This function must never branch on anything about the
+   image's origin — only `imgState.base64`/`.mimeType` (the pixels) and the
+   caller-supplied `userGuidance` may influence what happens below. There
+   is a single generation flow — no mode parameter. (This file previously
+   had a named "SOURCE-AGNOSTIC INDEPENDENT VIEWING" passage inside
+   buildSystemInstruction() that this comment cross-referenced; that
+   passage no longer exists under that name after the system-instruction
+   rewrite, so the cross-reference has been removed rather than left
+   pointing at nonexistent text. The underlying guarantee this comment
+   describes is still enforced here in startTransformation()/callGemini(),
+   independent of whatever buildSystemInstruction() currently says.) */
+var generationInFlight = false;
 function startTransformation(imgState, userGuidance, apiKey){
+  /* Guards against double-click, a repeated Enter-key submit, or any
+     other race that could otherwise start a second, overlapping
+     callGemini()/callImagenWithFallback() pair while the first is still
+     in flight. Checked synchronously before anything else runs, and
+     cleared in the single .finally() below regardless of success or
+     failure, so the button is never left permanently disabled. */
+  if (generationInFlight) return;
+  generationInFlight = true;
+  if (submitBtn) submitBtn.disabled = true;
+
   heroScreen.classList.add("hidden");
   resultScreen.classList.add("hidden");
   loadingScreen.classList.remove("hidden");
@@ -1665,39 +2319,119 @@ function startTransformation(imgState, userGuidance, apiKey){
   callGemini(apiKey, imgState.base64, imgState.mimeType, userGuidance)
     .then(function(analysis){
       setActiveStep(2);
-      setActiveStep(3);
-      return callImagenWithFallback(apiKey, analysis.surreal_image_prompt).then(function(imgResult){
-        setActiveStep(4);
-        return { analysis: analysis, imageDataUrl: imgResult.dataUrl, imagenError: imgResult.error };
+
+      /* Step 2 ("Deconstruct") and step 3 ("Generate") used to be set on
+         two immediately-consecutive synchronous lines, with no yield
+         point between them — the browser never got a chance to paint
+         step 2's "active" state before step 3 overwrote it, so it was
+         effectively invisible. This is a PURE UI-timing fix: a plain
+         setTimeout delay with no network request, no model call, and no
+         change to what Stage 1-5 already produced in `analysis` (already
+         fully resolved before this .then() runs). It does not make step 2
+         correspond to any real separate request — it only gives the
+         browser ~300ms to actually render the state that was always being
+         set. generationInFlight/submitBtn stay locked for this entire
+         chain exactly as before; the delay is fully inside the same
+         promise chain the existing .catch()/.finally() below already
+         wraps, so a Gemini/Imagen failure during or after this delay is
+         still caught and the button is still re-enabled normally. */
+      return new Promise(function(resolve){ setTimeout(resolve, 300); }).then(function(){
+        setActiveStep(3);
+
+        /* The structured plan is assembled into the final prompt
+           deterministically (buildCompositionPrompt) — not written freely
+           by the model and keyword-checked afterward. No mandatory prefix
+           or suffix of any kind is added here — not even a negative prompt
+           — so stage5.mediumAndStyle (color, lighting, effects included)
+           is entirely the model's own autonomous choice, unfiltered by code. */
+        var assembled = buildCompositionPrompt(analysis);
+        var integrity = verifyPlanIntegrity(analysis);
+        var finalPrompt = assembled.finalPrompt;
+
+        /* No usable visual concept at all (no autonomous prompt, no
+           pictorialAnswer, no realizationPlan) — do NOT call the
+           image-generation API with a null/garbage prompt. Resolve directly
+           to the same error shape callImagenWithFallback() would produce on
+           failure, so the existing "Image generation unavailable" UI path
+           renders assembled.error without any new UI code, and no paid call
+           is made for content that was never going to be usable. */
+        if (finalPrompt === null){
+          setActiveStep(4);
+          return {
+            analysis: analysis,
+            imageDataUrl: null,
+            imagenError: { message: assembled.error },
+            imageModelUsed: null,
+            finalPrompt: null,
+            assembledPrompt: assembled.assembledPrompt,
+            finalPromptSource: assembled.promptSource,
+            fallbackReason: assembled.fallbackReason,
+            usedModelDraft: assembled.usedModelDraft,
+            integrity: integrity
+          };
+        }
+
+        return callImagenWithFallback(apiKey, finalPrompt).then(function(imgResult){
+          setActiveStep(4);
+          return {
+            analysis: analysis,
+            imageDataUrl: imgResult.dataUrl,
+            imagenError: imgResult.error,
+            imageModelUsed: imgResult.modelUsed,
+            finalPrompt: finalPrompt,
+            assembledPrompt: assembled.assembledPrompt,
+            finalPromptSource: assembled.promptSource,
+            fallbackReason: assembled.fallbackReason,
+            usedModelDraft: assembled.usedModelDraft,
+            integrity: integrity
+          };
+        });
       });
     })
     .then(function(result){
+      var analysis = result.analysis;
       var newRecord = {
         id: makeRecordId(),
         timestamp: Date.now(),
         userGuidance: userGuidance || "",
         originalImageDataUrl: imgState.dataUrl,
-        objects: result.analysis.objects || [],
-        original_analysis_en: result.analysis.original_analysis_en,
-        original_analysis_tw: result.analysis.original_analysis_tw,
-        surreal_image_prompt: result.analysis.surreal_image_prompt,
-        surreal_analysis_en: result.analysis.surreal_analysis_en,
-        surreal_analysis_tw: result.analysis.surreal_analysis_tw,
+        objects: analysis.objects || [],
+        original_analysis_en: analysis.original_analysis_en,
+        original_analysis_tw: analysis.original_analysis_tw,
+        visionPlan: {
+          stage1: analysis.stage1 || { initialRecognition: [], visibleFragments: [], visualEvidence: [], uncertainties_en: [], uncertainties_tw: [], alternativeRecognitions: [] },
+          stage2: analysis.stage2 || { associativeDivergences: [] },
+          stage3: analysis.stage3 || { status: "insufficient_evidence", selectedAssociationIds: [], selectionRationale_en: "", selectionRationale_tw: "", pictorialProblem_en: "", pictorialProblem_tw: "", creativeDirection_en: "", creativeDirection_tw: "", artisticIntention_en: "", artisticIntention_tw: "", realizationPlan_en: "", realizationPlan_tw: "", potentialRelationalConsequences_en: "", potentialRelationalConsequences_tw: "" },
+          stage4: analysis.stage4 || { pictorialAnswer_en: "", pictorialAnswer_tw: "", retainedVisualCues_en: [], retainedVisualCues_tw: [], transformedVisualCues: [], introducedVisualElements: [], relationalConsequences_en: [], relationalConsequences_tw: [], unresolvedInterpretations_en: [], unresolvedInterpretations_tw: [] },
+          stage5: analysis.stage5 || { mediumAndStyle_en: "", mediumAndStyle_tw: "", modelDraftInstruction: "", finalGenerationPrompt: "" }
+        },
+        reinspection: null,
+        finalImagePrompt: result.finalPrompt,
+        assembledPromptForComparison: result.assembledPrompt,
+        finalPromptSource: result.finalPromptSource,
+        fallbackReason: result.fallbackReason,
+        usedModelDraft: result.usedModelDraft || false,
+        integrity: result.integrity,
         surrealImageDataUrl: result.imageDataUrl || null,
+        imageModelUsed: result.imageModelUsed || null,
         imagenErrorMessage: (result.imagenError && result.imagenError.message) ? result.imagenError.message : null
       };
       currentRecordId = newRecord.id;
 
-      renderResults(imgState.naturalImg, result.analysis, result.imageDataUrl, result.imagenError, newRecord.timestamp);
+      renderResults(imgState.naturalImg, newRecord, result.imageDataUrl, result.imagenError, newRecord.timestamp);
       renderResultMeta(newRecord);
       saveRecordToHistory(newRecord);
-      recordGenerationForAntiRepeat(result.analysis);
 
       stopLoadingAnimation();
       loadingScreen.classList.add("hidden");
       resultScreen.classList.remove("hidden");
       document.body.classList.add("state-result");
       window.scrollTo(0,0);
+
+      /* One upload -> one Gemini analysis call -> one image-generation
+         call -> display. Stage 6 (independent re-reading of the generated
+         image) has been removed: nothing runs here after the result is
+         shown, automatically or otherwise. */
     })
     .catch(function(err){
       console.error(err);
@@ -1705,6 +2439,10 @@ function startTransformation(imgState, userGuidance, apiKey){
       loadingScreen.classList.add("hidden");
       heroScreen.classList.remove("hidden");
       showErrorBanner(err && err.message ? err.message : "Something went wrong during the transformation.");
+    })
+    .finally(function(){
+      generationInFlight = false;
+      if (submitBtn) submitBtn.disabled = false;
     });
 }
 
@@ -1746,6 +2484,71 @@ function formatBilingualBlock(container, text, keyLabels){
    incompatibility), and divergent readings (title + note). `data` is
    expected to be { visible_cues:[], cultural_inferences:[], divergent_readings:[] };
    `labels` supplies the (bilingual) section headings. */
+/* The unified flow doesn't produce surreal_analysis_{en,tw} (that content
+   lives in the vision plan instead) — this adapts alternativeRecognitions
+   and the selected divergent reading into the shape renderSurrealAnalysis()
+   already knows how to draw, so the surreal-image reading panel isn't
+   blank. Also handles the legacy (pre-rewrite) B/C plan shape for old
+   history records. */
+function rmpAsSurrealAnalysisView(plan, lang){
+  if (!plan) return null;
+
+  if (plan.stage1 !== undefined){
+    var s1 = plan.stage1 || {};
+    var s2 = plan.stage2 || {};
+    var s3 = plan.stage3 || {};
+    var cuesNew = (s1.alternativeRecognitions || []).map(function(a){
+      return lang === "tw" ? (a.label_tw || a.label_en) : (a.label_en || a.label_tw);
+    }).filter(Boolean);
+    var selectedIdsForView = uniqueStrings(normalizeSelectedAssociationIds(s3));
+    var selectedAssocsForView = selectedIdsForView.map(function(id){
+      return (s2.associativeDivergences || []).filter(function(a){ return a.id === id; })[0];
+    }).filter(Boolean);
+    var divergentNew = [];
+    if (s3.status === "selected" && selectedAssocsForView.length){
+      /* potentialRelationalConsequences is ONE combined note for the whole
+         creative decision, not one per association — attach it to the
+         first card only, so it is shown once rather than repeated
+         identically on every selected association's card. */
+      selectedAssocsForView.forEach(function(assoc, idx){
+        divergentNew.push({
+          title: lang === "tw" ? (assoc.association_tw || "") : (assoc.association_en || ""),
+          note: idx === 0 ? (lang === "tw" ? (s3.potentialRelationalConsequences_tw || "") : (s3.potentialRelationalConsequences_en || "")) : ""
+        });
+      });
+    }
+    return { visible_cues: cuesNew, cultural_inferences: [], divergent_readings: divergentNew };
+  }
+
+  if (plan.recognitionRecords !== undefined){
+    var cues = [];
+    (plan.recognitionRecords || []).forEach(function(r){
+      (r.alternativeRecognitions || []).forEach(function(a){
+        var lbl = lang === "tw" ? (a.label_tw || a.label_en) : (a.label_en || a.label_tw);
+        if (lbl) cues.push(lbl);
+      });
+    });
+    var sel = plan.selectedReading || {};
+    var reading = (plan.divergentReadings || []).filter(function(r){ return r.id === sel.reading_id; })[0];
+    var divergent = [];
+    if (sel.status === "selected" && reading){
+      divergent.push({
+        title: lang === "tw" ? (reading.reading_tw || "") : (reading.reading_en || ""),
+        note: lang === "tw" ? (reading.possibleConsequences_tw || "") : (reading.possibleConsequences_en || "")
+      });
+    }
+    return { visible_cues: cues, cultural_inferences: [], divergent_readings: divergent };
+  }
+
+  var hyps = (lang === "tw" ? plan.interpretiveHypotheses_tw : plan.interpretiveHypotheses_en) || [];
+  var selLegacy = plan.selectedReading;
+  var divergentLegacy = [];
+  if (selLegacy && selLegacy.status === "selected"){
+    divergentLegacy.push({ title: lang === "tw" ? (selLegacy.rationale_tw || "") : (selLegacy.rationale_en || ""), note: "" });
+  }
+  return { visible_cues: hyps, cultural_inferences: [], divergent_readings: divergentLegacy };
+}
+
 function renderSurrealAnalysis(container, data, labels){
   container.innerHTML = "";
   if (!data || typeof data !== "object") return;
@@ -1787,6 +2590,710 @@ function renderSurrealAnalysis(container, data, labels){
     }).join("");
     sec3.innerHTML = '<div class="analysis-section-title">' + escapeHtml(labels.divergent) + '</div><div class="dread-list">' + cards + '</div>';
     container.appendChild(sec3);
+  }
+}
+
+/* ---- LEGACY (pre-rewrite) rendering: read-only compatibility for history
+   records created before Mode A/B/C was removed. Nothing in the current
+   generation flow writes these field shapes anymore — see newRecord in
+   startTransformation(). Kept so old history stays legible, per Research
+   Directive section 2.1 "保留舊歷史資料的讀取相容性". ---- */
+var LEGACY_DIMENSION_LABELS = {
+  en: { classification_boundary: "Classification Boundary", relational_ambiguity: "Relational Ambiguity", semantic_displacement: "Semantic Displacement", incompatible_coexistence: "Incompatible Coexistence", spatial_social_cultural: "Spatial / Social / Cultural" },
+  tw: { classification_boundary: "分類邊界", relational_ambiguity: "關係模糊", semantic_displacement: "語義錯置", incompatible_coexistence: "不相容共存", spatial_social_cultural: "空間／社會／文化潛力" }
+};
+
+var LEGACY_MISREADING_LABELS = {
+  en: {
+    evidence: "1 · Recognition Evidence", uncertainties: "Uncertainties (not calibrated probabilities)",
+    candidates: "2 · Divergent Reading Candidates", noCandidates: "No divergent reading candidates were found — detection was consistent enough that no fabricated conflict is reported.",
+    selected: "3 · Selected Reading", insufficient: "⚠ Insufficient divergent evidence for this image — this result is a general visual reconstruction, NOT an evidence-driven misreading. Nothing below should be read as a confirmed classification conflict.",
+    evidenceRefs: "Evidence References", hypotheses: "Speculative Interpretive Hypotheses",
+    operation: "4 · Relational Operation", noOperation: "No relational operation was produced.",
+    generationPrompt: "5 · Generation Prompt (as written by the model)", provenance: "Provenance",
+    provEvidence: "Evidence-based", provInference: "Model inference", provSpeculative: "Speculative",
+    hypothesis: "Hypothetical", forced: "Not mentioned by the model — force-appended by the app",
+    finalPrompt: "Final prompt actually sent to the image model"
+  },
+  tw: {
+    evidence: "1 · 辨識證據", uncertainties: "不確定性（非校準過的機率）",
+    candidates: "2 · 歧異閱讀候選", noCandidates: "未發現歧異閱讀候選——分類結果高度一致，不虛構假衝突。",
+    selected: "3 · 已選閱讀", insufficient: "⚠ 此圖像未發現足夠的歧異證據——本結果為一般視覺重構，並非證據驅動的誤讀。以下內容不應被視為已證實的分類衝突。",
+    evidenceRefs: "證據引用", hypotheses: "推測性詮釋假說",
+    operation: "4 · 關係操作", noOperation: "未產生關係操作。",
+    generationPrompt: "5 · 生成指令（模型原文）", provenance: "來源標示",
+    provEvidence: "證據為本", provInference: "模型推論", provSpeculative: "推測性",
+    hypothesis: "假說性閱讀", forced: "模型未提及 — 已由程式碼強制補寫",
+    finalPrompt: "實際送給圖像模型的完整 Prompt"
+  }
+};
+
+function renderLegacyMisreadingPlan(container, record, plan, lang){
+  var L = LEGACY_MISREADING_LABELS[lang] || LEGACY_MISREADING_LABELS.en;
+  var DIM = LEGACY_DIMENSION_LABELS[lang] || LEGACY_DIMENSION_LABELS.en;
+  var objects = record.objects || [];
+  var relations = (plan.recognitionEvidence && plan.recognitionEvidence.observedRelations) || [];
+  var features = (plan.recognitionEvidence && plan.recognitionEvidence.visualFeatures) || [];
+
+  function objLabel(id){
+    var o = findObjectById(objects, id);
+    if (o) return (lang === "tw" ? (o.label_tw || o.label_en) : (o.label_en || o.label_tw)) || o.label || id;
+    var rel = relations.filter(function(r){ return r.id === id; })[0];
+    if (rel) return (lang === "tw" ? rel.description_tw : rel.description_en) || rel.relation_type || id;
+    var feat = features.filter(function(f){ return f.id === id; })[0];
+    if (feat) return (lang === "tw" ? feat.description_tw : feat.description_en) || feat.feature_type || id;
+    return id || "?";
+  }
+  function section(title, innerHtml){
+    var sec = document.createElement("div");
+    sec.className = "analysis-section";
+    sec.innerHTML = '<div class="analysis-section-title">' + escapeHtml(title) + '</div>' + innerHtml;
+    container.appendChild(sec);
+  }
+
+  var uncertainObjs = objects.filter(function(o){ return o.identity_certainty === "uncertain" || o.identity_certainty === "unidentified"; });
+  var uncertainObjHtml = uncertainObjs.length
+    ? '<div class="mtag-object">' + escapeHtml(lang === "tw" ? "身份未定的區域" : "Unidentified / uncertain regions") + '</div><div class="vcue-tags">' +
+      uncertainObjs.map(function(o){
+        var lbl = (lang === "tw" ? (o.label_tw || o.label_en) : (o.label_en || o.label_tw)) || o.label || o.id;
+        return '<span class="vcue-tag">' + escapeHtml(lbl) + ' <span class="hyp-badge">' + escapeHtml(o.identity_certainty) + '</span></span>';
+      }).join("") + '</div>'
+    : "";
+
+  var featureRows = features.map(function(f){
+    var desc = lang === "tw" ? f.description_tw : f.description_en;
+    return '<div class="diff-row">' +
+      '<div class="diff-top"><span class="diff-object">' + escapeHtml(f.feature_type || "") + '</span></div>' +
+      (desc ? '<div class="diff-basis">' + escapeHtml(desc) + '</div>' : '') +
+    '</div>';
+  }).join("");
+
+  var relRows = relations.map(function(r){
+    var desc = lang === "tw" ? r.description_tw : r.description_en;
+    var objLabels = (r.object_ids || []).map(objLabel).join(" ↔ ");
+    return '<div class="diff-row">' +
+      '<div class="diff-top"><span class="diff-object">' + escapeHtml(objLabels) + '</span>' +
+      '<span class="diff-arrow">' + escapeHtml(r.relation_type || "") + '</span></div>' +
+      (desc ? '<div class="diff-basis">' + escapeHtml(desc) + '</div>' : '') +
+    '</div>';
+  }).join("");
+  var uncertainties = (lang === "tw" ? (plan.recognitionEvidence && plan.recognitionEvidence.uncertainties_tw) : (plan.recognitionEvidence && plan.recognitionEvidence.uncertainties_en)) || [];
+  var uncertaintyHtml = uncertainties.length
+    ? '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.uncertainties) + '</div><div class="vcue-tags">' + uncertainties.map(function(u){ return '<span class="vcue-tag">' + escapeHtml(u) + '</span>'; }).join("") + '</div>'
+    : "";
+  if (uncertainObjHtml || featureRows || relRows || uncertaintyHtml){
+    section(L.evidence, uncertainObjHtml + featureRows + relRows + uncertaintyHtml);
+  }
+
+  var candidates = plan.divergentReadingCandidates || [];
+  if (candidates.length){
+    var candCards = candidates.map(function(c){
+      var ra = lang === "tw" ? c.reading_a_tw : c.reading_a_en;
+      var rb = lang === "tw" ? c.reading_b_tw : c.reading_b_en;
+      var incompat = lang === "tw" ? c.incompatibility_tw : c.incompatibility_en;
+      var dimLabel = DIM[c.dimension] || c.dimension || "";
+      var refs = (c.evidenceRefs || []).map(objLabel).join(", ");
+      return '<div class="tension-card">' +
+        '<div class="mtag-object">' + escapeHtml(dimLabel) + (c.is_hypothesis ? '<span class="hyp-badge">' + escapeHtml(L.hypothesis) + '</span>' : '') + '</div>' +
+        '<div class="tension-reading"><b>A.</b> ' + escapeHtml(ra || "") + '</div>' +
+        '<div class="tension-reading"><b>B.</b> ' + escapeHtml(rb || "") + '</div>' +
+        (incompat ? '<div class="displaced-change">' + escapeHtml(incompat) + '</div>' : "") +
+        (refs ? '<div class="displaced-change" style="margin-top:4px;"><i>' + escapeHtml(refs) + '</i></div>' : "") +
+      '</div>';
+    }).join("");
+    section(L.candidates, candCards);
+  } else {
+    section(L.candidates, '<div class="rmp-empty-note">' + escapeHtml(L.noCandidates) + '</div>');
+  }
+
+  var sel = plan.selectedReading || {};
+  if (sel.status === "insufficient_evidence"){
+    section(L.selected, '<div class="unused-warning">' + escapeHtml(L.insufficient) + (sel.rationale_en || sel.rationale_tw ? ('<div style="margin-top:6px;">' + escapeHtml(lang === "tw" ? sel.rationale_tw : sel.rationale_en) + '</div>') : "") + '</div>');
+  } else if (sel.status === "selected"){
+    var chosen = candidates.filter(function(c){ return c.id === sel.candidate_id; })[0];
+    var rationale = lang === "tw" ? sel.rationale_tw : sel.rationale_en;
+    section(L.selected, '<div class="tension-card">' +
+      (chosen ? '<div class="mtag-object">' + escapeHtml(DIM[chosen.dimension] || chosen.dimension || "") + '</div>' : "") +
+      '<div class="displaced-change">' + escapeHtml(rationale || "") + '</div>' +
+    '</div>');
+  }
+
+  var evidenceRefs = plan.evidenceReferences || [];
+  if (evidenceRefs.length){
+    section(L.evidenceRefs, '<div class="vcue-tags">' + evidenceRefs.map(function(id){ return '<span class="vcue-tag">' + escapeHtml(objLabel(id)) + '</span>'; }).join("") + '</div>');
+  }
+
+  var hyps = (lang === "tw" ? plan.interpretiveHypotheses_tw : plan.interpretiveHypotheses_en) || [];
+  if (hyps.length){
+    section(L.hypotheses, '<div class="vcue-tags">' + hyps.map(function(h){ return '<span class="vcue-tag">' + escapeHtml(h) + '</span>'; }).join("") + '</div>');
+  }
+
+  var op = plan.relationalOperation;
+  if (op){
+    var opType = lang === "tw" ? op.operationType_tw : op.operationType_en;
+    var opDesc = lang === "tw" ? op.description_tw : op.description_en;
+    var targets = (op.targetObjectIds || []).map(objLabel).join(", ");
+    section(L.operation, '<div class="displaced-row">' +
+      '<div class="displaced-top"><span class="displaced-object">' + escapeHtml(opType || "") + '</span>' +
+      (record.relationalOperationForced ? '<span class="force-badge">' + escapeHtml(L.forced) + '</span>' : '') +
+      '</div>' +
+      (targets ? '<div class="displaced-change"><i>' + escapeHtml(targets) + '</i></div>' : "") +
+      '<div class="displaced-change">' + escapeHtml(opDesc || "") + '</div>' +
+    '</div>');
+  } else {
+    section(L.operation, '<div class="rmp-empty-note">' + escapeHtml(L.noOperation) + '</div>');
+  }
+
+  if (plan.generationPrompt){
+    section(L.generationPrompt, '<div class="instructions-block">' + escapeHtml(plan.generationPrompt) + '</div>');
+  }
+
+  var prov = plan.provenance;
+  if (prov){
+    var provEv = lang === "tw" ? prov.evidenceBased_tw : prov.evidenceBased_en;
+    var provInf = lang === "tw" ? prov.modelInference_tw : prov.modelInference_en;
+    var provSpec = lang === "tw" ? prov.speculative_tw : prov.speculative_en;
+    var provHtml = "";
+    if (provEv) provHtml += '<div class="diff-row"><div class="mtag-object">' + escapeHtml(L.provEvidence) + '</div><div class="diff-basis">' + escapeHtml(provEv) + '</div></div>';
+    if (provInf) provHtml += '<div class="diff-row"><div class="mtag-object">' + escapeHtml(L.provInference) + '</div><div class="diff-basis">' + escapeHtml(provInf) + '</div></div>';
+    if (provSpec) provHtml += '<div class="diff-row"><div class="mtag-object">' + escapeHtml(L.provSpeculative) + '</div><div class="diff-basis">' + escapeHtml(provSpec) + '</div></div>';
+    if (provHtml) section(L.provenance, provHtml);
+  }
+
+  if (record.finalImagePrompt){
+    section(L.finalPrompt, '<div class="final-prompt-block">' + escapeHtml(record.finalImagePrompt) + '</div>');
+  }
+}
+
+/* ---- PREVIOUS ROUND (three-stage recognitionRecords) rendering — kept
+   read-only for history records created under that schema, between the
+   old classification_difference B/C schema and the current six-stage
+   one. Nothing writes this shape anymore. ---- */
+var LEGACY2_VISION_LABELS = {
+  en: {
+    baseline: "Legacy record (pre-rewrite) — no structured vision plan was recorded for this generation.",
+    certainty: { confident: "confident", competing: "competing", unstable: "unstable", unnameable: "unnameable" },
+    whatISaw: "What I Saw", noEvidence: "No recognition records for this image.",
+    whatIRecognized: "What I Recognized",
+    whatElseIConsidered: "What Else I Considered", noAlternatives: "No alternative readings were recorded — the recognition was confident and uncontested.",
+    whatISelected: "What I Selected", noReadings: "No divergent reading was found — recognition was consistent enough that no reading is reported. This is an honest result, not a fabricated one.",
+    insufficient: "⚠ No divergent reading had sufficient visual grounding. The image below is a direct, evidence-based reconstruction — NOT an evidence-driven misreading. Treat it accordingly.",
+    whyISelectedIt: "Why I Selected It",
+    whatITransformed: "What I Transformed", noConsequence: "No relational consequence was produced (consistent with an insufficient-evidence round).",
+    unresolved: "Deliberately left unresolved",
+    modelDraft: "Model's own supplementary phrasing",
+    integrity: "Integrity Diagnostics",
+    evidenceIntegrityOk: "✓ Evidence Integrity — every cited evidence id resolved to a real record",
+    evidenceIntegrityBad: "⚠ Evidence Integrity — these cited ids did NOT resolve to any real record:",
+    recognitionIntegrity: "✓ Recognition Integrity (structural guarantee)",
+    openEndedness: "✓ Open-Endedness (structural guarantee)",
+    sourceIndependence: "✓ Source Independence (structural guarantee)",
+    noHumanSelection: "✓ No Human Selection (structural guarantee)",
+    finalPrompt: "Final prompt actually sent to the image model"
+  },
+  tw: {
+    baseline: "舊版紀錄（改版前）——此次生成未記錄結構化的觀看計畫。",
+    certainty: { confident: "確定", competing: "競爭中", unstable: "不穩定", unnameable: "無法命名" },
+    whatISaw: "我最初看到了什麼", noEvidence: "此圖像沒有辨識紀錄。",
+    whatIRecognized: "我認為它是什麼",
+    whatElseIConsidered: "我還看到了哪些可能", noAlternatives: "沒有記錄替代閱讀——辨識結果確定且無爭議。",
+    whatISelected: "我自行選擇追究什麼", noReadings: "未發現歧異閱讀——辨識結果足夠一致，沒有閱讀可回報。這是誠實的結果，不是捏造的。",
+    insufficient: "⚠ 沒有歧異閱讀具備足夠的視覺依據。下方圖像是直接、以證據為本的重建——並非證據驅動的誤讀，請據此理解。",
+    whyISelectedIt: "哪些視覺線索支持這個選擇",
+    whatITransformed: "我如何將這些線索轉化為生成指令", noConsequence: "未產生關係後果（與證據不足的結果一致）。",
+    unresolved: "刻意保留未解決",
+    modelDraft: "模型自己的補充措辭",
+    integrity: "完整性診斷",
+    evidenceIntegrityOk: "✓ 證據完整性 — 所有引用的證據 id 都能對應到真實紀錄",
+    evidenceIntegrityBad: "⚠ 證據完整性 — 以下引用的 id 無法對應到任何真實紀錄：",
+    recognitionIntegrity: "✓ 辨識完整性（結構性保證）",
+    openEndedness: "✓ 開放性（結構性保證）",
+    sourceIndependence: "✓ 來源獨立性（結構性保證）",
+    noHumanSelection: "✓ 無人為選擇介入（結構性保證）",
+    finalPrompt: "實際送給圖像模型的完整 Prompt"
+  }
+};
+
+function renderLegacyVisionPlan(container, record, plan, lang){
+  var L = LEGACY2_VISION_LABELS[lang] || LEGACY2_VISION_LABELS.en;
+  var objects = record.objects || [];
+  var records = plan.recognitionRecords || [];
+
+  function regionLabel(id){
+    var o = findObjectById(objects, id);
+    if (o) return (lang === "tw" ? (o.label_tw || o.label_en) : (o.label_en || o.label_tw)) || o.label || id;
+    var rec = records.filter(function(r){ return r.id === id || r.visualRegionReference === id; })[0];
+    if (rec) return (lang === "tw" ? rec.initialRecognition_tw : rec.initialRecognition_en) || id;
+    return id || "?";
+  }
+  function section(title, innerHtml){
+    var sec = document.createElement("div");
+    sec.className = "analysis-section";
+    sec.innerHTML = '<div class="analysis-section-title">' + escapeHtml(title) + '</div>' + innerHtml;
+    container.appendChild(sec);
+  }
+
+  var sel = plan.selectedReading || {};
+  var readings = plan.divergentReadings || [];
+  var selectedReadingObj = readings.filter(function(r){ return r.id === sel.reading_id; })[0];
+
+  if (records.length){
+    var sawRows = records.map(function(r){
+      var evidence = lang === "tw" ? r.observedVisualEvidence_tw : r.observedVisualEvidence_en;
+      return '<div class="diff-row"><div class="diff-basis">' + escapeHtml(evidence || "") + '</div></div>';
+    }).join("");
+    section(L.whatISaw, sawRows);
+  } else {
+    section(L.whatISaw, '<div class="rmp-empty-note">' + escapeHtml(L.noEvidence) + '</div>');
+  }
+
+  if (records.length){
+    var recognizedRows = records.map(function(r){
+      var initial = lang === "tw" ? r.initialRecognition_tw : r.initialRecognition_en;
+      var certaintyLabel = L.certainty[r.recognitionCertainty] || r.recognitionCertainty || "";
+      return '<div class="diff-row"><div class="diff-top"><span class="diff-object">' + escapeHtml(initial || "") + '</span>' +
+        (certaintyLabel ? '<span class="hyp-badge">' + escapeHtml(certaintyLabel) + '</span>' : '') +
+      '</div></div>';
+    }).join("");
+    section(L.whatIRecognized, recognizedRows);
+  }
+
+  var altHtml = records.map(function(r){
+    return (r.alternativeRecognitions || []).map(function(a){
+      var lbl = lang === "tw" ? (a.label_tw || a.label_en) : (a.label_en || a.label_tw);
+      var reason = lang === "tw" ? a.ambiguityReason_tw : a.ambiguityReason_en;
+      return '<span class="vcue-tag">' + escapeHtml(lbl || "") + (reason ? (" — " + escapeHtml(reason)) : "") + '</span>';
+    }).join("");
+  }).join("");
+  if (altHtml){
+    section(L.whatElseIConsidered, '<div class="vcue-tags">' + altHtml + '</div>');
+  } else {
+    section(L.whatElseIConsidered, '<div class="rmp-empty-note">' + escapeHtml(L.noAlternatives) + '</div>');
+  }
+
+  if (sel.status === "insufficient_evidence"){
+    section(L.whatISelected, '<div class="unused-warning">' + escapeHtml(L.insufficient) + '</div>');
+  } else if (sel.status === "selected" && selectedReadingObj){
+    var reading = lang === "tw" ? selectedReadingObj.reading_tw : selectedReadingObj.reading_en;
+    section(L.whatISelected, '<div class="tension-card"><div class="tension-reading">' + escapeHtml(reading || "") + '</div></div>');
+  } else {
+    section(L.whatISelected, '<div class="rmp-empty-note">' + escapeHtml(L.noReadings) + '</div>');
+  }
+
+  var rationale = lang === "tw" ? sel.selectionRationale_tw : sel.selectionRationale_en;
+  if (rationale) section(L.whyISelectedIt, '<div class="block-val">' + escapeHtml(rationale) + '</div>');
+
+  var rel = plan.relationalConsequence;
+  if (rel){
+    var desc = lang === "tw" ? rel.description_tw : rel.description_en;
+    var tension = lang === "tw" ? rel.unresolvedTension_tw : rel.unresolvedTension_en;
+    section(L.whatITransformed, '<div class="displaced-row"><div class="displaced-change">' + escapeHtml(desc || "") + '</div>' +
+      (tension ? ('<div class="displaced-change"><b>' + escapeHtml(L.unresolved) + ':</b> ' + escapeHtml(tension) + '</div>') : '') +
+    '</div>');
+  } else {
+    section(L.whatITransformed, '<div class="rmp-empty-note">' + escapeHtml(L.noConsequence) + '</div>');
+  }
+
+  if (plan.modelDraftInstruction){
+    section(L.modelDraft, '<div class="instructions-block">' + escapeHtml(plan.modelDraftInstruction) + '</div>');
+  }
+
+  if (record.finalImagePrompt){
+    section(L.finalPrompt, '<div class="final-prompt-block">' + escapeHtml(record.finalImagePrompt) + '</div>');
+  }
+}
+
+/* ---- CURRENT (six-stage) rendering: the Transparent Research Record,
+   exactly as the six labeled, user-facing fields from the Research
+   Directive PART 6 — WHAT I SAW / WHAT MADE ME SEE IT / WHAT ELSE I
+   ASSOCIATED / WHAT I CHOSE TO EXPLORE / WHAT I CHANGED / WHAT I
+   GENERATED. All of it is read directly from `plan` (stage1-5), which is
+   the JSON the model returned BEFORE image generation (see
+   startTransformation() — visionPlan is built straight from the Gemini
+   analysis response, never from anything computed after the image comes
+   back). There is no UI control anywhere that lets a human pick an
+   association — stage3 already contains the model's own, final,
+   pre-generation choice when this function runs. ---- */
+var SIX_STAGE_LABELS = {
+  en: {
+    baseline: "Legacy record (pre-rewrite) — no six-stage vision plan was recorded for this generation.",
+    selfReportDisclaimer: "The fields below are the model's own recorded account of its choices — a self-report, not a verified record of its internal computation.",
+    candidateAssociationsLabel: "1 · CANDIDATE RECOGNITIONS & ASSOCIATIONS",
+    selectedMarker: "selected", notSelectedMarker: "not selected",
+    selectionAndRejectionLabel: "2 · SELECTION & REJECTION",
+    selectionRationaleNotRecorded: "Not recorded — the model did not provide a selectionRationale for this round.",
+    rejectionNotRecorded: "Why the other candidate(s) above were not selected is not recorded — stage2.associativeDivergences has no field for a rejection reason, so this is genuinely absent data, not an omission in this display.",
+    artisticQuestionLabel: "3 · ARTISTIC QUESTION",
+    artisticQuestionNotRecorded: "Not recorded for this round.",
+    pictorialTranslationLabel: "4 · PICTORIAL TRANSLATION",
+    finalInstructionLabel: "5 · FINAL GENERATION INSTRUCTION",
+    certainty: { confident: "confident", unstable: "unstable", unnameable: "unnameable" },
+    whatISaw: "WHAT I SAW", noEvidence: "No recognition records for this image.",
+    whatMadeMeSeeIt: "WHAT MADE ME SEE IT",
+    whatElseIAssociated: "WHAT ELSE I ASSOCIATED", noAlternatives: "No alternative readings were recorded.", noAssociations: "No associative divergences were proposed — recognition was consistent enough that none were needed.",
+    provenance: { actual_initial_recognition: "actual initial recognition", same_identity_new_context: "same identity, new context", cross_domain_affinity: "cross-domain visual affinity", creative_interpretation: "creative interpretation (weak/no visual basis)", alternative_visual_association: "alternative visual association (legacy tag)" },
+    whatIChoseToExplore: "WHAT I CHOSE TO EXPLORE", insufficient: "⚠ No association had sufficient visual grounding this round. What follows is a direct, evidence-based composition from visible fragments — NOT an association-driven transformation. Treat it accordingly.",
+    pictorialProblemLabel: "Pictorial problem", pictorialAnswerLabel: "Pictorial answer",
+    creativeDirectionLabel: "Creative direction", artisticIntentionLabel: "Artistic intention", realizationPlanLabel: "Realization plan",
+    whyISelectedIt: "Why I selected it",
+    whatIChanged: "WHAT I CHANGED", noChange: "No realization plan or operations were produced (consistent with an insufficient-evidence round).",
+    retained: "Retained", operations: "Operations", introduced: "Introduced", consequences: "Consequences", unresolved: "Left unresolved",
+    whatIGenerated: "WHAT I GENERATED", medium: "Medium/style (chosen freely for this image)",
+    imageModelLabel: "Image model actually used",
+    integrity: "Integrity Diagnostics",
+    evidenceIntegrityOk: "✓ Evidence Integrity — every cited fragment id resolved to a real record",
+    evidenceIntegrityBad: "⚠ Evidence Integrity — these cited ids did NOT resolve to any real record:",
+    selectionIntegrityOk: "✓ Selection Integrity — selectedAssociationIds are all real, non-duplicate stage2 ids, consistent with status",
+    selectionIntegrityBad: "⚠ Selection Integrity — problem with selectedAssociationIds:",
+    selectionIntegrityInvalidIds: "ids not found in stage2:",
+    selectionIntegrityDuplicateIds: "duplicate ids:",
+    selectionIntegrityStatusMismatch: "status/selection-count mismatch (selectedAssociationIds must be empty when status is \"insufficient_evidence\")",
+    pictorialProblemPresentOk: "✓ pictorialProblem is non-empty (presence only — not a judgment of depth; checked the same way regardless of status, since insufficient_evidence never by itself blocks artistic output)",
+    pictorialProblemPresentBad: "⚠ pictorialProblem is empty — no discovery or honest \"none found\" statement was recorded",
+    pictorialAnswerPresentOk: "✓ pictorialAnswer is non-empty (presence only — not a judgment of visual quality; checked the same way regardless of status)",
+    pictorialAnswerPresentBad: "⚠ pictorialAnswer is empty — no artistic concept was recorded for this image",
+    artisticCompletenessOk: "✓ Artistic Completeness — a pictorial problem and pictorial answer were both recorded, independent of visual-evidence status",
+    artisticCompletenessBad: "⚠ Artistic Completeness — this plan has no recorded pictorial problem and/or pictorial answer (see rows above)",
+    recognitionIntegrity: "✓ Recognition Integrity — initialRecognition is never overwritten by this app (structural guarantee)",
+    openEndedness: "✓ Creative Freedom — no instruction forces every contradiction to resolve, and none forces completion or anti-completion either; both are available, chosen autonomously per image (structural guarantee)",
+    sourceIndependence: "✓ Source Independence — no prior generation, upload, or history was sent to the model (structural guarantee)",
+    noHumanSelection: "✓ No Human Selection — stage3 was chosen by the model itself before this record was saved (structural guarantee)",
+    creativeAutonomyGuaranteed: "✓ Creative Autonomy — the composition prompt forces neither completion nor anti-completion; stage3.creativeDirection/realizationPlan decides, unmodified (structural guarantee, see buildCompositionPrompt)",
+    finalPrompt: "Final prompt actually sent to the image model",
+    aiAutonomousPrompt: "AI's own complete generation prompt (as written, before the source-selection decision below)",
+    promptSourceLabel: "Source of the prompt actually sent",
+    sourceAiAutonomous: "✓ AI's own autonomous prompt was sent as-is",
+    sourceAppFallback: "⚠ App's mechanical assembly was sent instead",
+    sourceNoUsableContent: "✗ No usable visual concept was available — image generation was not attempted",
+    fallbackReasons: {
+      missing_field: "the model did not provide finalGenerationPrompt",
+      invalid_type: "finalGenerationPrompt was not a string",
+      empty_after_trim: "finalGenerationPrompt was empty",
+      insufficient_evidence: "stage3 status was insufficient_evidence — the app's evidence-only fallback is always used in this case",
+      insufficient_evidence_override: "the model wrote finalGenerationPrompt, but stage3 status was insufficient_evidence, so the app's evidence-only fallback was used instead (preserved below, unused)"
+    },
+    assembledComparisonLabel: "App-assembled version (text-only comparison)",
+    assembledComparisonToggle: "Show the app's mechanical assembly — for comparison only, never sent to the image model when the AI's own prompt was used",
+    reinspectionTitle: "STAGE 6 · Independent Re-Reading (generated image only, no context)",
+    reFirst: "First recognition", reFragments: "Recognizable fragments", reAlt: "Other readings with visual support", reUses: "Suggested uses / actions", reUncertain: "Still uncertain"
+  },
+  tw: {
+    baseline: "舊版紀錄（改版前）——此次生成未記錄六階段觀看計畫。",
+    selfReportDisclaimer: "以下欄位是模型自己記錄下來的選擇說明——是自我報告，不是經過驗證的內部運算紀錄。",
+    candidateAssociationsLabel: "1 · 候選辨識與聯想",
+    selectedMarker: "已選用", notSelectedMarker: "未採用",
+    selectionAndRejectionLabel: "2 · 選擇與捨棄",
+    selectionRationaleNotRecorded: "未記錄——模型這一輪沒有提供 selectionRationale。",
+    rejectionNotRecorded: "上方其他候選聯想為何未被選用，沒有記錄——stage2.associativeDivergences 本身沒有「捨棄理由」欄位，這是資料真的不存在，不是本畫面省略顯示。",
+    artisticQuestionLabel: "3 · 藝術命題",
+    artisticQuestionNotRecorded: "本輪未記錄。",
+    pictorialTranslationLabel: "4 · 圖像轉譯",
+    finalInstructionLabel: "5 · 最終生成指令",
+    certainty: { confident: "確定", unstable: "不穩定", unnameable: "無法命名" },
+    whatISaw: "我最初看到了什麼", noEvidence: "此圖像沒有辨識紀錄。",
+    whatMadeMeSeeIt: "造成辨識的具體視覺特徵",
+    whatElseIAssociated: "我還聯想到哪些可能", noAlternatives: "沒有記錄替代閱讀。", noAssociations: "未提出異質聯想——辨識結果已足夠一致，不需要聯想。",
+    provenance: { actual_initial_recognition: "實際初步辨識", same_identity_new_context: "身分不變、情境改變", cross_domain_affinity: "跨領域視覺聯想", creative_interpretation: "創意聯想（視覺依據薄弱或缺乏）", alternative_visual_association: "替代視覺聯想（舊版標籤）" },
+    whatIChoseToExplore: "我自主選擇追究什麼", insufficient: "⚠ 本輪沒有聯想具備足夠的視覺依據。以下是直接、以可見局部為本的構圖——並非聯想驅動的轉化，請據此理解。",
+    pictorialProblemLabel: "圖像問題", pictorialAnswerLabel: "圖像解答",
+    creativeDirectionLabel: "創作方向", artisticIntentionLabel: "藝術意圖", realizationPlanLabel: "實現規劃",
+    whyISelectedIt: "選擇理由",
+    whatIChanged: "我改變了什麼", noChange: "未產生實現規劃或操作（與證據不足的結果一致）。",
+    retained: "保留", operations: "操作", introduced: "引入元素", consequences: "後果", unresolved: "刻意保留未解決",
+    whatIGenerated: "我生成了什麼", medium: "媒材／風格（本次自由選擇）",
+    imageModelLabel: "實際使用的生圖模型",
+    integrity: "完整性診斷",
+    evidenceIntegrityOk: "✓ 證據完整性 — 所有引用的局部 id 都能對應到真實紀錄",
+    evidenceIntegrityBad: "⚠ 證據完整性 — 以下引用的 id 無法對應到任何真實紀錄：",
+    selectionIntegrityOk: "✓ 選取完整性 — selectedAssociationIds 皆為真實、不重複的 stage2 id，且與 status 一致",
+    selectionIntegrityBad: "⚠ 選取完整性 — selectedAssociationIds 有問題：",
+    selectionIntegrityInvalidIds: "在 stage2 找不到的 id：",
+    selectionIntegrityDuplicateIds: "重複的 id：",
+    selectionIntegrityStatusMismatch: "status 與選取數量不一致（status 為「insufficient_evidence」時 selectedAssociationIds 必須是空陣列）",
+    pictorialProblemPresentOk: "✓ pictorialProblem 非空白（僅檢查是否填寫,不判斷深度——無論 status 為何都用同一標準檢查,因為證據不足從不自動等同於創作失敗）",
+    pictorialProblemPresentBad: "⚠ pictorialProblem 是空的——沒有記錄任何發現，也沒有誠實說明「沒有找到值得發展的發現」",
+    pictorialAnswerPresentOk: "✓ pictorialAnswer 非空白（僅檢查是否填寫,不判斷畫面美感，無論 status 為何都用同一標準檢查)",
+    pictorialAnswerPresentBad: "⚠ pictorialAnswer 是空的——這張圖沒有記錄任何藝術構想",
+    artisticCompletenessOk: "✓ 創作完整性 — 已同時記錄圖像問題與圖像解答，與視覺證據是否充分無關",
+    artisticCompletenessBad: "⚠ 創作完整性 — 這份計畫缺少圖像問題和／或圖像解答的記錄（見上方兩行）",
+    recognitionIntegrity: "✓ 辨識完整性 — initialRecognition 從未被本程式覆寫（結構性保證）",
+    openEndedness: "✓ 創作自由 — 沒有任何指令強迫矛盾被解決，也沒有任何指令強迫補全或禁止補全；兩者皆可，由每次生成自主選擇（結構性保證）",
+    sourceIndependence: "✓ 來源獨立性 — 沒有任何前次生成、上傳或歷史紀錄被傳給模型（結構性保證）",
+    noHumanSelection: "✓ 無人為選擇介入 — stage3 在這筆紀錄被儲存之前就已由模型自行選定（結構性保證）",
+    creativeAutonomyGuaranteed: "✓ 創作自主性 — 組裝 Prompt 時不強迫補全、也不強迫禁止補全；由 stage3.creativeDirection/realizationPlan 原樣決定（結構性保證，見 buildCompositionPrompt）",
+    finalPrompt: "實際送給圖像模型的完整 Prompt",
+    aiAutonomousPrompt: "AI 自己撰寫的完整生圖 Prompt（原文,尚未經過下方的來源選擇判斷）",
+    promptSourceLabel: "實際送出 Prompt 的來源",
+    sourceAiAutonomous: "✓ 採用 AI 自主撰寫的 Prompt，原文送出",
+    sourceAppFallback: "⚠ 改用程式機械組裝的版本",
+    sourceNoUsableContent: "✗ 沒有任何可用的視覺構想——未嘗試生成圖像",
+    fallbackReasons: {
+      missing_field: "模型未提供 finalGenerationPrompt",
+      invalid_type: "finalGenerationPrompt 型別不是字串",
+      empty_after_trim: "finalGenerationPrompt 為空白",
+      insufficient_evidence: "stage3 狀態為證據不足（insufficient_evidence）——此情況一律使用程式的純證據組裝版本",
+      insufficient_evidence_override: "模型有寫 finalGenerationPrompt，但 stage3 狀態為證據不足，因此改用程式的純證據組裝版本（AI 原文保留於下方，未被採用）"
+    },
+    assembledComparisonLabel: "App 組裝版本（僅供文字對照）",
+    assembledComparisonToggle: "顯示程式機械組裝的版本——僅供對照，若本次採用 AI 自主 Prompt，此版本從未送入圖像生成模型",
+    reinspectionTitle: "STAGE 6 · 獨立重新辨識（只看生成圖像,無其他上下文）",
+    reFirst: "首先辨識到", reFragments: "可辨認的局部", reAlt: "其他有視覺依據的閱讀", reUses: "暗示的用途／行動", reUncertain: "仍不確定的區域"
+  }
+};
+
+function renderSixStagePlan(container, record, plan, lang){
+  var L = SIX_STAGE_LABELS[lang] || SIX_STAGE_LABELS.en;
+  var objects = record.objects || [];
+  var s1 = plan.stage1 || {};
+  var s2 = plan.stage2 || {};
+  var s3 = plan.stage3 || {};
+  var s4 = plan.stage4 || {};
+  var s5 = plan.stage5 || {};
+
+  function fragLabel(id){
+    var o = findObjectById(objects, id);
+    if (o) return (lang === "tw" ? (o.label_tw || o.label_en) : (o.label_en || o.label_tw)) || o.label || id;
+    var pools = [].concat(s1.initialRecognition || [], s1.visibleFragments || [], s1.visualEvidence || [], s1.alternativeRecognitions || []);
+    var hit = pools.filter(function(e){ return e.id === id || e.region_ref === id; })[0];
+    if (hit) return (lang === "tw" ? (hit.label_tw || hit.description_tw || hit.reason_tw) : (hit.label_en || hit.description_en || hit.reason_en)) || id;
+    return id || "?";
+  }
+  function section(title, innerHtml){
+    var sec = document.createElement("div");
+    sec.className = "analysis-section";
+    sec.innerHTML = '<div class="analysis-section-title">' + escapeHtml(title) + '</div>' + innerHtml;
+    container.appendChild(sec);
+  }
+
+  /* 1. WHAT I SAW — visible fragments + initial recognition labels */
+  var fragRows = (s1.visibleFragments || []).map(function(f){
+    var desc = lang === "tw" ? f.description_tw : f.description_en;
+    return '<div class="diff-row"><div class="diff-basis">' + escapeHtml(desc || "") + '</div></div>';
+  }).join("");
+  var recogRows = (s1.initialRecognition || []).map(function(r){
+    var lbl = lang === "tw" ? (r.label_tw || r.label_en) : (r.label_en || r.label_tw);
+    var certaintyLabel = L.certainty[r.certainty] || r.certainty || "";
+    return '<div class="diff-row"><div class="diff-top"><span class="diff-object">' + escapeHtml(lbl || "") + '</span>' +
+      (certaintyLabel ? '<span class="hyp-badge">' + escapeHtml(certaintyLabel) + '</span>' : '') +
+    '</div></div>';
+  }).join("");
+  if (fragRows || recogRows){
+    section(L.whatISaw, fragRows + recogRows);
+  } else {
+    section(L.whatISaw, '<div class="rmp-empty-note">' + escapeHtml(L.noEvidence) + '</div>');
+  }
+
+  /* 2. WHAT MADE ME SEE IT — visualEvidence (geometry/texture/etc) */
+  var evidenceRows = (s1.visualEvidence || []).map(function(v){
+    var desc = lang === "tw" ? v.description_tw : v.description_en;
+    return '<div class="diff-row"><div class="diff-top"><span class="diff-object">' + escapeHtml(v.feature_type || "") + '</span></div>' +
+      (desc ? '<div class="diff-basis">' + escapeHtml(desc) + '</div>' : '') +
+    '</div>';
+  }).join("");
+  var uncertainties = (lang === "tw" ? s1.uncertainties_tw : s1.uncertainties_en) || [];
+  var uncertaintyHtml = uncertainties.length ? ('<div class="vcue-tags" style="margin-top:6px;">' + uncertainties.map(function(u){ return '<span class="vcue-tag">' + escapeHtml(u) + '</span>'; }).join("") + '</div>') : "";
+  if (evidenceRows || uncertaintyHtml) section(L.whatMadeMeSeeIt, evidenceRows + uncertaintyHtml);
+
+  /* ======================================================================
+     Five-block "AI Misreading & Reconstruction" layout. These are the
+     model's own self-reported account of its choices (disclaimer below),
+     not a verified record of its internal computation — stated once here
+     rather than re-stated on every block. Every value below is read
+     as-is from the saved record; nothing here is invented when a field
+     is empty/missing — see each block's own "not recorded" fallback. */
+  container.insertAdjacentHTML('beforeend', '<div class="rmp-disclaimer">' + escapeHtml(L.selfReportDisclaimer) + '</div>');
+
+  /* BLOCK 1 — candidate recognitions & associations: the FULL stage2
+     pool, every candidate marked selected/not-selected, not just the
+     one(s) that were chosen. Previously this was split across two
+     separately-labeled sections (selected vs "other"), which made it
+     look like only the last item existed. */
+  var altTags = (s1.alternativeRecognitions || []).map(function(a){
+    var lbl = lang === "tw" ? (a.label_tw || a.label_en) : (a.label_en || a.label_tw);
+    var reason = lang === "tw" ? a.reason_tw : a.reason_en;
+    return '<span class="vcue-tag">' + escapeHtml(lbl || "") + (reason ? (" — " + escapeHtml(reason)) : "") + '</span>';
+  }).join("");
+  var divergences = s2.associativeDivergences || [];
+  var selectedIdsForUI = uniqueStrings(normalizeSelectedAssociationIds(s3));
+  var candidateCards = divergences.map(function(a){
+    var assocText = lang === "tw" ? a.association_tw : a.association_en;
+    var provLabel = L.provenance[a.provenanceTag] || a.provenanceTag || "";
+    var isSelected = selectedIdsForUI.indexOf(a.id) !== -1;
+    var srcLabels = (a.sourceFragmentIds || []).map(fragLabel).join(", ");
+    return '<div class="tension-card' + (isSelected ? ' tension-card-selected' : '') + '">' +
+      '<div class="mtag-object">' + escapeHtml(provLabel) + ' · <b>' + escapeHtml(isSelected ? L.selectedMarker : L.notSelectedMarker) + '</b></div>' +
+      '<div class="tension-reading">' + escapeHtml(assocText || "") + '</div>' +
+      (srcLabels ? '<div class="displaced-change" style="margin-top:4px;"><i>' + escapeHtml(srcLabels) + '</i></div>' : "") +
+    '</div>';
+  }).join("");
+  var block1Html = (altTags ? ('<div class="vcue-tags">' + altTags + '</div>') : "") + candidateCards;
+  if (!block1Html) block1Html = '<div class="rmp-empty-note">' + escapeHtml(divergences.length === 0 ? L.noAssociations : L.noAlternatives) + '</div>';
+  section(L.candidateAssociationsLabel, block1Html);
+
+  /* BLOCK 2 — selection & rejection. "Why selected" is read from the
+     model's own selectionRationale when present. "Why rejected" is
+     honestly reported as NOT RECORDED — stage2.associativeDivergences has
+     no field for a rejection reason, so this is never guessed. */
+  var rationale = lang === "tw" ? s3.selectionRationale_tw : s3.selectionRationale_en;
+  var block2Html = "";
+  if (s3.status === "insufficient_evidence"){
+    block2Html += '<div class="unused-warning">' + escapeHtml(L.insufficient) + '</div>';
+  }
+  if (rationale){
+    block2Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.whyISelectedIt) + '</div><div class="block-val">' + escapeHtml(rationale) + '</div>';
+  } else if (s3.status !== "insufficient_evidence"){
+    block2Html += '<div class="rmp-empty-note" style="margin-top:8px;">' + escapeHtml(L.selectionRationaleNotRecorded) + '</div>';
+  }
+  var nonSelectedCount = divergences.filter(function(a){ return selectedIdsForUI.indexOf(a.id) === -1; }).length;
+  if (nonSelectedCount > 0){
+    block2Html += '<div class="rmp-empty-note" style="margin-top:8px;">' + escapeHtml(L.rejectionNotRecorded) + '</div>';
+  }
+  if (block2Html) section(L.selectionAndRejectionLabel, block2Html);
+
+  /* BLOCK 3 — artistic question: pictorialProblem + artisticIntention,
+     with creativeDirection as supplementary context. */
+  var pictorialProblem = lang === "tw" ? s3.pictorialProblem_tw : s3.pictorialProblem_en;
+  var artisticIntention = lang === "tw" ? s3.artisticIntention_tw : s3.artisticIntention_en;
+  var creativeDirection = lang === "tw" ? s3.creativeDirection_tw : s3.creativeDirection_en;
+  var block3Html = "";
+  if (pictorialProblem) block3Html += '<div class="mtag-object">' + escapeHtml(L.pictorialProblemLabel) + '</div><div class="block-val">' + escapeHtml(pictorialProblem) + '</div>';
+  if (artisticIntention) block3Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.artisticIntentionLabel) + '</div><div class="block-val">' + escapeHtml(artisticIntention) + '</div>';
+  if (creativeDirection) block3Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.creativeDirectionLabel) + '</div><div class="block-val">' + escapeHtml(creativeDirection) + '</div>';
+  section(L.artisticQuestionLabel, block3Html || ('<div class="rmp-empty-note">' + escapeHtml(L.artisticQuestionNotRecorded) + '</div>'));
+
+  /* BLOCK 4 — pictorial translation: pictorialAnswer is the governing
+     decision; realizationPlan bridges Stage 3 into it; retain/transform/
+     introduce are optional supporting detail, same as before. */
+  var retained = (lang === "tw" ? s4.retainedVisualCues_tw : s4.retainedVisualCues_en) || [];
+  var ops = (s4.transformedVisualCues || []).map(function(t){
+    var opText = lang === "tw" ? t.operation_tw : t.operation_en;
+    return '<div class="displaced-row"><div class="displaced-top"><i>' + escapeHtml(fragLabel(t.sourceFragmentId)) + '</i></div><div class="displaced-change">' + escapeHtml(opText || "") + '</div></div>';
+  }).join("");
+  var introduced = (s4.introducedVisualElements || []).map(function(e){
+    var d = lang === "tw" ? e.description_tw : e.description_en;
+    var j = lang === "tw" ? e.relationalJustification_tw : e.relationalJustification_en;
+    return '<div class="displaced-row"><div class="displaced-change">' + escapeHtml(d || "") + (j ? ('<br><i>' + escapeHtml(j) + '</i>') : "") + '</div></div>';
+  }).join("");
+  var consequences = (lang === "tw" ? s4.relationalConsequences_tw : s4.relationalConsequences_en) || [];
+  var unresolved = (lang === "tw" ? s4.unresolvedInterpretations_tw : s4.unresolvedInterpretations_en) || [];
+  var realizationPlan = lang === "tw" ? s3.realizationPlan_tw : s3.realizationPlan_en;
+  var pictorialAnswer = lang === "tw" ? s4.pictorialAnswer_tw : s4.pictorialAnswer_en;
+  var block4Html = "";
+  if (pictorialAnswer) block4Html += '<div class="mtag-object">' + escapeHtml(L.pictorialAnswerLabel) + '</div><div class="block-val">' + escapeHtml(pictorialAnswer) + '</div>';
+  if (realizationPlan) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.realizationPlanLabel) + '</div><div class="block-val">' + escapeHtml(realizationPlan) + '</div>';
+  if (retained.length) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.retained) + '</div><div class="vcue-tags">' + retained.map(function(r){ return '<span class="vcue-tag">' + escapeHtml(r) + '</span>'; }).join("") + '</div>';
+  if (ops) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.operations) + '</div>' + ops;
+  if (introduced) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.introduced) + '</div>' + introduced;
+  if (consequences.length) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.consequences) + '</div><div class="vcue-tags">' + consequences.map(function(c){ return '<span class="vcue-tag">' + escapeHtml(c) + '</span>'; }).join("") + '</div>';
+  if (unresolved.length) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.unresolved) + '</div><div class="vcue-tags">' + unresolved.map(function(u){ return '<span class="vcue-tag">' + escapeHtml(u) + '</span>'; }).join("") + '</div>';
+  section(L.pictorialTranslationLabel, block4Html || ('<div class="rmp-empty-note">' + escapeHtml(L.noChange) + '</div>'));
+
+  /* BLOCK 5 — final generation instruction. Primary content is the
+     prompt ACTUALLY sent (record.finalImagePrompt), expandable via
+     <details open> so it is visible by default yet collapsible. The
+     AI's own originally-written finalGenerationPrompt is only shown
+     separately when it genuinely differs from what was sent (i.e. a
+     fallback overrode it) — when they are identical (the normal
+     ai_autonomous case) it is shown exactly once, not duplicated. The
+     mechanically-assembled comparison version is shown the same way,
+     only when it differs and only collapsed by default. */
+  var medium = lang === "tw" ? s5.mediumAndStyle_tw : s5.mediumAndStyle_en;
+  var sentPrompt = record.finalImagePrompt;
+  var aiOwnPrompt = s5.finalGenerationPrompt;
+  var block5Html = "";
+  if (medium) block5Html += '<div class="block-val">' + escapeHtml(L.medium) + ': ' + escapeHtml(medium) + '</div>';
+  if (record.imageModelUsed) block5Html += '<div class="block-val" style="margin-top:4px;">' + escapeHtml(L.imageModelLabel) + ': ' + escapeHtml(record.imageModelUsed) + '</div>';
+  if (record.finalPromptSource){
+    var sourceLabel = record.finalPromptSource === "ai_autonomous" ? L.sourceAiAutonomous : (record.finalPromptSource === "no_usable_content" ? L.sourceNoUsableContent : L.sourceAppFallback);
+    var reasonText = record.fallbackReason ? (L.fallbackReasons[record.fallbackReason] || record.fallbackReason) : "";
+    block5Html += '<div class="block-val" style="margin-top:8px;">' + escapeHtml(L.promptSourceLabel) + ': ' + escapeHtml(sourceLabel) + (reasonText ? (' — ' + escapeHtml(reasonText)) : '') + '</div>';
+  }
+  if (sentPrompt){
+    block5Html += '<details class="comparison-details" open style="margin-top:8px;"><summary>' + escapeHtml(L.finalPrompt) + '</summary>' +
+      '<div class="final-prompt-block" style="margin-top:6px;">' + escapeHtml(sentPrompt) + '</div></details>';
+  } else {
+    block5Html += '<div class="rmp-empty-note" style="margin-top:8px;">' + escapeHtml(L.sourceNoUsableContent) + '</div>';
+  }
+  if (aiOwnPrompt && aiOwnPrompt !== sentPrompt){
+    block5Html += '<details class="comparison-details" style="margin-top:8px;"><summary>' + escapeHtml(L.aiAutonomousPrompt) + '</summary>' +
+      '<div class="final-prompt-block" style="opacity:.85;margin-top:6px;">' + escapeHtml(aiOwnPrompt) + '</div></details>';
+  }
+  if (record.assembledPromptForComparison && record.assembledPromptForComparison !== sentPrompt){
+    block5Html += '<details class="comparison-details" style="margin-top:8px;"><summary>' + escapeHtml(L.assembledComparisonToggle) + '</summary>' +
+      '<div class="final-prompt-block" style="opacity:.75;margin-top:6px;">' + escapeHtml(record.assembledPromptForComparison) + '</div></details>';
+  }
+  section(L.finalInstructionLabel, block5Html);
+
+  var integrity = record.integrity;
+  if (integrity){
+    var diagHtml = "";
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.evidenceIntegrityOk ? L.evidenceIntegrityOk : (L.evidenceIntegrityBad + " " + integrity.missingEvidenceIds.join(", "))) + '</div></div>';
+    if (integrity.selectionIntegrityOk === false){
+      var selProblems = [];
+      if (integrity.invalidSelectedIds && integrity.invalidSelectedIds.length) selProblems.push(L.selectionIntegrityInvalidIds + " " + integrity.invalidSelectedIds.join(", "));
+      if (integrity.duplicateSelectedIds && integrity.duplicateSelectedIds.length) selProblems.push(L.selectionIntegrityDuplicateIds + " " + integrity.duplicateSelectedIds.join(", "));
+      if (integrity.statusCountConsistent === false) selProblems.push(L.selectionIntegrityStatusMismatch);
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityBad + " " + selProblems.join("; ")) + '</div></div>';
+    } else if (integrity.selectionIntegrityOk === true){
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityOk) + '</div></div>';
+    }
+    if (integrity.pictorialProblemPresent !== undefined){
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialProblemPresent ? L.pictorialProblemPresentOk : L.pictorialProblemPresentBad) + '</div></div>';
+    }
+    if (integrity.pictorialAnswerPresent !== undefined){
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialAnswerPresent ? L.pictorialAnswerPresentOk : L.pictorialAnswerPresentBad) + '</div></div>';
+    }
+    if (integrity.artisticCompletenessOk !== undefined){
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.artisticCompletenessOk ? L.artisticCompletenessOk : L.artisticCompletenessBad) + '</div></div>';
+    }
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.recognitionIntegrity) + '</div></div>';
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.openEndedness) + '</div></div>';
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.sourceIndependence) + '</div></div>';
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.noHumanSelection) + '</div></div>';
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.creativeAutonomyGuaranteed) + '</div></div>';
+    section(L.integrity, diagHtml);
+  }
+
+  /* STAGE 6 — Independent Re-Reading. Retired: nothing produces a new one
+     anymore (no automatic call, no manual button). Only shown at all when
+     an OLD record already has this field saved from before it was
+     removed — never rendered as an "empty"/"in progress"/"retry" state,
+     since that would wrongly imply the AI is about to, or could, go back
+     and check the generated image. */
+  var re = record.reinspection;
+  if (re){
+    var first = lang === "tw" ? re.firstRecognition_tw : re.firstRecognition_en;
+    var frags = (lang === "tw" ? re.recognizableFragments_tw : re.recognizableFragments_en) || [];
+    var alts = (lang === "tw" ? re.alternativeReadings_tw : re.alternativeReadings_en) || [];
+    var uses = (lang === "tw" ? re.suggestedUsesOrActions_tw : re.suggestedUsesOrActions_en) || [];
+    var unc = (lang === "tw" ? re.uncertainRegions_tw : re.uncertainRegions_en) || [];
+    var reBody = '<div class="diff-row"><div class="mtag-object">' + escapeHtml(L.reFirst) + '</div><div class="diff-basis">' + escapeHtml(first || "") + '</div></div>' +
+      (frags.length ? ('<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.reFragments) + '</div><div class="vcue-tags">' + frags.map(function(f){ return '<span class="vcue-tag">' + escapeHtml(f) + '</span>'; }).join("") + '</div>') : "") +
+      (alts.length ? ('<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.reAlt) + '</div><div class="vcue-tags">' + alts.map(function(a){ return '<span class="vcue-tag">' + escapeHtml(a) + '</span>'; }).join("") + '</div>') : "") +
+      (uses.length ? ('<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.reUses) + '</div><div class="vcue-tags">' + uses.map(function(u){ return '<span class="vcue-tag">' + escapeHtml(u) + '</span>'; }).join("") + '</div>') : "") +
+      (unc.length ? ('<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.reUncertain) + '</div><div class="vcue-tags">' + unc.map(function(u){ return '<span class="vcue-tag">' + escapeHtml(u) + '</span>'; }).join("") + '</div>') : "");
+    section(L.reinspectionTitle, reBody);
+  }
+}
+
+function renderMisreadingPlan(container, record, lang){
+  container.innerHTML = "";
+  var plan = record && (record.visionPlan || record.misreadingPlan);
+
+  if (!plan){
+    var note = document.createElement("div");
+    note.className = "rmp-empty-note";
+    note.textContent = (SIX_STAGE_LABELS[lang] || SIX_STAGE_LABELS.en).baseline;
+    container.appendChild(note);
+    return;
+  }
+
+  if (plan.stage1 !== undefined){
+    renderSixStagePlan(container, record, plan, lang);
+  } else if (plan.recognitionRecords !== undefined){
+    renderLegacyVisionPlan(container, record, plan, lang);
+  } else {
+    renderLegacyMisreadingPlan(container, record, plan, lang);
   }
 }
 
@@ -1867,8 +3374,25 @@ function renderResults(originalImgEl, analysis, surrealImageDataUrl, imagenError
 
   formatBilingualBlock(document.getElementById("initial-en"), analysis.original_analysis_en);
   formatBilingualBlock(document.getElementById("initial-tw"), analysis.original_analysis_tw);
-  renderSurrealAnalysis(document.getElementById("surreal-en"), analysis.surreal_analysis_en, { visible:"Visible Cues", cultural:"Cultural Inferences", divergent:"Divergent Readings" });
-  renderSurrealAnalysis(document.getElementById("surreal-tw"), analysis.surreal_analysis_tw, { visible:"可見線索", cultural:"文化推論", divergent:"歧義閱讀" });
+
+  /* Legacy Mode A records have a real surreal_analysis_{en,tw}; the
+     unified flow and legacy B/C don't (that content lives in the vision
+     plan instead) — fall back to a view built from alternative
+     recognitions / the selected divergent reading so the "Surrealist
+     Photographic Artwork" reading panel is never left blank. */
+  var visionOrLegacyPlan = analysis.visionPlan || analysis.misreadingPlan;
+  var surrealEnData = analysis.surreal_analysis_en || rmpAsSurrealAnalysisView(visionOrLegacyPlan, "en");
+  var surrealTwData = analysis.surreal_analysis_tw || rmpAsSurrealAnalysisView(visionOrLegacyPlan, "tw");
+  var usingPlanFallback = !analysis.surreal_analysis_en;
+  renderSurrealAnalysis(document.getElementById("surreal-en"), surrealEnData, usingPlanFallback
+    ? { visible:"Alternative Recognitions", cultural:"Cultural Inferences", divergent:"Divergent Reading" }
+    : { visible:"Visible Cues", cultural:"Cultural Inferences", divergent:"Divergent Readings" });
+  renderSurrealAnalysis(document.getElementById("surreal-tw"), surrealTwData, usingPlanFallback
+    ? { visible:"替代辨識", cultural:"文化推論", divergent:"歧異閱讀" }
+    : { visible:"可見線索", cultural:"文化推論", divergent:"歧義閱讀" });
+
+  renderMisreadingPlan(document.getElementById("process-en"), analysis, "en");
+  renderMisreadingPlan(document.getElementById("process-tw"), analysis, "tw");
 
   var frame = document.getElementById("surreal-img-frame");
   var surrealImg = document.getElementById("surreal-img");
@@ -2047,11 +3571,22 @@ function createThumbDownloadBtn(id, ariaLabel){
   return btn;
 }
 
+/* Mode A/B/C no longer exists in the generation flow (see Research
+   Directive section 2.1) — this chip only ever renders for OLD history
+   records that still carry a `.mode` field; current records have none, so
+   this returns "" and renderResultMeta simply omits the line. */
+function modeChipHtml(mode){
+  if (!mode) return "";
+  var cls = (mode === "A" || mode === "B" || mode === "C") ? ("mode-" + mode) : "mode-legacy";
+  return '<span class="mode-chip ' + cls + '">Legacy ' + escapeHtml(mode) + '</span>';
+}
+
 function renderResultMeta(record){
   var dateStr = new Date(record.timestamp).toLocaleString();
-  var html = "";
+  var chip = modeChipHtml(record.mode);
+  var html = chip ? ('<div>' + chip + '</div>') : "";
   if (record.userGuidance){
-    html += '<div><b>Prompt:</b> ' + escapeHtml(record.userGuidance) + '</div>';
+    html += '<div style="margin-top:4px;"><b>Prompt:</b> ' + escapeHtml(record.userGuidance) + '</div>';
   }
   html += '<div style="margin-top:4px;"><b>Generated:</b> ' + escapeHtml(dateStr) + '</div>';
   resultMetaEl.innerHTML = html;
@@ -2103,8 +3638,9 @@ function renderGallerySidebar(){
 
     var thumbSrc = record.surrealImageDataUrl || record.originalImageDataUrl;
     var dateStr = new Date(record.timestamp).toLocaleDateString(undefined, { month:"short", day:"numeric", hour:"2-digit", minute:"2-digit" });
-    var promptPreview = record.userGuidance ? record.userGuidance : (record.surreal_image_prompt || "Untitled transformation").slice(0,80);
-    var tooltip = dateStr + " — " + promptPreview;
+    var promptSource = record.userGuidance || record.surreal_image_prompt || record.finalImagePrompt || "Untitled transformation";
+    var modePrefix = record.mode ? ("Legacy Mode " + record.mode + " — ") : "";
+    var tooltip = modePrefix + dateStr + " — " + promptSource.slice(0,80);
 
     item.title = tooltip;
     item.innerHTML =
