@@ -385,6 +385,10 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   border-radius:8px;
   cursor:pointer;
 }
+#error-banner-text{
+  max-height:min(240px,40vh);
+  overflow-y:auto;
+}
 
 /* ---------- result ---------- */
 #result-screen{
@@ -476,6 +480,15 @@ body.state-result #new-transform-btn{ display:inline-flex; }
   letter-spacing:0.14em;
   text-transform:uppercase;
   color:var(--ink-faint);
+}
+
+.annotation-empty-note{
+  margin-top:6px;
+  text-align:center;
+  font-size:11.5px;
+  font-style:italic;
+  color:var(--ink-faint);
+  font-family:'Noto Sans TC','Inter',sans-serif;
 }
 
 /* Low-key download affordance on the small thumbnail itself: invisible
@@ -1267,6 +1280,7 @@ body.state-result #new-transform-btn{ display:inline-flex; }
             <button class="exhibit-thumb-download" id="thumb-download-original-btn" type="button" title="Download" aria-label="Download original image">↓</button>
           </div>
           <div class="exhibit-caption">Annotated Original Image</div>
+          <div class="annotation-empty-note hidden" id="annotation-empty-note">本次辨識未提供有效定位座標</div>
           <img id="initial-full-img" class="sr-only-asset" alt="Original photograph, full view">
         </div>
 
@@ -1734,6 +1748,7 @@ function buildSystemInstruction(){
 "V. PICTORIAL INVENTION:\n" +
 "Now invent the image. This is the most important creative decision. Do not simply translate the selected associations into a collection of objects. Find a pictorial relationship that makes the discovery visible.\n\n" +
 "The artwork may retain recognizable source objects, transform them, combine their properties, reorganize their relationships, or abandon their literal identities. You may create an entirely new visual situation. You may also discover that the original object should remain almost unchanged, provided that its relationship to the rest of the composition genuinely transforms the viewer's experience of it.\n\n" +
+"Two directions are worth naming explicitly, among others the discovery may suggest. Object Stable, Relation Unstable: a thing keeps a traceable geometric identity while its distance, direction, occlusion, interior/exterior, support, or dependency relative to everything else is reorganized. Scale and Category Displacement: a fragment, texture, outline, surface, or background may shift its scale and category into a new visual relationship. These are directions available for you to explore autonomously, not a fixed template required in every work, not a mandatory either/or choice between them, and not bound to any fixed order. Spatial relationships may emerge without becoming recognizable architecture. Do not default to buildings, rooms, or architectural structures as the visual resolution of an ambiguous relationship.\n\n" +
 "Decide what must be visible, what must be absent, what should remain uncertain, and what should be immediately understood.\n\n" +
 "Consider how the composition itself carries meaning. The arrangement of forms, the distribution of visual weight, the relationship between foreground and background, the continuity or interruption of edges, the scale of elements, the behavior of materials, the quality of light, the use of color, and the organization of space may all become artistic instruments. Use only those that matter to this particular work.\n\n" +
 "Do not treat visual beauty as an ornamental filter applied after the concept is complete. Beauty may arise through proportion, precision, restraint, rhythm, material sensitivity, visual surprise, emotional clarity, expressive intensity, or a convincing relationship between otherwise incompatible things. A compelling image need not be conventionally beautiful. But it should demonstrate intentional visual judgment.\n\n" +
@@ -1745,7 +1760,7 @@ function buildSystemInstruction(){
 "Do not manufacture mystery through blur, darkness, random concealment, or unexplained visual clutter. Let ambiguity arise from the structure of the image when it serves the artwork. The goal is not to make every image mysterious. The goal is to avoid exhausting the artwork's meaning through a single obvious visual joke.\n\n" +
 
 "VII. LEARNING FROM SURREALIST INVENTION WITHOUT COPYING ITS APPEARANCE:\n" +
-"You may learn from the artistic reasoning of René Magritte and other artists who discovered unexpected affinities between familiar things. What matters is the transformation of relationships into a pictorial proposition.\n\n" +
+"You may learn from the artistic reasoning of surrealist artists such as René Magritte, Man Ray, Max Ernst, Àngel Planells, and Paul Delvaux — not their imagery, but open methodological references, among others, such as instability between image and reality, category shifts between body, object, and sign, a renewed relation between local texture and overall scale, a single contour or form belonging to more than one reading at once, and incongruity among figures, places, acts, and social relations. None of these is mandatory, none is tied to any one artist, and the resulting artwork must not imitate any of these artists' signature works, compositions, iconic objects, or visual language. The source image's visual evidence and the AI's own autonomous misreading always take priority over these references. What matters is the transformation of relationships into a pictorial proposition.\n\n" +
 "Do not imitate a recognizable artist's signature imagery or painterly style by default. Do not automatically introduce clocks, clouds, floating objects, levitating figures, theatrical curtains, empty deserts, fog, oversized objects, fragmented faces, or other familiar symbols associated with surrealist imagery. These elements are not universally forbidden. They are simply not substitutes for artistic discovery. If one genuinely belongs to the pictorial solution, it may appear. If it appears only because it is an easy way to make an image look surreal, reconsider the composition.\n\n" +
 "Surrealism here is not a visual costume. It is the possibility that ordinary appearances can disclose relationships that conventional perception has not yet recognized.\n\n" +
 
@@ -1753,6 +1768,7 @@ function buildSystemInstruction(){
 "The artwork must have its own visual logic. An impossible situation can still be convincing. A scene can contain incompatible objects, materials, times, or scales while remaining compositionally unified. Unity does not require photographic realism. It may arise from shared spatial rules, formal rhythm, material treatment, visual hierarchy, or a deliberate tension between different pictorial systems.\n\n" +
 "Do not confuse technical realism with artistic credibility. A flawlessly rendered statue pasted into a landscape can still look like a cheap composite. Conversely, an obviously invented image can feel complete and persuasive when its relationships are visually resolved.\n\n" +
 "Choose a medium and pictorial language appropriate to this specific artwork. Photography, painting, drawing, printmaking, abstraction, graphic composition, and mixed media are all possible. No medium is the default.\n\n" +
+"Photographic plausibility is a particularly valuable possibility when an impossible relationship can appear materially, optically, and spatially credible. Realistic light, texture, perspective, and physical presence may intensify the uncertainty between what appears real and what cannot actually exist. This is an artistic possibility, not a mandatory medium, style, or default aesthetic.\n\n" +
 "Do not rely on generic descriptors such as 'cinematic,' 'masterpiece,' 'ultra-detailed,' or 'award-winning' to compensate for an underdeveloped composition. Make actual visual decisions.\n\n" +
 
 "IX. AUTONOMOUS ARTISTIC JUDGMENT:\n" +
@@ -1787,6 +1803,7 @@ function buildSystemInstruction(){
 "Write one complete, independent English image-generation prompt. This is the actual instruction that will be sent to the image-generation model. It must be based primarily on the Stage 4 pictorial answer, refined through your own artistic judgment. The prompt must describe the final artwork itself, not explain the research process that produced it.\n\n" +
 "Describe a unified pictorial situation with specific, visible relationships. Include enough information about composition, subject, spatial organization, material, medium, light, and color to make the intended artwork realizable, but only where those details matter. Avoid generic embellishment. Avoid listing all associations. Avoid instructions such as 'combine these concepts creatively' without specifying an actual visual solution. Avoid producing a scene that resembles a collection of independently generated objects pasted together. Where incompatible elements coexist, describe how they belong to the same pictorial system, or how their incompatibility is deliberately organized.\n\n" +
 "Do not automatically preserve the original source object. Do not automatically erase it. Do not require the final artwork to resemble the input photograph. Do not add explanatory labels, diagrams, research annotations, or symbolic captions unless the artistic conception explicitly calls for them. Choose the visual language independently for this image.\n\n" +
+"Require a substantive pictorial transformation grounded in the source's visual evidence and the AI's discovered misreading, but do not equate transformation with the amount of compositional change. The resulting image must do more than restyle the source through lighting, material, atmosphere, or decorative surreal effects. It should establish a consequential shift in how forms are classified, scaled, related, perceived, or spatially organized. The original composition may remain recognizable only when its retention actively serves the discovered pictorial problem. Otherwise, the model should be free to reorganize, displace, fragment, or abandon the source arrangement. Do not force dramatic compositional change for its own sake.\n\n" +
 "The final prompt should be sufficiently clear for an image model to construct the artwork, while leaving room for painterly or photographic interpretation appropriate to the chosen medium. Produce exactly one finalGenerationPrompt. Do not request multiple image candidates.\n\n" +
 
 "XVI. FINAL PRINCIPLE:\n" +
@@ -1924,6 +1941,51 @@ function stripTrailingResearchObservationsTw(text){
   return text.slice(0, lastTopComma) + "}";
 }
 
+/* Narrow salvage for a complete-but-malformed response (finishReason STOP,
+   not a truncation): a single trailing comma before a closing `}` or `]`.
+   This does NOT rely on parsing a position out of the JSON.parse error
+   message — V8's wording/position-availability differs between the
+   "object" shape (Expected double-quoted property name... at position N)
+   and the "array" shape (Unexpected token ']'...), and relying on that
+   text would make this brittle across engines/versions. Instead it scans
+   the text itself, byte by byte, tracking only two things: whether we are
+   currently inside a JSON string (so characters inside strings — including
+   Traditional Chinese research prose, artist names, or a literal comma or
+   brace typed inside a sentence — are never inspected as structural
+   characters), and the index of the most recently seen comma that has not
+   yet been followed by anything other than whitespace ("pendingComma").
+   Opening a new string, or hitting any other non-whitespace character,
+   cancels a pending comma (it was a real separator, not a trailing one).
+   The FIRST time a still-pending comma is immediately followed by a
+   closing `}`/`]`, that one comma character is removed and the result is
+   returned — this is necessarily the exact spot JSON.parse would have
+   failed on first, since nothing after it was parsed yet. If no such
+   pattern exists anywhere (the defect is something else entirely — an
+   unterminated string, a missing colon, garbled text), this returns null
+   and the caller takes the normal, unmodified error path. No character
+   outside that single comma is ever added, removed, or rewritten. */
+function stripJsonTrailingComma(text){
+  var inStr = false, esc = false, pendingComma = -1;
+  for (var i = 0; i < text.length; i++){
+    var ch = text.charAt(i);
+    if (esc){ esc = false; continue; }
+    if (inStr){
+      if (ch === "\\"){ esc = true; }
+      else if (ch === '"'){ inStr = false; }
+      continue;
+    }
+    if (ch === '"'){ inStr = true; pendingComma = -1; continue; }
+    if (ch === "}" || ch === "]"){
+      if (pendingComma !== -1) return text.slice(0, pendingComma) + text.slice(pendingComma + 1);
+      continue;
+    }
+    if (ch === ","){ pendingComma = i; continue; }
+    if (/\s/.test(ch)){ continue; }
+    pendingComma = -1;
+  }
+  return null;
+}
+
 function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance){
   var url = "https://generativelanguage.googleapis.com/v1/models/" + modelName + ":generateContent?key=" + encodeURIComponent(apiKey);
   var userParts = [];
@@ -1999,6 +2061,23 @@ function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance
         }catch(e2){ /* salvage failed — fall through to the normal error path below */ }
       }
       if (parsed === undefined){
+        /* Second, independent narrow salvage: a complete response (not a
+           truncation) that has exactly one trailing comma before a closing
+           `}`/`]`. See stripJsonTrailingComma()'s own comment for the
+           verification this performs before touching anything. Single
+           attempt only — if the result still doesn't parse, this falls
+           through to the normal error path below unchanged, with no
+           further guessing or retrying. */
+        var commaFixedText = stripJsonTrailingComma(clean);
+        if (commaFixedText){
+          try{
+            var commaFixed = JSON.parse(commaFixedText);
+            console.warn("[Gemini JSON parse] a single trailing comma before a closing } or ] was removed and the response re-parsed successfully; no field, key, or string content was changed.", { modelName: modelName });
+            parsed = commaFixed;
+          }catch(e3){ /* repair attempt did not yield valid JSON either — fall through to the normal error path below */ }
+        }
+      }
+      if (parsed === undefined){
       /* Diagnostic, not a guess: classify WHY the parse failed before
          reporting it, using Gemini's own finishReason — the raw
          SyntaxError alone cannot distinguish "the output was cut off
@@ -2021,13 +2100,22 @@ function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance
         category = "JSON SYNTAX ERROR";
         categoryNote = "Gemini's response finished normally (finishReason: " + (finishReason || "unknown") + ") but the text it returned is not valid JSON.";
       }
+      /* Full diagnostic — including a raw-response excerpt — is for the
+         developer console ONLY. It never includes the API key, the
+         request URL, or any image data (this function has no access to
+         either the key or any image bytes at this point; `clean`/`tail`
+         are the model's own text response). It is deliberately kept out of
+         the thrown error's .message so the on-screen banner (showErrorBanner)
+         cannot be stretched into a large block by a long raw excerpt. */
       var tail = clean.length > 500 ? ("…" + clean.slice(-500)) : clean;
       var diagMsg = "[" + category + "] Could not parse Gemini's JSON response. " + categoryNote +
         " Parse error: " + err.message + "." +
         " Response length: " + clean.length + " chars." +
         " End of raw response: " + tail;
       console.error("[Gemini JSON parse diagnostic] model='" + modelName + "'", diagMsg);
-      throw makeStageError("Gemini analysis", modelName, undefined, diagMsg);
+      var shortMsg = "[" + category + "] Could not parse Gemini's JSON response. " + categoryNote +
+        " Parse error: " + err.message + ". See the browser console for the full diagnostic (the on-screen message is kept short on purpose).";
+      throw makeStageError("Gemini analysis", modelName, undefined, shortMsg);
       }
     }
     parsed.objects = normalizeObjects(parsed.objects);
@@ -3896,6 +3984,40 @@ function getContrastText(hex){
   return "#FFFFFF";
 }
 
+/* box_2d is the AI's own [ymin,xmin,ymax,xmax], normalized 0-1000 (see
+   buildSystemInstruction()'s "objects" schema). This only guards against
+   glitches in an otherwise-valid box_2d of that exact shape/scale — numeric
+   strings, swapped min/max, non-finite or zero-area values — each checked
+   independently so one bad object can't suppress any other object's box.
+   It never reinterprets a different coordinate scale (e.g. 0-1) or invents
+   a position the AI didn't provide; see spec section 4/5 ("不得靠猜測重新
+   定位物件").
+
+   Some Gemini responses wrap a single box one level deeper than the schema
+   asks for — box_2d: [[ymin,xmin,ymax,xmax]] instead of
+   [ymin,xmin,ymax,xmax]. Unwrap ONLY that exact shape (an outer array with
+   exactly one element, which is itself a 4-number array); anything else —
+   zero elements, more than one, or an inner array that isn't length 4 — is
+   left alone and falls through to the existing validity checks below,
+   never flattened or guessed at. */
+function readValidBox(obj, w, h){
+  if (!obj) return null;
+  var box = obj.box_2d;
+  if (Array.isArray(box) && box.length === 1 && Array.isArray(box[0]) && box[0].length === 4){
+    box = box[0];
+  }
+  if (!Array.isArray(box) || box.length !== 4) return null;
+  var n = box.map(Number);
+  if (n.some(function(v){ return !isFinite(v); })) return null;
+  var y0 = Math.min(n[0], n[2]), y1 = Math.max(n[0], n[2]);
+  var x0 = Math.min(n[1], n[3]), x1 = Math.max(n[1], n[3]);
+  var ymin = y0/1000*h, ymax = y1/1000*h;
+  var xmin = x0/1000*w, xmax = x1/1000*w;
+  var bw = xmax - xmin, bh = ymax - ymin;
+  if (!(bw > 0) || !(bh > 0)) return null;
+  return { xmin: xmin, ymin: ymin, xmax: xmax, ymax: ymax, bw: bw, bh: bh };
+}
+
 function drawAnnotatedCanvas(imgEl, objects){
   var canvas = document.getElementById("annotated-canvas");
   var ctx = canvas.getContext("2d");
@@ -3908,15 +4030,13 @@ function drawAnnotatedCanvas(imgEl, objects){
   var legend = document.getElementById("legend-container");
   legend.innerHTML = "";
   var used = [];
+  var validBoxCount = 0;
 
   (objects || []).forEach(function(obj){
-    if (!obj.box_2d || obj.box_2d.length !== 4) return;
-    var ymin = obj.box_2d[0]/1000*h;
-    var xmin = obj.box_2d[1]/1000*w;
-    var ymax = obj.box_2d[2]/1000*h;
-    var xmax = obj.box_2d[3]/1000*w;
-    var bw = xmax - xmin;
-    var bh = ymax - ymin;
+    var box = readValidBox(obj, w, h);
+    if (!box) return;
+    validBoxCount++;
+    var ymin = box.ymin, xmin = box.xmin, bw = box.bw, bh = box.bh;
 
     var color = pickDistinctColor(used);
     used.push(color);
@@ -3947,6 +4067,12 @@ function drawAnnotatedCanvas(imgEl, objects){
     chip.textContent = label;
     legend.appendChild(chip);
   });
+
+  var emptyNote = document.getElementById("annotation-empty-note");
+  if (emptyNote){
+    var hadObjects = (objects || []).length > 0;
+    emptyNote.classList.toggle("hidden", !(hadObjects && validBoxCount === 0));
+  }
 
   var fullImg = document.getElementById("initial-full-img");
   if (fullImg) fullImg.src = canvas.toDataURL("image/png");
