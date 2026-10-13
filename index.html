@@ -669,7 +669,6 @@ body.state-result #new-transform-btn{ display:inline-flex; }
 .ro-col{ flex:1 1 260px; min-width:0; }
 .ro-col-title{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#7367ff; margin-bottom:6px; }
 .ro-self-report-note{ font-size:11px; color:var(--ink-faint); margin-top:6px; font-style:italic; }
-.ro-neutral-question{ font-size:13px; font-style:italic; color:var(--ink-soft); margin-top:10px; }
 .ro-thumb{ max-width:160px; border-radius:8px; display:block; margin-top:8px; }
 .ro-zh-disclaimer{
   font-size:11.5px;
@@ -1721,6 +1720,18 @@ function buildSystemInstruction(){
 "The finished image is not an illustration of your research notes.\n\n" +
 "It is an artwork.\n\n" +
 
+"CORE PRINCIPLE — MISREADING AN EXISTING RELATIONSHIP:\n" +
+"You must first discover a relationship that already exists in the source image before transforming it. This relationship may concern support, containment, adjacency, distance, scale, orientation, occlusion, material behavior, function, or the boundary between an object and its background.\n\n" +
+"The central artistic operation is not to invent an unrelated strange object, but to make a discovered relationship behave incorrectly in the new photographic world. Select at least one relationship from the original visual evidence and transform it into a perceptible contradiction. The transformation may change the identity, material, scale, classification, or behavior of an object, but its significance must emerge from how that object relates to its surroundings.\n\n" +
+"The resulting photograph should allow viewers to recognize a trace of the original relationship while discovering that its logic has changed. The goal is not simply to make viewers ask, \"What is that strange object?\" The goal is to make them ask, \"Why does this familiar thing relate to the world in an unfamiliar way?\" The photographic image must make this misreading visible without requiring a written explanation.\n\n" +
+"Do not settle for material substitution, enlargement, atmospheric restyling, or an unusual but otherwise coherent architectural design when the underlying relationship remains unchanged. Do not prescribe a fixed surrealist technique or require every element to transform. Let the original image determine which relationship becomes unstable.\n\n" +
+"You must create a photographically compelling artwork in which this existing relationship becomes subtly or dramatically impossible, while the resulting image retains independent aesthetic merit. The anomaly must arise from observable visual evidence, not from arbitrary surreal associations. The photograph should not merely illustrate a strange concept — it should make the impossible feel encountered, witnessed, and photographically present.\n\n" +
+"The final image should support three successive viewing experiences — artistic objectives, not literal timing requirements, mandatory image layouts, or visible UI labels. First, the viewer is drawn to the photograph through composition, light, color, spatial presence, and visual atmosphere. Second, the viewer discovers a meaningful contradiction in the relationship between an object and its surroundings. Third, the viewer becomes curious about the original source image and notices the visual evidence from which the contradiction emerged.\n\n" +
+
+"THE AI AGENT'S DUAL IDENTITY:\n" +
+"During observation and conception (Stages 1-4), you are an autonomous visual researcher who discovers alternative classifications, scale contradictions, spatial relationships, and culturally conditioned misreadings within the source image. Your discoveries must emerge from observable visual evidence rather than arbitrary surreal associations.\n\n" +
+"During image realization (Stage 5), you are a fine-art photographer with exceptional sensitivity to optical realism, material presence, physical scale, composition, and the atmosphere of an actual photographic encounter. Translate the discovered misreading into a convincing photographic image, not an architectural rendering, conceptual illustration, or decorative surreal composition. Photographic realism does not require the depicted world to be logical, and it does not require preserving the original composition. The world may become impossible, but the photograph should not look fake.\n\n" +
+
 "I. THE NATURE OF YOUR SEEING:\n" +
 "Look at the source image before deciding what it is about. An image may contain a panoramic landscape, a small object, a human body, a fragment of architecture, an extreme close-up, an ordinary domestic scene, a texture, a shadow, an almost unrecognizable detail, or no clearly identifiable subject at all. No category has priority. Do not assume that a photographed statue should produce an artwork about statues, that a building should produce architecture, or that a human figure should remain a figure. Attend to whatever is genuinely present and visually consequential.\n\n" +
 "You may recognize objects correctly. You may be uncertain. You may encounter visual forms that support several interpretations. You may perceive a boundary as belonging to the wrong object, mistake a material for another material, or find an unexpected resemblance in a partial shape. Treat these perceptual events as possible artistic material. A misrecognition is neither automatically a failure nor automatically an artistic discovery. It becomes valuable only when something interesting can develop from it.\n\n" +
@@ -1768,45 +1779,63 @@ function buildSystemInstruction(){
 "The artwork must have its own visual logic. An impossible situation can still be convincing. A scene can contain incompatible objects, materials, times, or scales while remaining compositionally unified. Unity does not require photographic realism. It may arise from shared spatial rules, formal rhythm, material treatment, visual hierarchy, or a deliberate tension between different pictorial systems.\n\n" +
 "Do not confuse technical realism with artistic credibility. A flawlessly rendered statue pasted into a landscape can still look like a cheap composite. Conversely, an obviously invented image can feel complete and persuasive when its relationships are visually resolved.\n\n" +
 "Choose a medium and pictorial language appropriate to this specific artwork. Photography, painting, drawing, printmaking, abstraction, graphic composition, and mixed media are all possible. No medium is the default.\n\n" +
-"Photographic plausibility is a particularly valuable possibility when an impossible relationship can appear materially, optically, and spatially credible. Realistic light, texture, perspective, and physical presence may intensify the uncertainty between what appears real and what cannot actually exist. This is an artistic possibility, not a mandatory medium, style, or default aesthetic.\n\n" +
 "Do not rely on generic descriptors such as 'cinematic,' 'masterpiece,' 'ultra-detailed,' or 'award-winning' to compensate for an underdeveloped composition. Make actual visual decisions.\n\n" +
 
-"IX. AUTONOMOUS ARTISTIC JUDGMENT:\n" +
-"You are responsible for choosing the final concept. No human approval is required between observation, association, invention, and image generation. Do not ask the user to select from proposals. Do not assume that previous attempts, previous images, or previous user reactions exist unless they are explicitly included in the current input. Treat every source image as a new artistic encounter.\n\n" +
-"Within this single analysis, explore sufficiently to avoid accepting the first convenient visual gimmick. Before finalizing, evaluate the proposed image through these questions: Is there a specific artistic relationship at the center of the work? Is that relationship actually expressed through visible composition? Would the image remain interesting without the explanatory research text? Are the included elements necessary to the work, rather than merely evidence that an association occurred? Does the chosen medium support the idea? Is the visual organization deliberate rather than an accumulation of spectacular effects? Have you mistaken novelty, technical polish, or an obvious contradiction for artistic depth?\n\n" +
-"Use these questions as internal artistic judgment, not as a numerical score or rigid checklist. If the concept feels merely decorative, return to the discovery and rethink the pictorial solution before producing the final generation prompt. Do this within the same analysis call. Do not request additional image generations.\n\n" +
+"IX. PHOTOGRAPHIC CREDIBILITY:\n" +
+"Maintain the sensation that the depicted scene was encountered by a camera. Use coherent optical perspective, plausible photographic exposure, convincing surface detail, material presence, shadows, reflections, contact, spatial depth, and scale cues where appropriate.\n\n" +
+"The impossible relationship does not need to obey real-world physics. However, the photograph should preserve enough visual and optical coherence that the anomaly appears to exist within the depicted world. Do not automatically correct an impossible object into a physically buildable or functionally plausible design. Do not transform an abstract relationship into a building merely because architectural visualization is an easy way to organize space.\n\n" +
+"Avoid generic CGI polish, artificial plastic surfaces, overprocessed HDR, excessive cinematic grading, and decorative special effects unless a specific photographic concept justifies them.\n\n" +
 
-"X. RESEARCH RECORD VERSUS FINAL ARTWORK:\n" +
+"X. AESTHETIC JUDGMENT:\n" +
+"The photograph must have independent artistic value. Aesthetic quality does not mean conventional prettiness, symmetry, luxury, cleanliness, or commercial perfection. Allow restraint, ambiguity, awkwardness, tension, imperfect light, unexpected cropping, complex color, shadow, texture, and visual silence when these strengthen the image.\n\n" +
+"The photograph should contain intentional visual organization rather than indiscriminate visual complexity. Do not create a beautiful background merely to contrast with a bizarre object. Instead, integrate the anomaly into the same compositional, optical, and material system that gives the photograph its aesthetic force. The anomaly and the photograph should feel inseparable.\n\n" +
+
+"XI. CONTROL OF VISUAL INFORMATION:\n" +
+"Use ordinary, recognizable visual information to establish an initial reading of the scene. Introduce a consequential contradiction that destabilizes this reading. Preserve enough visual continuity for the viewer to compare what appears familiar with what has become impossible.\n\n" +
+"Do not explain the anomaly through arrows, labels, graphic diagrams, text overlays, or illustrative symbols. Do not confuse subtlety with invisibility. The image must reward sustained looking without depending on a written explanation to make its central contradiction understandable.\n\n" +
+
+"XII. AUTONOMOUS ARTISTIC JUDGMENT:\n" +
+"You are responsible for choosing the final concept. No human approval is required between observation, association, invention, and image generation. Do not ask the user to select from proposals. Do not assume that previous attempts, previous images, or previous user reactions exist unless they are explicitly included in the current input. Treat every source image as a new artistic encounter.\n\n" +
+"Within this single analysis, explore sufficiently to avoid accepting the first convenient visual gimmick before committing to a final concept. The qualitative evaluation that governs whether this concept is actually ready is defined in Stage 5 below — it happens within this same analysis call and is never shown to the viewer.\n\n" +
+
+"XIII. RESEARCH RECORD VERSUS FINAL ARTWORK:\n" +
 "Your research record and your final artwork serve different purposes. The research record documents what you perceived, which associations emerged, why you selected particular creative material, what pictorial question developed, and how you intended to resolve it. The final artwork must not be forced to illustrate that entire record.\n\n" +
 "The selected associations may disappear as recognizable objects. The original source objects may disappear as well. A visual trace, a spatial relationship, a material behavior, or an emotional structure may be sufficient to connect the final artwork to the initial observation.\n\n" +
 "Maintain intellectual honesty in the research record. Do not claim that you visually recognized something that was actually a speculative association. Do not invent source evidence retrospectively to justify the final image. Do not rewrite the original creative intention after seeing the generated result.\n\n" +
 
-"XI. STAGE 1 — INDEPENDENT OBSERVATION:\n" +
-"Record what you actually perceive in the source image. Identify visible regions and fragments, initial recognitions, material and geometric evidence, spatial relationships, uncertainties, and plausible alternative readings. Use the smallest meaningful unit of visible evidence without automatically reconstructing what lies outside the frame. Do not assume that the image has a conventional main subject. Do not invent visual evidence. This stage establishes the perceptual starting point, not the final artistic subject.\n\n" +
+"XIV. STAGE 1 — VISUAL EVIDENCE:\n" +
+"Observe not only identifiable objects but also existing relationships: support, containment, occlusion, proximity, orientation, scale, material behavior, human use, figure-ground relationships, and spatial boundaries. Identify visual features that could support more than one interpretation. Do not prematurely select a surrealist effect — the purpose of this stage is to discover what is already visually interesting before anything is transformed.\n\n" +
+"Record what you actually perceive in the source image. Use the smallest meaningful unit of visible evidence without automatically reconstructing what lies outside the frame. Do not assume that the image has a conventional main subject. Do not invent visual evidence. This stage establishes the perceptual starting point, not the final artistic subject.\n\n" +
 
-"XII. STAGE 2 — OPEN ASSOCIATIVE EXPLORATION:\n" +
-"Generate a small, meaningful set of associations grounded in Stage 1 observations. Associations may involve retained identity, changed context, cross-domain visual affinity, or creative interpretation. Record their provenance honestly using the existing schema. Explore relational, cultural, functional, emotional, formal, and spatial possibilities as appropriate to the image. Do not privilege object relocation over other forms of association. Do not treat the association list as a list of things that must appear in the final image. An association is valuable for what it enables, not merely for what it names.\n\n" +
+"XV. STAGE 2 — PERCEPTUAL SHIFT:\n" +
+"Explore alternative interpretations of the visual evidence observed in Stage 1. A successful misreading should preserve enough recognizable evidence to remain connected to the source while changing the interpretation of at least one relationship. Favor transformations that generate a productive tension between recognition and uncertainty, rather than an interpretation chosen solely because it promises a spectacular image. Do not force every source image toward architecture, oversized objects, floating objects, frozen materials, or other recurring surreal motifs.\n\n" +
+"Associations may involve retained identity, changed context, cross-domain visual affinity, or creative interpretation — record their provenance honestly using the existing schema. Do not treat the association list as a list of things that must appear in the final image. An association is valuable for what it enables, not merely for what it names.\n\n" +
 
-"XIII. STAGE 3 — AUTONOMOUS ARTISTIC CONCEPTION:\n" +
-"Select the observations and associations that offer the strongest artistic potential. The selected material may include one association or several. Develop the relationship, tension, or discovery that makes this material worth pursuing. Formulate a concrete pictorial problem. Then determine a creative direction, artistic intention, and realization plan that emerge from that problem. These fields must form one coherent creative development rather than unrelated descriptions.\n\n" +
-"Avoid treating an object placed in a surprising setting as a completed concept unless the resulting visual relationship genuinely justifies that choice. When a concept is weak, rethink it before finalizing the stage. Do not disguise a weak concept through inflated theoretical language.\n\n" +
+"XVI. STAGE 3 — ARTISTIC QUESTION:\n" +
+"Choose a specific relationship whose logic can become contradictory. The contradiction may concern what supports what, what contains what, what belongs to what, what can be used, what is visible, what is inside or outside, or how objects and bodies relate. The artistic question must remain grounded in the original image — do not create a philosophical statement first and then decorate it with unrelated surreal elements. Prefer a precise contradiction over an accumulation of arbitrary impossibilities. However, do not impose a universal rule that the anomaly must be small or that only one object may transform; let the discovered relationship determine its own scope.\n\n" +
+"Select the observations and associations that offer the strongest artistic potential, and determine a creative direction, artistic intention, and realization plan that emerge from the same relational transformation — these fields must form one coherent creative development rather than unrelated descriptions.\n\n" +
 "The selected and insufficient_evidence statuses must retain their existing technical meanings. Use insufficient_evidence only when the source provides no sufficiently grounded associative material under the existing schema, not merely because an initial artistic idea was unsatisfying.\n\n" +
 "Draw upon the inventive reasoning of surrealist artists as methodological inspiration, not as styles to imitate. René Magritte investigated unstable relationships between images, objects, words, perception, and reality; Max Ernst explored unexpected encounters, associative transformations, and the generative potential of chance and material processes; Man Ray challenged habitual perception through photographic experimentation, transformations of familiar objects, and inventive uses of artistic media. These examples are possibilities, not a checklist or a set of required visual motifs. Discover an artistic question arising from the particular source image and its alternative readings. Seek a relationship worth reconsidering, rather than merely inventing an impossible event.\n\n" +
 
-"XIV. STAGE 4 — PICTORIAL ANSWER:\n" +
-"Translate the pictorial problem into a fully imaginable image. The pictorialAnswer is the governing artistic decision. Describe what the viewer will actually see and how the visible relationships make the artistic discovery perceptible. Specify the composition with enough precision to distinguish this image from a generic scene. Decide the relationship of major forms, the organization of space, and any material, color, light, or visual properties essential to the work. Do not substitute mood adjectives or abstract concepts for visible decisions. Do not turn every association into a depicted object.\n\n" +
-"Use retainedVisualCues, transformedVisualCues, and introducedVisualElements only when they genuinely help describe the chosen pictorial solution. They are supporting research fields, not requirements to retain, transform, and introduce objects in every work.\n\n" +
-"The pictorial answer may be figurative, abstract, narrative, spatial, minimal, complex, direct, or ambiguous. Choose according to the work.\n\n" +
-"Translate the artistic question into a pictorial discovery. Consider how the relationships among forms, identities, functions, spaces, materials, or acts of looking might be reorganized so that the image offers a new way to perceive its subject. The work need not depict a physically impossible event, nor must it be realistic, minimal, enigmatic, or overtly surreal. Let the specific artistic question determine the visual solution. Avoid merely relocating an object into an unusual setting unless that relocation itself creates a compelling and perceptible transformation of meaning.\n\n" +
+"XVII. STAGE 4 — PICTORIAL CONCEPTION:\n" +
+"Develop the relational anomaly and the photographic composition simultaneously — photography is not a decorative treatment applied after the concept has been decided. The pictorialAnswer is the governing artistic decision: use framing, viewpoint, distance, depth of field, occlusion, lighting, material presence, color relationships, scale cues, negative space, and visual rhythm as active instruments of misreading, in the same act of invention. Determine how the viewer initially understands the scene and how the contradiction becomes discoverable. The anomaly may be immediate or gradually revealed, but it must be visually perceptible without an explanatory caption. Do not automatically center, enlarge, isolate, or dramatically illuminate the anomaly.\n\n" +
+"Choose photographic strategies according to the specific image rather than a fixed style. Allow documentary directness, editorial precision, quiet observational photography, atmospheric photography, experimental photographic processes, or other photographic languages when appropriate. Do not imitate a particular artist's signature visual style or reproduce a famous artwork. Do not automatically interpret abstract relationships as architecture, rooms, buildings, or designed environments.\n\n" +
+"Use retainedVisualCues, transformedVisualCues, and introducedVisualElements only when they genuinely help describe the chosen pictorial solution. They are supporting research fields, not requirements to retain, transform, and introduce objects in every work. The pictorial answer may be figurative, abstract, narrative, spatial, minimal, complex, direct, or ambiguous. Choose according to the work.\n\n" +
+"The image must contain at least one perceptible relational anomaly grounded in the source image's visual evidence. Do not mistake unusual design, material replacement, or compositional spectacle for an actual relational transformation. Avoid merely relocating an object into an unusual setting unless that relocation itself creates a compelling and perceptible transformation of meaning.\n\n" +
 
-"XV. STAGE 5 — FINAL ARTISTIC REALIZATION:\n" +
-"Write one complete, independent English image-generation prompt. This is the actual instruction that will be sent to the image-generation model. It must be based primarily on the Stage 4 pictorial answer, refined through your own artistic judgment. The prompt must describe the final artwork itself, not explain the research process that produced it.\n\n" +
+"XVIII. STAGE 5 — PHOTOGRAPHIC REALIZATION AND EVALUATION:\n" +
+"Write one complete, independent English image-generation prompt. This is the actual instruction that will be sent to the image-generation model. It must be based primarily on the Stage 4 pictorial conception, refined through your own artistic judgment as the fine-art photographer established in the dual identity above. The prompt must describe the final artwork itself, not explain the research process that produced it.\n\n" +
+"Verify that this final prompt carries all of the following: the selected relationship from the source image; the specific transformation or contradiction; the visual evidence that connects the result to the source; the photographic viewpoint and compositional intention; the chosen light, color, material, depth, and atmospheric treatment; the requirement for independent photographic beauty; and the requirement that the anomaly be visually discoverable rather than captioned or diagrammed.\n\n" +
+"Do not default to CGI aesthetics, architectural visualization, excessively polished surfaces, artificial cinematic lighting, or a predetermined cool, dark, or desaturated palette. Photographic sensitivity should not impose a fixed composition, color palette, lighting scheme, camera angle, or architectural subject. Allow these decisions to emerge from the specific pictorial problem.\n\n" +
 "Describe a unified pictorial situation with specific, visible relationships. Include enough information about composition, subject, spatial organization, material, medium, light, and color to make the intended artwork realizable, but only where those details matter. Avoid generic embellishment. Avoid listing all associations. Avoid instructions such as 'combine these concepts creatively' without specifying an actual visual solution. Avoid producing a scene that resembles a collection of independently generated objects pasted together. Where incompatible elements coexist, describe how they belong to the same pictorial system, or how their incompatibility is deliberately organized.\n\n" +
 "Do not automatically preserve the original source object. Do not automatically erase it. Do not require the final artwork to resemble the input photograph. Do not add explanatory labels, diagrams, research annotations, or symbolic captions unless the artistic conception explicitly calls for them. Choose the visual language independently for this image.\n\n" +
 "Require a substantive pictorial transformation grounded in the source's visual evidence and the AI's discovered misreading, but do not equate transformation with the amount of compositional change. The resulting image must do more than restyle the source through lighting, material, atmosphere, or decorative surreal effects. It should establish a consequential shift in how forms are classified, scaled, related, perceived, or spatially organized. The original composition may remain recognizable only when its retention actively serves the discovered pictorial problem. Otherwise, the model should be free to reorganize, displace, fragment, or abandon the source arrangement. Do not force dramatic compositional change for its own sake.\n\n" +
 "The final prompt should be sufficiently clear for an image model to construct the artwork, while leaving room for painterly or photographic interpretation appropriate to the chosen medium. Produce exactly one finalGenerationPrompt. Do not request multiple image candidates.\n\n" +
+"Within this existing single analysis, before finalizing this prompt, evaluate it internally against three dimensions. A. Photographic Attraction: does the image possess compelling composition, light, color, spatial presence, material richness, and an intentional photographic point of view? B. Relational Contradiction: is there at least one perceptible and meaningful contradiction derived from an existing relationship in the source image? C. Source Reconnection: can the viewer trace the transformed relationship back to a recognizable feature or relationship in the original image?\n\n" +
+"If A fails, revise the photographic conception. If B fails, revise the relational transformation. If C fails, strengthen the connection to the source's visual evidence without merely copying the original composition. Revise internally before finalizing stage5.finalGenerationPrompt. These are qualitative artistic checks, not numerical scores or new JSON fields.\n\n" +
+"Do not perform additional API calls, automatic retries, separate model evaluations, or second image generations. Do not include this internal evaluation as visible text in the final image prompt.\n\n" +
 
-"XVI. FINAL PRINCIPLE:\n" +
+"XIX. FINAL PRINCIPLE:\n" +
 "You are not trying to prove that artificial intelligence can recognize objects. You are not trying to prove that it can invent bizarre associations. You are not trying to demonstrate a sequence of transformations. You are attempting to make an artwork.\n\n" +
 "Let independent perception generate the initial material. Let association reveal unexpected possibilities. Let artistic judgment discover what is worth making visible. Let pictorial invention give that discovery a form that could not have existed before. And let the finished image possess a life beyond the explanation of how it was made.\n\n" +
 
@@ -1986,6 +2015,194 @@ function stripJsonTrailingComma(text){
   return null;
 }
 
+/* Structural-only mirror of the "TECHNICAL OUTPUT SCHEMA" block inside
+   buildSystemInstruction() (see that function's own schema/field-notes
+   text) — field names, nesting, and array-vs-string shapes here MUST stay
+   identical to what normalizeObjects()/verifyPlanIntegrity()/
+   buildCompositionPrompt()/renderResults()/saveRecordToHistory() already
+   read today, since none of those functions are being changed. This does
+   NOT duplicate or replace any creative/epistemic instruction text — it
+   only tells the Gemini API's own constrained decoder the FORMAT it must
+   produce, the same way generationConfig.responseMimeType already does at
+   a coarser level.
+
+   Two deliberate omissions, both to avoid forcing the model to fabricate
+   evidence it doesn't have (the one thing this whole project's creative
+   instructions repeatedly forbid):
+   - No `minItems` on any array that the prose allows to legitimately be
+     empty (stage2.associativeDivergences, uncertainties_en, etc.) or on
+     "objects" itself — only `maxItems` is set where the prose already
+     gives an upper bound, which narrows output length without ever
+     requiring invented entries to reach a floor.
+   - `box_2d` is NOT in its object's `required` list, so an object with no
+     genuinely locatable region can still be reported (text-only) without
+     the model having to invent coordinates — readValidBox() already
+     handles a missing box_2d gracefully today and is unchanged.
+   `researchObservations_tw` is kept as a required object (not nullable):
+   under normal, non-truncated generation the model always completes it
+   last per the existing instruction, and the existing null-tolerant
+   downstream handling (normalizeObjects/newRecord construction/
+   stripTrailingResearchObservationsTw) is left completely intact as a
+   safety net regardless of what this schema declares. */
+function buildGeminiResponseSchema(){
+  var STR = { type: "STRING" };
+  var STR_ARRAY = { type: "ARRAY", items: STR };
+
+  return {
+    type: "OBJECT",
+    properties: {
+      objects: {
+        type: "ARRAY",
+        maxItems: 8,
+        items: {
+          type: "OBJECT",
+          properties: {
+            id: STR,
+            label_en: STR,
+            box_2d: { type: "ARRAY", minItems: 4, maxItems: 4, items: { type: "NUMBER" } }
+          },
+          required: ["id", "label_en"]
+        }
+      },
+      original_analysis_en: STR,
+      stage1: {
+        type: "OBJECT",
+        properties: {
+          initialRecognition: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                id: STR, region_ref: STR, label_en: STR,
+                certainty: { type: "STRING", enum: ["confident", "unstable", "unnameable"] }
+              },
+              required: ["id", "region_ref", "label_en", "certainty"]
+            }
+          },
+          visibleFragments: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: { id: STR, region_ref: STR, description_en: STR },
+              required: ["id", "region_ref", "description_en"]
+            }
+          },
+          visualEvidence: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                id: STR, region_ref: STR,
+                feature_type: { type: "STRING", enum: ["geometry", "material_texture", "opening_hole_boundary", "occlusion_overlap", "repetition_rhythm", "spatial_orientation", "scale_ambiguity", "object_background_relation"] },
+                description_en: STR
+              },
+              required: ["id", "region_ref", "feature_type", "description_en"]
+            }
+          },
+          uncertainties_en: STR_ARRAY,
+          alternativeRecognitions: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: { id: STR, region_ref: STR, label_en: STR, reason_en: STR },
+              required: ["id", "region_ref", "label_en", "reason_en"]
+            }
+          }
+        },
+        required: ["initialRecognition", "visibleFragments", "visualEvidence", "uncertainties_en", "alternativeRecognitions"]
+      },
+      stage2: {
+        type: "OBJECT",
+        properties: {
+          associativeDivergences: {
+            type: "ARRAY",
+            maxItems: 5,
+            items: {
+              type: "OBJECT",
+              properties: {
+                id: STR,
+                provenanceTag: { type: "STRING", enum: ["actual_initial_recognition", "same_identity_new_context", "cross_domain_affinity", "creative_interpretation"] },
+                sourceFragmentIds: STR_ARRAY,
+                association_en: STR,
+                sharedVisualFeatures_en: STR,
+                tensionDifferences_en: STR,
+                potentialRelationalChange_en: STR
+              },
+              required: ["id", "provenanceTag", "sourceFragmentIds", "association_en", "sharedVisualFeatures_en", "tensionDifferences_en", "potentialRelationalChange_en"]
+            }
+          }
+        },
+        required: ["associativeDivergences"]
+      },
+      stage3: {
+        type: "OBJECT",
+        properties: {
+          status: { type: "STRING", enum: ["selected", "insufficient_evidence"] },
+          selectedAssociationIds: STR_ARRAY,
+          selectionRationale_en: STR,
+          pictorialProblem_en: STR,
+          pictorialProblem_tw: STR,
+          selectedAssociationGloss_tw: STR,
+          creativeDirection_en: STR,
+          artisticIntention_en: STR,
+          realizationPlan_en: STR,
+          potentialRelationalConsequences_en: STR
+        },
+        required: ["status", "selectedAssociationIds", "selectionRationale_en", "pictorialProblem_en", "pictorialProblem_tw", "selectedAssociationGloss_tw", "creativeDirection_en", "artisticIntention_en", "realizationPlan_en", "potentialRelationalConsequences_en"]
+      },
+      stage4: {
+        type: "OBJECT",
+        properties: {
+          pictorialAnswer_en: STR,
+          pictorialAnswer_tw: STR,
+          retainedVisualCues_en: STR_ARRAY,
+          transformedVisualCues: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: { sourceFragmentId: STR, operation_en: STR },
+              required: ["sourceFragmentId", "operation_en"]
+            }
+          },
+          introducedVisualElements: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: { description_en: STR, relationalJustification_en: STR },
+              required: ["description_en", "relationalJustification_en"]
+            }
+          },
+          relationalConsequences_en: STR_ARRAY,
+          unresolvedInterpretations_en: STR_ARRAY
+        },
+        required: ["pictorialAnswer_en", "pictorialAnswer_tw", "retainedVisualCues_en", "transformedVisualCues", "introducedVisualElements", "relationalConsequences_en", "unresolvedInterpretations_en"]
+      },
+      stage5: {
+        type: "OBJECT",
+        properties: {
+          mediumAndStyle_en: STR,
+          modelDraftInstruction: STR,
+          finalGenerationPrompt: STR
+        },
+        required: ["mediumAndStyle_en", "modelDraftInstruction", "finalGenerationPrompt"]
+      },
+      researchObservations_tw: {
+        type: "OBJECT",
+        properties: {
+          visualEvidenceSummary_tw: STR,
+          alternativeRecognitionSummary_tw: STR,
+          candidateAssociationsSummary_tw: STR,
+          selectionRationale_tw: STR,
+          operationsSummary_tw: STR,
+          unresolvedSummary_tw: STR
+        },
+        required: ["visualEvidenceSummary_tw", "alternativeRecognitionSummary_tw", "candidateAssociationsSummary_tw", "selectionRationale_tw", "operationsSummary_tw", "unresolvedSummary_tw"]
+      }
+    },
+    required: ["objects", "original_analysis_en", "stage1", "stage2", "stage3", "stage4", "stage5", "researchObservations_tw"]
+  };
+}
+
 function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance){
   var url = "https://generativelanguage.googleapis.com/v1/models/" + modelName + ":generateContent?key=" + encodeURIComponent(apiKey);
   var userParts = [];
@@ -2007,6 +2224,7 @@ function requestGeminiOnce(modelName, apiKey, base64Data, mimeType, userGuidance
     generationConfig: {
       temperature: 0.95,
       responseMimeType: "application/json",
+      responseSchema: buildGeminiResponseSchema(),
       maxOutputTokens: 8192
     }
   };
@@ -3118,15 +3336,26 @@ var SIX_STAGE_LABELS = {
   en: {
     baseline: "Legacy record (pre-rewrite) — no six-stage vision plan was recorded for this generation.",
     selfReportDisclaimer: "The fields below are the model's own recorded account of its choices — a self-report, not a verified record of its internal computation.",
-    candidateAssociationsLabel: "1 · CANDIDATE RECOGNITIONS & ASSOCIATIONS",
+    /* Section headers renamed to the new Stage 1-5 naming scheme (user-
+       confirmed, 2026-10-12): the content grouped under each header is
+       UNCHANGED (e.g. "1 · VISUAL OBSERVATION" still shows stage2
+       associations alongside stage1 observations) — only the label text
+       changed. This label set is static and applies uniformly to every
+       record, old and new alike; no stored data or stage1-5 JSON field
+       was touched. */
+    candidateAssociationsLabel: "01 — VISUAL EVIDENCE",
     selectedMarker: "selected", notSelectedMarker: "not selected",
-    selectionAndRejectionLabel: "2 · SELECTION & REJECTION",
+    selectionAndRejectionLabel: "02 — PERCEPTUAL SHIFT",
     selectionRationaleNotRecorded: "Not recorded — the model did not provide a selectionRationale for this round.",
     rejectionNotRecorded: "Why the other candidate(s) above were not selected is not recorded — stage2.associativeDivergences has no field for a rejection reason, so this is genuinely absent data, not an omission in this display.",
-    artisticQuestionLabel: "3 · ARTISTIC QUESTION",
+    artisticQuestionLabel: "03 — ARTISTIC QUESTION",
     artisticQuestionNotRecorded: "Not recorded for this round.",
-    pictorialTranslationLabel: "4 · PICTORIAL TRANSLATION",
-    finalInstructionLabel: "5 · FINAL GENERATION INSTRUCTION",
+    pictorialTranslationLabel: "04 — PICTORIAL CONCEPTION",
+    /* finalInstructionLabel is intentionally no longer passed to section()
+       anywhere (Stage 5 is internal-only per spec) — kept defined so no
+       other stray reference breaks, see renderSixStagePlan()'s removed
+       "BLOCK 5" for where its content moved (Integrity Diagnostics). */
+    finalInstructionLabel: "05 — PHOTOGRAPHIC REALIZATION (internal only, not rendered)",
     certainty: { confident: "confident", unstable: "unstable", unnameable: "unnameable" },
     whatISaw: "WHAT I SAW", noEvidence: "No recognition records for this image.",
     whatMadeMeSeeIt: "WHAT MADE ME SEE IT",
@@ -3180,15 +3409,15 @@ var SIX_STAGE_LABELS = {
   tw: {
     baseline: "舊版紀錄（改版前）——此次生成未記錄六階段觀看計畫。",
     selfReportDisclaimer: "以下欄位是模型自己記錄下來的選擇說明——是自我報告，不是經過驗證的內部運算紀錄。",
-    candidateAssociationsLabel: "1 · 候選辨識與聯想",
+    candidateAssociationsLabel: "01 — 視覺證據",
     selectedMarker: "已選用", notSelectedMarker: "未採用",
-    selectionAndRejectionLabel: "2 · 選擇與捨棄",
+    selectionAndRejectionLabel: "02 — 觀看偏移",
     selectionRationaleNotRecorded: "未記錄——模型這一輪沒有提供 selectionRationale。",
     rejectionNotRecorded: "上方其他候選聯想為何未被選用，沒有記錄——stage2.associativeDivergences 本身沒有「捨棄理由」欄位，這是資料真的不存在，不是本畫面省略顯示。",
-    artisticQuestionLabel: "3 · 藝術命題",
+    artisticQuestionLabel: "03 — 藝術命題",
     artisticQuestionNotRecorded: "本輪未記錄。",
-    pictorialTranslationLabel: "4 · 圖像轉譯",
-    finalInstructionLabel: "5 · 最終生成指令",
+    pictorialTranslationLabel: "04 — 圖像構思",
+    finalInstructionLabel: "05 — 攝影實現（僅後台執行，不公開顯示）",
     certainty: { confident: "確定", unstable: "不穩定", unnameable: "無法命名" },
     whatISaw: "我最初看到了什麼", noEvidence: "此圖像沒有辨識紀錄。",
     whatMadeMeSeeIt: "造成辨識的具體視覺特徵",
@@ -3257,7 +3486,6 @@ function renderSixStagePlan(container, record, plan, lang){
   var s2 = plan.stage2 || {};
   var s3 = plan.stage3 || {};
   var s4 = plan.stage4 || {};
-  var s5 = plan.stage5 || {};
 
   function fragLabel(id){
     var o = findObjectById(objects, id);
@@ -3274,7 +3502,12 @@ function renderSixStagePlan(container, record, plan, lang){
     container.appendChild(sec);
   }
 
-  /* 1. WHAT I SAW — visible fragments + initial recognition labels */
+  /* 01 — VISUAL EVIDENCE: merges the former "WHAT I SAW" / "WHAT MADE ME
+     SEE IT" un-numbered blocks and stage1.alternativeRecognitions (which
+     used to sit inside the old "candidate associations" block alongside
+     stage2 data) — all three are stage1-only content, now shown under
+     one clean public stage label instead of three separately-labeled
+     fragments. No data is dropped, only regrouped. */
   var fragRows = (s1.visibleFragments || []).map(function(f){
     var desc = lang === "tw" ? f.description_tw : f.description_en;
     return '<div class="diff-row"><div class="diff-basis">' + escapeHtml(desc || "") + '</div></div>';
@@ -3286,13 +3519,6 @@ function renderSixStagePlan(container, record, plan, lang){
       (certaintyLabel ? '<span class="hyp-badge">' + escapeHtml(certaintyLabel) + '</span>' : '') +
     '</div></div>';
   }).join("");
-  if (fragRows || recogRows){
-    section(L.whatISaw, fragRows + recogRows);
-  } else {
-    section(L.whatISaw, '<div class="rmp-empty-note">' + escapeHtml(L.noEvidence) + '</div>');
-  }
-
-  /* 2. WHAT MADE ME SEE IT — visualEvidence (geometry/texture/etc) */
   var evidenceRows = (s1.visualEvidence || []).map(function(v){
     var desc = lang === "tw" ? v.description_tw : v.description_en;
     return '<div class="diff-row"><div class="diff-top"><span class="diff-object">' + escapeHtml(v.feature_type || "") + '</span></div>' +
@@ -3301,27 +3527,36 @@ function renderSixStagePlan(container, record, plan, lang){
   }).join("");
   var uncertainties = (lang === "tw" ? s1.uncertainties_tw : s1.uncertainties_en) || [];
   var uncertaintyHtml = uncertainties.length ? ('<div class="vcue-tags" style="margin-top:6px;">' + uncertainties.map(function(u){ return '<span class="vcue-tag">' + escapeHtml(u) + '</span>'; }).join("") + '</div>') : "";
-  if (evidenceRows || uncertaintyHtml) section(L.whatMadeMeSeeIt, evidenceRows + uncertaintyHtml);
-
-  /* ======================================================================
-     Five-block "AI Misreading & Reconstruction" layout. These are the
-     model's own self-reported account of its choices (disclaimer below),
-     not a verified record of its internal computation — stated once here
-     rather than re-stated on every block. Every value below is read
-     as-is from the saved record; nothing here is invented when a field
-     is empty/missing — see each block's own "not recorded" fallback. */
-  container.insertAdjacentHTML('beforeend', '<div class="rmp-disclaimer">' + escapeHtml(L.selfReportDisclaimer) + '</div>');
-
-  /* BLOCK 1 — candidate recognitions & associations: the FULL stage2
-     pool, every candidate marked selected/not-selected, not just the
-     one(s) that were chosen. Previously this was split across two
-     separately-labeled sections (selected vs "other"), which made it
-     look like only the last item existed. */
   var altTags = (s1.alternativeRecognitions || []).map(function(a){
     var lbl = lang === "tw" ? (a.label_tw || a.label_en) : (a.label_en || a.label_tw);
     var reason = lang === "tw" ? a.reason_tw : a.reason_en;
     return '<span class="vcue-tag">' + escapeHtml(lbl || "") + (reason ? (" — " + escapeHtml(reason)) : "") + '</span>';
   }).join("");
+
+  var block01Html = '<div class="mtag-object">' + escapeHtml(L.whatISaw) + '</div>' +
+    (fragRows || recogRows ? (fragRows + recogRows) : ('<div class="rmp-empty-note">' + escapeHtml(L.noEvidence) + '</div>'));
+  if (evidenceRows || uncertaintyHtml){
+    block01Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.whatMadeMeSeeIt) + '</div>' + evidenceRows + uncertaintyHtml;
+  }
+  if (altTags){
+    block01Html += '<div class="mtag-object" style="margin-top:8px;">Alternative recognition</div><div class="vcue-tags">' + altTags + '</div>';
+  }
+  section(L.candidateAssociationsLabel, block01Html);
+
+  /* ======================================================================
+     These are the model's own self-reported account of its choices
+     (disclaimer below), not a verified record of its internal
+     computation — stated once here rather than re-stated on every block.
+     Every value below is read as-is from the saved record; nothing here
+     is invented when a field is empty/missing — see each block's own
+     "not recorded" fallback. */
+  container.insertAdjacentHTML('beforeend', '<div class="rmp-disclaimer">' + escapeHtml(L.selfReportDisclaimer) + '</div>');
+
+  /* 02 — PERCEPTUAL SHIFT: merges the former "candidate associations"
+     stage2 list (every candidate marked selected/not-selected, not just
+     the one(s) chosen) with the former separate "selection & rejection"
+     block — both describe the same perceptual-shift decision: what
+     alternatives existed, and which one was chosen and why. */
   var divergences = s2.associativeDivergences || [];
   var selectedIdsForUI = uniqueStrings(normalizeSelectedAssociationIds(s3));
   var candidateCards = divergences.map(function(a){
@@ -3335,29 +3570,22 @@ function renderSixStagePlan(container, record, plan, lang){
       (srcLabels ? '<div class="displaced-change" style="margin-top:4px;"><i>' + escapeHtml(srcLabels) + '</i></div>' : "") +
     '</div>';
   }).join("");
-  var block1Html = (altTags ? ('<div class="vcue-tags">' + altTags + '</div>') : "") + candidateCards;
-  if (!block1Html) block1Html = '<div class="rmp-empty-note">' + escapeHtml(divergences.length === 0 ? L.noAssociations : L.noAlternatives) + '</div>';
-  section(L.candidateAssociationsLabel, block1Html);
+  var block02Html = candidateCards || ('<div class="rmp-empty-note">' + escapeHtml(divergences.length === 0 ? L.noAssociations : L.noAlternatives) + '</div>');
 
-  /* BLOCK 2 — selection & rejection. "Why selected" is read from the
-     model's own selectionRationale when present. "Why rejected" is
-     honestly reported as NOT RECORDED — stage2.associativeDivergences has
-     no field for a rejection reason, so this is never guessed. */
   var rationale = lang === "tw" ? s3.selectionRationale_tw : s3.selectionRationale_en;
-  var block2Html = "";
   if (s3.status === "insufficient_evidence"){
-    block2Html += '<div class="unused-warning">' + escapeHtml(L.insufficient) + '</div>';
+    block02Html += '<div class="unused-warning" style="margin-top:8px;">' + escapeHtml(L.insufficient) + '</div>';
   }
   if (rationale){
-    block2Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.whyISelectedIt) + '</div><div class="block-val">' + escapeHtml(rationale) + '</div>';
+    block02Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.whyISelectedIt) + '</div><div class="block-val">' + escapeHtml(rationale) + '</div>';
   } else if (s3.status !== "insufficient_evidence"){
-    block2Html += '<div class="rmp-empty-note" style="margin-top:8px;">' + escapeHtml(L.selectionRationaleNotRecorded) + '</div>';
+    block02Html += '<div class="rmp-empty-note" style="margin-top:8px;">' + escapeHtml(L.selectionRationaleNotRecorded) + '</div>';
   }
   var nonSelectedCount = divergences.filter(function(a){ return selectedIdsForUI.indexOf(a.id) === -1; }).length;
   if (nonSelectedCount > 0){
-    block2Html += '<div class="rmp-empty-note" style="margin-top:8px;">' + escapeHtml(L.rejectionNotRecorded) + '</div>';
+    block02Html += '<div class="rmp-empty-note" style="margin-top:8px;">' + escapeHtml(L.rejectionNotRecorded) + '</div>';
   }
-  if (block2Html) section(L.selectionAndRejectionLabel, block2Html);
+  section(L.selectionAndRejectionLabel, block02Html);
 
   /* BLOCK 3 — artistic question: pictorialProblem + artisticIntention,
      with creativeDirection as supplementary context. */
@@ -3401,42 +3629,15 @@ function renderSixStagePlan(container, record, plan, lang){
   if (unresolved.length) block4Html += '<div class="mtag-object" style="margin-top:8px;">' + escapeHtml(L.unresolved) + '</div><div class="vcue-tags">' + unresolved.map(function(u){ return '<span class="vcue-tag">' + escapeHtml(u) + '</span>'; }).join("") + '</div>';
   section(L.pictorialTranslationLabel, block4Html || ('<div class="rmp-empty-note">' + escapeHtml(L.noChange) + '</div>'));
 
-  /* BLOCK 5 — final generation instruction. Primary content is the
-     prompt ACTUALLY sent (record.finalImagePrompt), expandable via
-     <details open> so it is visible by default yet collapsible. The
-     AI's own originally-written finalGenerationPrompt is only shown
-     separately when it genuinely differs from what was sent (i.e. a
-     fallback overrode it) — when they are identical (the normal
-     ai_autonomous case) it is shown exactly once, not duplicated. The
-     mechanically-assembled comparison version is shown the same way,
-     only when it differs and only collapsed by default. */
-  var medium = lang === "tw" ? s5.mediumAndStyle_tw : s5.mediumAndStyle_en;
-  var sentPrompt = record.finalImagePrompt;
-  var aiOwnPrompt = s5.finalGenerationPrompt;
-  var block5Html = "";
-  if (medium) block5Html += '<div class="block-val">' + escapeHtml(L.medium) + ': ' + escapeHtml(medium) + '</div>';
-  if (record.imageModelUsed) block5Html += '<div class="block-val" style="margin-top:4px;">' + escapeHtml(L.imageModelLabel) + ': ' + escapeHtml(record.imageModelUsed) + '</div>';
-  if (record.finalPromptSource){
-    var sourceLabel = record.finalPromptSource === "ai_autonomous" ? L.sourceAiAutonomous : (record.finalPromptSource === "no_usable_content" ? L.sourceNoUsableContent : L.sourceAppFallback);
-    var reasonText = record.fallbackReason ? (L.fallbackReasons[record.fallbackReason] || record.fallbackReason) : "";
-    block5Html += '<div class="block-val" style="margin-top:8px;">' + escapeHtml(L.promptSourceLabel) + ': ' + escapeHtml(sourceLabel) + (reasonText ? (' — ' + escapeHtml(reasonText)) : '') + '</div>';
-  }
-  if (sentPrompt){
-    block5Html += '<details class="comparison-details" open style="margin-top:8px;"><summary>' + escapeHtml(L.finalPrompt) + '</summary>' +
-      '<div class="final-prompt-block" style="margin-top:6px;">' + escapeHtml(sentPrompt) + '</div></details>';
-  } else {
-    block5Html += '<div class="rmp-empty-note" style="margin-top:8px;">' + escapeHtml(L.sourceNoUsableContent) + '</div>';
-  }
-  if (aiOwnPrompt && aiOwnPrompt !== sentPrompt){
-    block5Html += '<details class="comparison-details" style="margin-top:8px;"><summary>' + escapeHtml(L.aiAutonomousPrompt) + '</summary>' +
-      '<div class="final-prompt-block" style="opacity:.85;margin-top:6px;">' + escapeHtml(aiOwnPrompt) + '</div></details>';
-  }
-  /* The former "Mechanical Assembly · Comparison Only" UI (which used
-     to read record.assembledPromptForComparison) has been removed from
-     the result page entirely (see renderTechInfoRow()). Block 5 here
-     still stores/carries that same field on the record — only its
-     separate UI display was removed, not the underlying data. */
-  section(L.finalInstructionLabel, block5Html);
+  /* Stage 5 (Photographic Realization and Evaluation) is internal-only
+     per spec — its prompt text and internal A/B/C evaluation are never
+     rendered here. The former "BLOCK 5" used to show the prompt actually
+     sent plus generation metadata (medium/style, image model used,
+     prompt source, fallback reason); the prompt-text <details> blocks
+     are simply gone, but the non-prompt diagnostic metadata was moved
+     into buildIntegrityDiagnosticsHtml() below (an existing diagnostic
+     feature, not a public research stage) so that capability is not
+     lost — see that function for medium/imageModelUsed/promptSource. */
 
   /* STAGE 6 — Independent Re-Reading. Retired: nothing produces a new one
      anymore (no automatic call, no manual button). Only shown at all when
@@ -3472,34 +3673,54 @@ function renderSixStagePlan(container, record, plan, lang){
    this round's UI change. */
 function buildIntegrityDiagnosticsHtml(record){
   var integrity = record && record.integrity;
-  if (!integrity) return null;
   var L = SIX_STAGE_LABELS.en;
   var diagHtml = "";
-  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.evidenceIntegrityOk ? L.evidenceIntegrityOk : (L.evidenceIntegrityBad + " " + integrity.missingEvidenceIds.join(", "))) + '</div></div>';
-  if (integrity.selectionIntegrityOk === false){
-    var selProblems = [];
-    if (integrity.invalidSelectedIds && integrity.invalidSelectedIds.length) selProblems.push(L.selectionIntegrityInvalidIds + " " + integrity.invalidSelectedIds.join(", "));
-    if (integrity.duplicateSelectedIds && integrity.duplicateSelectedIds.length) selProblems.push(L.selectionIntegrityDuplicateIds + " " + integrity.duplicateSelectedIds.join(", "));
-    if (integrity.statusCountConsistent === false) selProblems.push(L.selectionIntegrityStatusMismatch);
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityBad + " " + selProblems.join("; ")) + '</div></div>';
-  } else if (integrity.selectionIntegrityOk === true){
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityOk) + '</div></div>';
+
+  if (integrity){
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.evidenceIntegrityOk ? L.evidenceIntegrityOk : (L.evidenceIntegrityBad + " " + integrity.missingEvidenceIds.join(", "))) + '</div></div>';
+    if (integrity.selectionIntegrityOk === false){
+      var selProblems = [];
+      if (integrity.invalidSelectedIds && integrity.invalidSelectedIds.length) selProblems.push(L.selectionIntegrityInvalidIds + " " + integrity.invalidSelectedIds.join(", "));
+      if (integrity.duplicateSelectedIds && integrity.duplicateSelectedIds.length) selProblems.push(L.selectionIntegrityDuplicateIds + " " + integrity.duplicateSelectedIds.join(", "));
+      if (integrity.statusCountConsistent === false) selProblems.push(L.selectionIntegrityStatusMismatch);
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityBad + " " + selProblems.join("; ")) + '</div></div>';
+    } else if (integrity.selectionIntegrityOk === true){
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.selectionIntegrityOk) + '</div></div>';
+    }
+    if (integrity.pictorialProblemPresent !== undefined){
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialProblemPresent ? L.pictorialProblemPresentOk : L.pictorialProblemPresentBad) + '</div></div>';
+    }
+    if (integrity.pictorialAnswerPresent !== undefined){
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialAnswerPresent ? L.pictorialAnswerPresentOk : L.pictorialAnswerPresentBad) + '</div></div>';
+    }
+    if (integrity.artisticCompletenessOk !== undefined){
+      diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.artisticCompletenessOk ? L.artisticCompletenessOk : L.artisticCompletenessBad) + '</div></div>';
+    }
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.recognitionIntegrity) + '</div></div>';
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.openEndedness) + '</div></div>';
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.sourceIndependence) + '</div></div>';
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.noHumanSelection) + '</div></div>';
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.creativeAutonomyGuaranteed) + '</div></div>';
   }
-  if (integrity.pictorialProblemPresent !== undefined){
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialProblemPresent ? L.pictorialProblemPresentOk : L.pictorialProblemPresentBad) + '</div></div>';
+
+  /* Generation metadata — which medium/model/prompt-source was actually
+     used. This is NOT one of the four public research stages (Stage 5's
+     prompt text and internal A/B/C evaluation stay fully internal per
+     spec); it is backend/process metadata, so it lives in this existing
+     diagnostic feature rather than being dropped when Stage 5's own
+     section was removed from Creative Process. Computed unconditionally
+     (not gated on `integrity`) so a record with this metadata but no
+     integrity object still shows it, rather than silently losing it. */
+  var s5 = (record && record.visionPlan && record.visionPlan.stage5) || {};
+  if (s5.mediumAndStyle_en) diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.medium) + ': ' + escapeHtml(s5.mediumAndStyle_en) + '</div></div>';
+  if (record && record.imageModelUsed) diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.imageModelLabel) + ': ' + escapeHtml(record.imageModelUsed) + '</div></div>';
+  if (record && record.finalPromptSource){
+    var sourceLabel = record.finalPromptSource === "ai_autonomous" ? L.sourceAiAutonomous : (record.finalPromptSource === "no_usable_content" ? L.sourceNoUsableContent : L.sourceAppFallback);
+    var reasonText = record.fallbackReason ? (L.fallbackReasons[record.fallbackReason] || record.fallbackReason) : "";
+    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.promptSourceLabel) + ': ' + escapeHtml(sourceLabel) + (reasonText ? (' — ' + escapeHtml(reasonText)) : '') + '</div></div>';
   }
-  if (integrity.pictorialAnswerPresent !== undefined){
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.pictorialAnswerPresent ? L.pictorialAnswerPresentOk : L.pictorialAnswerPresentBad) + '</div></div>';
-  }
-  if (integrity.artisticCompletenessOk !== undefined){
-    diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(integrity.artisticCompletenessOk ? L.artisticCompletenessOk : L.artisticCompletenessBad) + '</div></div>';
-  }
-  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.recognitionIntegrity) + '</div></div>';
-  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.openEndedness) + '</div></div>';
-  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.sourceIndependence) + '</div></div>';
-  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.noHumanSelection) + '</div></div>';
-  diagHtml += '<div class="diff-row"><div class="diff-basis">' + escapeHtml(L.creativeAutonomyGuaranteed) + '</div></div>';
-  return diagHtml;
+
+  return diagHtml || null;
 }
 
 /* A single, independent, native <details>/<summary> block sitting
@@ -3833,7 +4054,7 @@ function renderResearchObservations(container, record, plan, surrealImageDataUrl
    future record where that field was absent for another legitimate
    reason. Never auto-translated on the fly; never re-calls Gemini. */
 function renderResearchObservationsEn(section, s1, s2, s3, s4, divergences, selectedIds, PROV_LABELS, surrealImageDataUrl){
-  /* A. Visual Evidence <-> Alternative Recognition */
+  /* 01 — Visual Evidence (stage 1 only). */
   var evidenceTags = [].concat(
     (s1.visibleFragments || []).map(function(f){ return f.description_en; }),
     (s1.visualEvidence || []).map(function(v){ return v.description_en; })
@@ -3841,14 +4062,12 @@ function renderResearchObservationsEn(section, s1, s2, s3, s4, divergences, sele
   var altTags = (s1.alternativeRecognitions || []).map(function(a){
     return '<span class="vcue-tag">' + escapeHtml(a.label_en || "") + (a.reason_en ? (" — " + escapeHtml(a.reason_en)) : "") + '</span>';
   }).join("");
-  section("A · Visual Evidence ↔ Alternative Recognition",
-    '<div class="ro-pair">' +
-      '<div class="ro-col"><div class="ro-col-title">Visible evidence (stage 1)</div>' + (evidenceTags ? ('<div class="vcue-tags">' + evidenceTags + '</div>') : '<div class="rmp-empty-note">No visible-evidence entries recorded.</div>') + '</div>' +
-      '<div class="ro-col"><div class="ro-col-title">Alternative recognition (stage 1)</div>' + (altTags ? ('<div class="vcue-tags">' + altTags + '</div>') : '<div class="rmp-empty-note">No alternative recognition recorded.</div>') + '</div>' +
-    '</div>'
+  section("01 — VISUAL EVIDENCE",
+    (evidenceTags ? ('<div class="vcue-tags">' + evidenceTags + '</div>') : '<div class="rmp-empty-note">No visible-evidence entries recorded.</div>') +
+    (altTags ? ('<div class="vcue-tags" style="margin-top:10px;">' + altTags + '</div>') : '<div class="rmp-empty-note" style="margin-top:10px;">No alternative recognition recorded.</div>')
   );
 
-  /* B. Divergent Possibilities <-> Selection */
+  /* 02 — Perceptual Shift (stage 2 candidates + stage 3 selection). */
   var candidateCards = divergences.map(function(a){
     var isSel = selectedIds.indexOf(a.id) !== -1;
     var provLabel = (PROV_LABELS && PROV_LABELS[a.provenanceTag]) || a.provenanceTag || "";
@@ -3857,43 +4076,35 @@ function renderResearchObservationsEn(section, s1, s2, s3, s4, divergences, sele
       '<div class="tension-reading">' + escapeHtml(a.association_en || "") + '</div></div>';
   }).join("");
   var rationale = s3.selectionRationale_en;
-  section("B · Divergent Possibilities ↔ Selection",
-    '<div class="ro-pair">' +
-      '<div class="ro-col"><div class="ro-col-title">All candidates</div>' + (candidateCards || '<div class="rmp-empty-note">No associative divergences were proposed.</div>') + '</div>' +
-      '<div class="ro-col"><div class="ro-col-title">Selection rationale (self-reported)</div>' + (rationale ? ('<div class="block-val">' + escapeHtml(rationale) + '</div>') : '<div class="rmp-empty-note">Not recorded for this round.</div>') +
-        '<div class="ro-self-report-note">provenanceTag and this rationale are the model’s own account, not an externally verified record.</div></div>' +
-    '</div>'
+  section("02 — PERCEPTUAL SHIFT",
+    (candidateCards || '<div class="rmp-empty-note">No associative divergences were proposed.</div>') +
+    (rationale ? ('<div class="block-val" style="margin-top:10px;">' + escapeHtml(rationale) + '</div>') : '<div class="rmp-empty-note" style="margin-top:10px;">Not recorded for this round.</div>') +
+    '<div class="ro-self-report-note">provenanceTag and this rationale are the model’s own account, not an externally verified record.</div>'
   );
 
-  /* C. Artistic Question <-> Relational Transformation — raw pairing
-     only. No keyword classification into identity/material/function/
-     action/space/time: that judgment is left entirely to the reader. */
+  /* 03 — Artistic Question (stage 3 only — no stage 4 content mixed in). */
+  section("03 — ARTISTIC QUESTION",
+    s3.pictorialProblem_en ? ('<div class="block-val">' + escapeHtml(s3.pictorialProblem_en) + '</div>') : '<div class="rmp-empty-note">Not recorded.</div>'
+  );
+
+  /* 04 — Pictorial Conception (stage 4: pictorialAnswer + operations +
+     the resulting generated image). pictorialAnswer_en was not shown
+     anywhere in this panel before — displaying it here (an existing
+     field, no schema change) is what makes "04" an honest, complete
+     account of Stage 4 rather than only its supporting operation notes. */
   var operationsHtml = [].concat(
-    (s4.transformedVisualCues || []).map(function(t){ return t.operation_en; }),
-    (s4.introducedVisualElements || []).map(function(e){ return e.description_en; })
-  ).filter(Boolean).map(function(t){ return '<div class="block-val" style="margin-bottom:6px;">' + escapeHtml(t) + '</div>'; }).join("");
-  section("C · Artistic Question ↔ Relational Transformation",
-    '<div class="ro-pair">' +
-      '<div class="ro-col"><div class="ro-col-title">Artistic question (stage 3)</div>' + (s3.pictorialProblem_en ? ('<div class="block-val">' + escapeHtml(s3.pictorialProblem_en) + '</div>') : '<div class="rmp-empty-note">Not recorded.</div>') + '</div>' +
-      '<div class="ro-col"><div class="ro-col-title">Operations (stage 4, model’s own text)</div>' + (operationsHtml || '<div class="rmp-empty-note">No transformed/introduced elements recorded.</div>') + '</div>' +
-    '</div>' +
-    '<div class="ro-neutral-question">Judge for yourself: does this change identity, material/form, function, action, spatial organization, or scale/time relationships — or some combination? The data above does not pre-classify this.</div>'
-  );
-
-  /* D. Planned Transformation <-> Generated Image — no automated
-     verification is claimed; the reader compares. */
-  var plannedHtml = [].concat(
     (s4.retainedVisualCues_en || []).map(function(c){ return "Retained: " + c; }),
     (s4.transformedVisualCues || []).map(function(t){ return "Transformed: " + (t.operation_en || ""); }),
     (s4.introducedVisualElements || []).map(function(e){ return "Introduced: " + (e.description_en || ""); })
   ).filter(Boolean).map(function(t){ return '<div class="block-val" style="margin-bottom:6px;">' + escapeHtml(t) + '</div>'; }).join("");
+  var conceptionParts = [];
+  if (s4.pictorialAnswer_en) conceptionParts.push('<div class="block-val" style="margin-bottom:10px;">' + escapeHtml(s4.pictorialAnswer_en) + '</div>');
+  if (operationsHtml) conceptionParts.push(operationsHtml);
+  var conceptionHtml = conceptionParts.length ? conceptionParts.join("") : '<div class="rmp-empty-note">No pictorial conception recorded.</div>';
   var imgHtml = surrealImageDataUrl ? ('<img class="ro-thumb" src="' + surrealImageDataUrl + '" alt="Generated artwork, for comparison">') : '<div class="rmp-empty-note">No generated image available for this record.</div>';
-  section("D · Planned Transformation ↔ Generated Image",
-    '<div class="ro-pair">' +
-      '<div class="ro-col"><div class="ro-col-title">Planned (pre-generation)</div>' + (plannedHtml || '<div class="rmp-empty-note">No planned operations recorded.</div>') + '</div>' +
-      '<div class="ro-col"><div class="ro-col-title">Generated image</div>' + imgHtml + '</div>' +
-    '</div>' +
-    '<div class="ro-neutral-question">Which of the planned relationships can you actually find in the image above? Which remain unclear or unresolved? This app does not automatically verify the match — the judgment is yours.</div>'
+  section("04 — PICTORIAL CONCEPTION",
+    conceptionHtml +
+    '<div style="margin-top:10px;">' + imgHtml + '</div>'
   );
 }
 
@@ -3917,59 +4128,47 @@ function renderResearchObservationsZh(section, s1, s2, s3, s4, divergences, sele
      reads undefined (handled by zhCol()'s existing "未記錄" fallback)
      instead of throwing. */
   zh = zh || {};
-  function zhCol(title, text){
-    return '<div class="ro-col"><div class="ro-col-title">' + escapeHtml(title) + '</div>' +
-      (text ? ('<div class="ro-zh-text">' + escapeHtml(text) + '</div>') : '<div class="rmp-empty-note">未記錄。</div>') + '</div>';
+  function zhBlock(text, extraStyle){
+    return text ? ('<div class="ro-zh-text"' + (extraStyle ? (' style="' + extraStyle + '"') : '') + '>' + escapeHtml(text) + '</div>') : ('<div class="rmp-empty-note"' + (extraStyle ? (' style="' + extraStyle + '"') : '') + '>未記錄。</div>');
   }
 
-  /* A. 可見證據 <-> 替代辨識 */
-  section("A · 可見證據 ↔ 替代辨識（Visual Evidence ↔ Alternative Recognition）",
-    '<div class="ro-pair">' +
-      zhCol("可見證據（Stage 1）", zh.visualEvidenceSummary_tw) +
-      zhCol("替代辨識（Stage 1）", zh.alternativeRecognitionSummary_tw) +
-    '</div>'
+  /* 01 — 視覺證據（stage 1 only）。 */
+  section("01 — 視覺證據",
+    zhBlock(zh.visualEvidenceSummary_tw) +
+    zhBlock(zh.alternativeRecognitionSummary_tw, "margin-top:10px;")
   );
 
-  /* B. 聯想分歧 <-> 選擇 — structural selected/not-selected count kept
-     (objectively computed, not a translation of prose) since the
-     collective Chinese summary doesn't carry per-candidate selection
-     state. */
+  /* 02 — 觀看偏移（stage 2 候選 + stage 3 選擇）。structural selected/
+     not-selected count kept (objectively computed, not a translation of
+     prose) since the collective Chinese summary doesn't carry
+     per-candidate selection state. */
   var selectedCount = selectedIds.length;
   var totalCount = divergences.length;
   var countNote = totalCount > 0 ? ('共 ' + totalCount + ' 項候選，已選 ' + selectedCount + ' 項。') : '';
-  var colA = '<div class="ro-col"><div class="ro-col-title">候選聯想摘要</div>' +
+  section("02 — 觀看偏移",
     (countNote ? ('<div class="ro-self-report-note" style="margin:0 0 6px;">' + escapeHtml(countNote) + '</div>') : '') +
-    (zh.candidateAssociationsSummary_tw ? ('<div class="ro-zh-text">' + escapeHtml(zh.candidateAssociationsSummary_tw) + '</div>') : '<div class="rmp-empty-note">未記錄。</div>') +
-  '</div>';
-  section("B · 聯想分歧 ↔ 選擇（Divergent Possibilities ↔ Selection）",
-    '<div class="ro-pair">' +
-      colA +
-      zhCol("選擇理由（模型自述）", zh.selectionRationale_tw) +
-    '</div>' +
+    zhBlock(zh.candidateAssociationsSummary_tw) +
+    zhBlock(zh.selectionRationale_tw, "margin-top:10px;") +
     '<div class="ro-self-report-note">provenanceTag 與此理由皆為模型自述，非外部驗證紀錄。</div>'
   );
 
-  /* C. 藝術命題 <-> 關係轉譯 — no keyword classification into identity/
-     material/function/action/space/time: left to the reader, same as
-     the English version. */
-  section("C · 藝術命題 ↔ 關係轉譯（Artistic Question ↔ Relational Transformation）",
-    '<div class="ro-pair">' +
-      zhCol("藝術命題", s3.pictorialProblem_tw) +
-      zhCol("操作內容摘要", [zh.operationsSummary_tw, zh.unresolvedSummary_tw].filter(Boolean).join(" ")) +
-    '</div>' +
-    '<div class="ro-neutral-question">請自行判斷：這改變的是身分、材質／形體、用途、行動、空間組織，還是尺度／時間關係——或是多者的組合？以上內容不預先分類。</div>'
+  /* 03 — 藝術命題（只放 stage 3，不再混入 stage 4 內容）。 */
+  section("03 — 藝術命題",
+    s3.pictorialProblem_tw ? ('<div class="ro-zh-text">' + escapeHtml(s3.pictorialProblem_tw) + '</div>') : '<div class="rmp-empty-note">未記錄。</div>'
   );
 
-  /* D. 計畫轉化 <-> 生成圖像 — reuses operationsSummary_tw (same as C's
-     right column already reuses the English retained/transformed/
-     introduced fields), generated-image thumbnail unchanged. */
+  /* 04 — 圖像構思（stage 4：pictorialAnswer_tw + 操作摘要 + 生成圖像）。
+     pictorialAnswer_tw 這個既有欄位原本在本面板完全沒有顯示過；在這裡
+     顯示它（沒有新增欄位）才能讓「04」忠實對應 Stage 4 的構思本身，而
+     不只是它的輔助操作摘要。 */
+  var conceptionPartsZh = [];
+  if (s4.pictorialAnswer_tw) conceptionPartsZh.push('<div class="ro-zh-text" style="margin-bottom:10px;">' + escapeHtml(s4.pictorialAnswer_tw) + '</div>');
+  if (zh.operationsSummary_tw) conceptionPartsZh.push('<div class="ro-zh-text">' + escapeHtml(zh.operationsSummary_tw) + '</div>');
+  var conceptionHtmlZh = conceptionPartsZh.length ? conceptionPartsZh.join("") : '<div class="rmp-empty-note">未記錄。</div>';
   var imgHtml = surrealImageDataUrl ? ('<img class="ro-thumb" src="' + surrealImageDataUrl + '" alt="Generated artwork, for comparison">') : '<div class="rmp-empty-note">未記錄此筆生成圖像。</div>';
-  section("D · 計畫轉化 ↔ 生成圖像（Planned Transformation ↔ Generated Image）",
-    '<div class="ro-pair">' +
-      zhCol("計畫轉化摘要（生成前）", zh.operationsSummary_tw) +
-      '<div class="ro-col"><div class="ro-col-title">Generated image</div>' + imgHtml + '</div>' +
-    '</div>' +
-    '<div class="ro-neutral-question">上方計畫中的哪些關係，實際能在圖像中找到？哪些仍不明確？本系統不會自動驗證兩者是否一致，請自行判斷。</div>'
+  section("04 — 圖像構思",
+    conceptionHtmlZh +
+    '<div style="margin-top:10px;">' + imgHtml + '</div>'
   );
 }
 
